@@ -77,8 +77,6 @@ Some examples of good encouragements:
 
 Once a habit has been formed, its relatively easy to continue doing it, almost as if it were on auto-pilot. Research shows that ~40% of our daily activities are habits that don't require much (if any) willpower once they've been formed.
 
-## User Guide
-
 ## Built With
 
 - [Android Jetpack Compose](https://developer.android.com/jetpack/compose)

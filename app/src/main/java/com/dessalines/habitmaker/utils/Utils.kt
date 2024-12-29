@@ -10,7 +10,7 @@ import android.os.Build
 const val TAG = "com.habitmaker"
 
 const val GITHUB_URL = "https://github.com/dessalines/habit-maker"
-const val USER_GUIDE_URL = "$GITHUB_URL/#user-guide"
+const val USER_GUIDE_URL = GITHUB_URL
 const val USER_GUIDE_URL_ENCOURAGEMENTS = "$GITHUB_URL/#encouragements"
 const val MATRIX_CHAT_URL = "https://matrix.to/#/#habit-maker:matrix.org"
 const val DONATE_URL = "https://liberapay.com/dessalines"
@@ -41,17 +41,6 @@ fun Context.getVersionCode(): Int =
         @Suppress("DEPRECATION")
         getPackageInfo().versionCode
     }
-
-fun writeData(
-    ctx: Context,
-    uri: Uri,
-    data: String,
-) {
-    ctx.contentResolver.openOutputStream(uri)?.use {
-        val bytes = data.toByteArray()
-        it.write(bytes)
-    }
-}
 
 sealed interface SelectionVisibilityState<out Item> {
     object NoSelection : SelectionVisibilityState<Nothing>

@@ -1,1 +1,7 @@
-TODO
+Have you found it difficult to build new habits? Habit-Maker uses rewards and encouragements to help get over initial willpower required to form new habits.
+
+Habit-Maker game-ifies making habits by giving you rewards each time you check a habit. It shows the following progress metrics:
+
+- Streaks - The # of days you've completed your habit in a row.
+- Points - points for checking habits, with multipliers for continuing your streak.
+- % progress to your 66-day-ingrained habit
