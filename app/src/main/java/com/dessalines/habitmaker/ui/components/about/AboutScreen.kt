@@ -127,7 +127,7 @@ fun AboutScreen(navController: NavController) {
                         title = { Text(stringResource(R.string.join_c_habitmaker)) },
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.app_icon),
+                                painter = painterResource(id = R.mipmap.ic_launcher),
                                 modifier = Modifier.size(32.dp),
                                 contentDescription = stringResource(R.string.join_c_habitmaker),
                             )

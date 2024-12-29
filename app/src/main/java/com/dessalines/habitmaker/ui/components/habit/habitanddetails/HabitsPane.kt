@@ -70,13 +70,11 @@ fun HabitsPane(
     onSettingsClick: () -> Unit,
     onHideCompletedClick: (Boolean) -> Unit,
     selectionState: SelectionVisibilityState<Int>,
-    isListAndDetailVisible: Boolean,
 ) {
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val listState = rememberLazyListState()
-    val title =
-        if (!isListAndDetailVisible) stringResource(R.string.app_name) else stringResource(R.string.habits)
+    val title = stringResource(R.string.habits)
 
     val filteredHabits = filterAndSortHabits(habits.orEmpty(), settings)
 

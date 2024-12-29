@@ -135,7 +135,6 @@ fun HabitsAndDetailScreen(
                                 }
                             },
                             selectionState = selectionState,
-                            isListAndDetailVisible = isListAndDetailVisible,
                             onCreateHabitClick = {
                                 navController.navigate("createHabit")
                             },

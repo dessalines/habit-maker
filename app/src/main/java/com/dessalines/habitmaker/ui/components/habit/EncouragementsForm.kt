@@ -62,7 +62,6 @@ fun EncouragementsForm(
             modifier = Modifier.padding(horizontal = SMALL_PADDING),
             onClick = {
                 val tmp = encouragements.toMutableList()
-                // TODO What to do about IDs here?
                 tmp.add(
                     Encouragement(
                         id = 0,

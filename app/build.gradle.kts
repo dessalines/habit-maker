@@ -101,7 +101,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.7.6")
 
     // Adaptive layouts
-    // TODO still need the alphas for pane features
     implementation("androidx.compose.material3.adaptive:adaptive:1.1.0-alpha08")
     implementation("androidx.compose.material3.adaptive:adaptive-layout:1.1.0-alpha08")
     implementation("androidx.compose.material3.adaptive:adaptive-navigation:1.1.0-alpha08")

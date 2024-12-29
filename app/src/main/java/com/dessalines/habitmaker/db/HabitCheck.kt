@@ -1,7 +1,6 @@
 package com.dessalines.habitmaker.db
 
 import androidx.annotation.Keep
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.ColumnInfo
@@ -13,7 +12,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Entity(
@@ -74,11 +72,6 @@ interface HabitCheckDao {
     @Insert(entity = HabitCheck::class, onConflict = OnConflictStrategy.IGNORE)
     fun insert(habitCheck: HabitCheckInsert): Long
 
-    // TODO probably never need an update
-    @Update(entity = HabitCheck::class)
-    suspend fun update(habitCheck: HabitCheckUpdate)
-
-    // TODO probably need a special delete query that checks the entire day range
     @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
     fun deleteForDay(
         habitId: Int,
@@ -98,13 +91,6 @@ class HabitCheckRepository(
     fun listForHabitSync(habitId: Int) = habitCheckDao.listForHabitSync(habitId)
 
     fun insert(habitCheck: HabitCheckInsert) = habitCheckDao.insert(habitCheck)
-
-    @WorkerThread
-    suspend fun update(habitCheck: HabitCheckUpdate) = habitCheckDao.update(habitCheck)
-
-    // TODO
-//    @WorkerThread
-//    suspend fun delete(habitCheck: HabitCheck) = habitCheckDao.delete(habitCheck)
 
     fun deleteForDay(
         habitId: Int,
