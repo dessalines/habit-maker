@@ -105,7 +105,9 @@ fun CreateHabitScreen(
                                         encouragementViewModel.insert(insert)
                                     }
 
-                                    navController.navigate("habits?id=$insertedHabitId")
+                                    navController.navigate("habits?id=$insertedHabitId") {
+                                        popUpTo("habits")
+                                    }
                                 } else {
                                     Toast
                                         .makeText(
