@@ -15,8 +15,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
+import com.dessalines.habitmaker.utils.toEpochMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Entity(
     indices = [
@@ -177,6 +179,21 @@ interface HabitDao {
     @Update(entity = Habit::class)
     suspend fun updateStats(habit: HabitUpdateStats)
 
+    /**
+     * This updates the habit.completed column for the current day,
+     * by finding missing rows from the join and setting it to false.
+     */
+    @Query(
+        """
+        UPDATE Habit SET completed = 0 WHERE NOT EXISTS (
+            SELECT * from HabitCheck
+            WHERE HabitCheck.habit_id = Habit.id
+            AND HabitCheck.check_time = :currentDate
+        )
+        """,
+    )
+    suspend fun updateCompletedForCurrentDate(currentDate: Long)
+
     @Delete
     suspend fun delete(habit: Habit)
 }
@@ -203,12 +220,20 @@ class HabitRepository(
     suspend fun updateStats(habit: HabitUpdateStats) = habitDao.updateStats(habit)
 
     @WorkerThread
+    suspend fun updateCompletedForCurrentDate(currentDate: Long) = habitDao.updateCompletedForCurrentDate(currentDate)
+
+    @WorkerThread
     suspend fun delete(habit: Habit) = habitDao.delete(habit)
 }
 
 class HabitViewModel(
     private val repository: HabitRepository,
 ) : ViewModel() {
+    init {
+        // On first load, you need to update the completed columns for the current date
+        updateCompletedForCurrentDate(LocalDate.now().toEpochMillis())
+    }
+
     val getAll = repository.getAll
 
     fun getById(id: Int) = repository.getById(id)
@@ -225,6 +250,11 @@ class HabitViewModel(
     fun updateStats(habit: HabitUpdateStats) =
         viewModelScope.launch {
             repository.updateStats(habit)
+        }
+
+    fun updateCompletedForCurrentDate(currentDate: Long) =
+        viewModelScope.launch {
+            repository.updateCompletedForCurrentDate(currentDate)
         }
 
     fun delete(habit: Habit) =
