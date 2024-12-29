@@ -35,9 +35,9 @@
 ## About Habit-Maker
 
 <p align="center">
-  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="150" alt="mobile_screen_1">
+  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="250" alt="mobile_screen_1">
 &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="150" alt="mobile_screen_2">
+  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="250" alt="mobile_screen_2">
 </p>
 
 Have you found it difficult to build new habits? Habit-Maker uses rewards and encouragements to help get over initial willpower required to form new habits.
