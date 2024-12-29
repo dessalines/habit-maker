@@ -192,7 +192,6 @@ fun HabitDetailPane(
                     HabitCalendar(
                         habitChecks = habitChecks,
                         onClickDay = onHabitCheck,
-                        modifier = Modifier.padding(horizontal = LARGE_PADDING),
                     )
                 }
                 item {

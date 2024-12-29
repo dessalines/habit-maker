@@ -135,6 +135,7 @@ fun Day(
         } else {
             Text(
                 text = day.date.dayOfMonth.toString(),
+                style = MaterialTheme.typography.bodyMedium,
                 // Underline today's date
                 textDecoration =
                     if (isToday) {
