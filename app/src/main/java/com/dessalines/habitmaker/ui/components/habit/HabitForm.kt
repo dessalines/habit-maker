@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,9 +30,12 @@ import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.textFieldBorder
 import com.dessalines.habitmaker.utils.HabitFrequency
+import com.dessalines.habitmaker.utils.toBool
+import com.dessalines.habitmaker.utils.toInt
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
 import me.zhanghai.compose.preference.ProvidePreferenceTheme
+import me.zhanghai.compose.preference.SwitchPreference
 
 @Composable
 fun HabitForm(
@@ -56,6 +60,10 @@ fun HabitForm(
         mutableStateOf(habit?.notes.orEmpty())
     }
 
+    var archived by rememberSaveable {
+        mutableStateOf((habit?.archived ?: 0).toBool())
+    }
+
     fun habitChange() =
         onChange(
             Habit(
@@ -64,7 +72,7 @@ fun HabitForm(
                 frequency = frequency.ordinal,
                 timesPerFrequency = timesPerFrequency,
                 notes = notes,
-                archived = habit?.archived ?: 0,
+                archived = archived.toInt(),
                 points = habit?.points ?: 0,
                 score = habit?.score ?: 0,
                 streak = habit?.streak ?: 0,
@@ -156,6 +164,22 @@ fun HabitForm(
                 onValueChange = {
                     notes = it
                     habitChange()
+                },
+            )
+            SwitchPreference(
+                value = archived,
+                onValueChange = {
+                    archived = it
+                    habitChange()
+                },
+                title = {
+                    Text(stringResource(R.string.archived))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Archive,
+                        contentDescription = null,
+                    )
                 },
             )
         }

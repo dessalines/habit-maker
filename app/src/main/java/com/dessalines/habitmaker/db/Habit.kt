@@ -95,6 +95,11 @@ data class HabitInsert(
         name = "notes",
     )
     val notes: String?,
+    @ColumnInfo(
+        name = "archived",
+        defaultValue = "0",
+    )
+    val archived: Int,
 )
 
 @Entity
@@ -118,6 +123,11 @@ data class HabitUpdate(
         name = "notes",
     )
     val notes: String?,
+    @ColumnInfo(
+        name = "archived",
+        defaultValue = "0",
+    )
+    val archived: Int,
 )
 
 @Entity

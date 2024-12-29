@@ -89,4 +89,5 @@
     <string name="name">Name</string>
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
+    <string name="archived">Archived</string>
 </resources>

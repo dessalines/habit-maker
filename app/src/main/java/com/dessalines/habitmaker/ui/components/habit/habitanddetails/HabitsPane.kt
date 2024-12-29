@@ -37,6 +37,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -259,7 +260,15 @@ fun HabitRow(
 
     ListItem(
         headlineContent = {
-            Text(habit.name)
+            Text(
+                text = habit.name,
+                color =
+                    if (habit.archived.toBool()) {
+                        MaterialTheme.colorScheme.outline
+                    } else {
+                        Color.Unspecified
+                    },
+            )
         },
         supportingContent = {
             HabitChipsFlowRow(habit, settings)

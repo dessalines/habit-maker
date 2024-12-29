@@ -99,6 +99,7 @@ fun EditHabitScreen(
                                     frequency = editedHabit.frequency,
                                     timesPerFrequency = editedHabit.timesPerFrequency,
                                     notes = editedHabit.notes,
+                                    archived = editedHabit.archived,
                                 )
                             habitViewModel.update(update)
 
