@@ -165,13 +165,25 @@ class MainActivity : AppCompatActivity() {
                                 navController = navController,
                             )
                         }
-                        composable(route = "lookAndFeel") {
+                        composable(
+                            route = "lookAndFeel",
+                            enterTransition = enterAnimation(),
+                            exitTransition = exitAnimation(),
+                            popEnterTransition = enterAnimation(),
+                            popExitTransition = exitAnimation(),
+                        ) {
                             LookAndFeelScreen(
                                 navController = navController,
                                 appSettingsViewModel = appSettingsViewModel,
                             )
                         }
-                        composable(route = "behavior") {
+                        composable(
+                            route = "behavior",
+                            enterTransition = enterAnimation(),
+                            exitTransition = exitAnimation(),
+                            popEnterTransition = enterAnimation(),
+                            popExitTransition = exitAnimation(),
+                        ) {
                             BehaviorScreen(
                                 navController = navController,
                                 appSettingsViewModel = appSettingsViewModel,
@@ -179,6 +191,10 @@ class MainActivity : AppCompatActivity() {
                         }
                         composable(
                             route = "backupAndRestore",
+                            enterTransition = enterAnimation(),
+                            exitTransition = exitAnimation(),
+                            popEnterTransition = enterAnimation(),
+                            popExitTransition = exitAnimation(),
                         ) {
                             BackupAndRestoreScreen(
                                 navController = navController,
