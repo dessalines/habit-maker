@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BasicTooltipBox
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -221,20 +222,21 @@ fun LazyListScope.habitFrequencySection(
                     else -> false
                 }
 
-            HabitRow(
-                habit = habit,
-                settings = settings,
-                onClick = { onHabitClick(habit.id) },
-                onCheck = {
-                    onHabitCheck(habit.id)
-                },
-                selected = selected,
-                modifier = Modifier.animateItem(),
-            )
+            Column(Modifier.animateItem()) {
+                HabitRow(
+                    habit = habit,
+                    settings = settings,
+                    onClick = { onHabitClick(habit.id) },
+                    onCheck = {
+                        onHabitCheck(habit.id)
+                    },
+                    selected = selected,
+                )
 
-            // Dont show horizontal divider for last one
-            if (index.plus(1) != habits.size) {
-                HorizontalDivider()
+                // Dont show horizontal divider for last one
+                if (index.plus(1) != habits.size) {
+                    HorizontalDivider()
+                }
             }
         }
         item {
