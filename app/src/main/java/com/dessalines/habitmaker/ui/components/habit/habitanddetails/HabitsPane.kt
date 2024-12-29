@@ -211,7 +211,10 @@ fun LazyListScope.habitFrequencySection(
         item {
             SectionTitle(stringResource(sectionTitleResId))
         }
-        itemsIndexed(habits) { index, habit ->
+        itemsIndexed(
+            items = habits,
+            key = { _, item -> item.id },
+        ) { index, habit ->
             val selected =
                 when (selectionState) {
                     is SelectionVisibilityState.ShowSelection -> selectionState.selectedItem == habit.id
@@ -226,6 +229,7 @@ fun LazyListScope.habitFrequencySection(
                     onHabitCheck(habit.id)
                 },
                 selected = selected,
+                modifier = Modifier.animateItem(),
             )
 
             // Dont show horizontal divider for last one
@@ -247,6 +251,7 @@ fun HabitRow(
     selected: Boolean = false,
     onCheck: () -> Unit,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val containerColor =
         if (!selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant
@@ -275,7 +280,7 @@ fun HabitRow(
         },
         colors = ListItemDefaults.colors(containerColor = containerColor),
         modifier =
-            Modifier.Companion.clickable {
+            modifier.clickable {
                 onClick()
             },
         trailingContent = {
