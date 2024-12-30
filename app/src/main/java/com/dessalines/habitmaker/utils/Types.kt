@@ -28,6 +28,14 @@ enum class HabitFrequency(
     Yearly(R.string.yearly),
 }
 
+fun HabitFrequency.toDays() =
+    when (this) {
+        HabitFrequency.Daily -> 1
+        HabitFrequency.Weekly -> 7
+        HabitFrequency.Monthly -> 28
+        HabitFrequency.Yearly -> 365
+    }
+
 enum class HabitSort(
     @StringRes val resId: Int,
 ) {
