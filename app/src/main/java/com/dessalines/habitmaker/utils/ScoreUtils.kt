@@ -13,7 +13,7 @@ data class Streak(
 )
 
 /**
- * Gives the number of days for a streak
+ * Gives the length of a streak.
  */
 fun Streak.duration(frequency: HabitFrequency): Long =
     Duration
@@ -24,13 +24,16 @@ fun Streak.duration(frequency: HabitFrequency): Long =
         .plus(1)
         .div(frequency.toDays())
 
+/**
+ * Gives the length of the current streak.
+ */
 fun todayStreak(
     frequency: HabitFrequency,
-    streaks: List<Streak>,
+    lastStreak: Streak?,
     todayDate: LocalDate,
 ): Long {
     val todayStreak =
-        streaks.lastOrNull()?.let {
+        lastStreak?.let {
             if (it.end >= todayDate) {
                 it.duration(frequency)
             } else {

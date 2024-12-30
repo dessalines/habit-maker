@@ -271,7 +271,7 @@ fun updateStatsForHabit(
     val score = calculateScore(checks, completedCount)
 
     // Use the
-    val todayStreak = todayStreak(frequency, streaks, todayDate)
+    val todayStreak = todayStreak(frequency, streaks.lastOrNull(), todayDate)
     val todayCompleted = dateChecks.lastOrNull() == todayDate
 
     // Note: You could also use the today streak, which extends past today for non-dailies
