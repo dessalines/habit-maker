@@ -31,12 +31,14 @@ import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.Encouragement
 import com.dessalines.habitmaker.db.EncouragementViewModel
+import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckViewModel
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
+import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
 import com.dessalines.habitmaker.utils.calculatePoints
@@ -119,18 +121,21 @@ fun HabitsAndDetailScreen(
                                 }
                             },
                             onHabitCheck = { habitId ->
-                                val checkTime = LocalDate.now().toEpochMillis()
-                                checkHabitForDay(habitId, checkTime, habitCheckViewModel)
-                                val checks = habitCheckViewModel.listForHabitSync(habitId)
-                                val todayStats = updateStatsForHabit(habitId, habitViewModel, checks, completedCount)
+                                val habit = habits?.find { it.id == habitId }
+                                habit?.let { habit ->
+                                    val checkTime = LocalDate.now().toEpochMillis()
+                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                                    val checks = habitCheckViewModel.listForHabitSync(habitId)
+                                    val todayStats = updateStatsForHabit(habit, habitViewModel, checks, completedCount)
 
-                                // If successful, show a random encouragement
-                                if (todayStats.completed) {
-                                    val randomEncouragement =
-                                        encouragementViewModel.getRandomForHabit(habitId) ?: defaultEncouragements.random()
-                                    val congratsMessage = buildCongratsSnackMessage(ctx, todayStats, randomEncouragement)
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(congratsMessage)
+                                    // If successful, show a random encouragement
+                                    if (todayStats.completed) {
+                                        val randomEncouragement =
+                                            encouragementViewModel.getRandomForHabit(habitId) ?: defaultEncouragements.random()
+                                        val congratsMessage = buildCongratsSnackMessage(ctx, todayStats, randomEncouragement)
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(congratsMessage)
+                                        }
                                     }
                                 }
                             },
@@ -186,10 +191,27 @@ fun HabitsAndDetailScreen(
                                         }
                                     },
                                     onHabitCheck = {
-                                        val checkTime = it.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                                        checkHabitForDay(habit.id, checkTime, habitCheckViewModel)
-                                        val checks = habitCheckViewModel.listForHabitSync(habitId)
-                                        updateStatsForHabit(habit.id, habitViewModel, checks, completedCount)
+                                        val habit = habits?.find { it.id == habitId }
+                                        habit?.let { habit ->
+                                            val checkTime =
+                                                it
+                                                    .atStartOfDay(ZoneId.systemDefault())
+                                                    .toInstant()
+                                                    .toEpochMilli()
+                                            checkHabitForDay(
+                                                habit.id,
+                                                checkTime,
+                                                habitCheckViewModel,
+                                            )
+                                            val checks =
+                                                habitCheckViewModel.listForHabitSync(habitId)
+                                            updateStatsForHabit(
+                                                habit,
+                                                habitViewModel,
+                                                checks,
+                                                completedCount,
+                                            )
+                                        }
                                     },
                                 )
                             }
@@ -234,7 +256,7 @@ data class HabitTodayStats(
 )
 
 fun updateStatsForHabit(
-    habitId: Int,
+    habit: Habit,
     habitViewModel: HabitViewModel,
     checks: List<HabitCheck>,
     completedCount: Int,
@@ -242,17 +264,23 @@ fun updateStatsForHabit(
     val dateChecks = checks.map { it.checkTime.epochMillisToLocalDate() }
     val todayDate = LocalDate.now()
 
-    val streaks = calculateStreaks(checks)
-    val points = calculatePoints(streaks)
+    val frequency = HabitFrequency.entries[habit.frequency]
+
+    val streaks = calculateStreaks(frequency, habit.timesPerFrequency, dateChecks)
+    val points = calculatePoints(frequency, streaks)
     val score = calculateScore(checks, completedCount)
 
+    // Use the
+    val todayStreak = todayStreak(frequency, streaks.lastOrNull(), todayDate)
     val todayCompleted = dateChecks.lastOrNull() == todayDate
-    val todayStreak = todayStreak(streaks, todayDate)
+
+    // Note: You could also use the today streak, which extends past today for non-dailies
+    //    val todayCompleted = todayStreak > 0
     val streakPoints = todayStreak.nthTriangle()
 
     val statsUpdate =
         HabitUpdateStats(
-            id = habitId,
+            id = habit.id,
             points = points.toInt(),
             score = score,
             streak = todayStreak.toInt(),

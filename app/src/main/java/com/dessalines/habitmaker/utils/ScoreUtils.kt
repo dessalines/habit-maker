@@ -1,7 +1,9 @@
 package com.dessalines.habitmaker.utils
 
+import android.util.Log
 import com.dessalines.habitmaker.db.HabitCheck
 import okhttp3.internal.toImmutableList
+import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
 
@@ -11,24 +13,29 @@ data class Streak(
 )
 
 /**
- * Gives the number of days for a streak
+ * Gives the length of a streak.
  */
-fun Streak.duration(): Long =
+fun Streak.duration(frequency: HabitFrequency): Long =
     Duration
         .between(
             this.begin.atStartOfDay(),
             this.end.atStartOfDay(),
         ).toDays()
         .plus(1)
+        .div(frequency.toDays())
 
+/**
+ * Gives the length of the current streak.
+ */
 fun todayStreak(
-    streaks: List<Streak>,
+    frequency: HabitFrequency,
+    lastStreak: Streak?,
     todayDate: LocalDate,
 ): Long {
     val todayStreak =
-        streaks.lastOrNull()?.let {
-            if (it.end == todayDate) {
-                it.duration()
+        lastStreak?.let {
+            if (it.end >= todayDate) {
+                it.duration(frequency)
             } else {
                 0
             }
@@ -36,21 +43,23 @@ fun todayStreak(
     return todayStreak
 }
 
-fun calculateStreaks(habitChecks: List<HabitCheck>): List<Streak> {
-    val dates = habitChecks.map { it.checkTime.epochMillisToLocalDate() }.sortedDescending()
+fun calculateStreaks(
+    frequency: HabitFrequency,
+    timesPerFrequency: Int,
+    dates: List<LocalDate>,
+): List<Streak> {
+    val virtualDates = buildVirtualDates(frequency, timesPerFrequency, dates).sortedDescending()
 
-    if (dates.isEmpty()) {
+    if (virtualDates.isEmpty()) {
         return emptyList()
     }
 
-    var begin = dates[0]
-    var end = dates[0]
+    var begin = virtualDates[0]
+    var end = virtualDates[0]
 
     val streaks = mutableListOf<Streak>()
-
-    for (i in 1 until dates.size) {
-        val current = dates[i]
-        // TODO this needs to factor in interval and freq iterations
+    for (i in 1 until virtualDates.size) {
+        val current = virtualDates[i]
         if (current == begin.minusDays(1)) {
             begin = current
         } else {
@@ -60,9 +69,73 @@ fun calculateStreaks(habitChecks: List<HabitCheck>): List<Streak> {
         }
     }
     streaks.add(Streak(begin, end))
+    Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
 
     return streaks.reversed().toImmutableList()
 }
+
+/**
+ * For habits with weeks / months / years and times per frequency,
+ * you need to create "virtual" dates.
+ */
+fun buildVirtualDates(
+    frequency: HabitFrequency,
+    timesPerFrequency: Int,
+    dates: List<LocalDate>,
+): List<LocalDate> =
+    when (frequency) {
+        HabitFrequency.Daily -> dates
+        else -> {
+            val virtualDates = mutableListOf<LocalDate>()
+            val completedRanges = mutableListOf<LocalDate>()
+
+            var rangeFirstDate =
+                when (frequency) {
+                    HabitFrequency.Weekly -> dates.firstOrNull()?.with(DayOfWeek.MONDAY)
+                    HabitFrequency.Monthly -> dates.firstOrNull()?.withDayOfMonth(1)
+                    HabitFrequency.Yearly -> dates.firstOrNull()?.withDayOfYear(1)
+                    else -> null
+                }
+
+            var count = 0
+
+            dates.forEach { entry ->
+                virtualDates.add(entry)
+                val entryRange =
+                    when (frequency) {
+                        HabitFrequency.Weekly -> entry.with(DayOfWeek.SUNDAY)
+                        HabitFrequency.Monthly -> entry.withDayOfMonth(1)
+                        HabitFrequency.Yearly -> entry.withDayOfYear(1)
+                        else -> entry
+                    }
+                if (entryRange == rangeFirstDate && !completedRanges.contains(entryRange)) {
+                    count++
+                } else {
+                    rangeFirstDate = entryRange
+                    count = 1
+                }
+                if (count >= timesPerFrequency) completedRanges.add(entryRange)
+            }
+
+            // Months have a special case where it should use the max days possible in a month,
+            // not 28.
+            val maxDays =
+                when (frequency) {
+                    HabitFrequency.Monthly -> 31
+                    else -> frequency.toDays()
+                }.minus(1)
+
+            completedRanges.forEach { start ->
+                (0..maxDays).forEach { offset ->
+                    val date = start.plusDays(offset.toLong())
+                    if (!virtualDates.any { it == date }) {
+                        virtualDates.add(date)
+                    }
+                }
+            }
+            virtualDates.toImmutableList()
+        }
+    }
 
 /**
  * Get a bonus points for each day that the streak is long.
@@ -70,11 +143,14 @@ fun calculateStreaks(habitChecks: List<HabitCheck>): List<Streak> {
  * Called nth triangle number:
  * https://math.stackexchange.com/a/593320
  */
-fun calculatePoints(streaks: List<Streak>): Long {
+fun calculatePoints(
+    frequency: HabitFrequency,
+    streaks: List<Streak>,
+): Long {
     var points = 0L
 
     streaks.forEach {
-        val duration = it.duration()
+        val duration = it.duration(frequency)
         points += duration.nthTriangle()
     }
     return points

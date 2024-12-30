@@ -31,6 +31,7 @@ import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.textFieldBorder
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.toBool
+import com.dessalines.habitmaker.utils.toDays
 import com.dessalines.habitmaker.utils.toInt
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
@@ -197,13 +198,7 @@ fun requiredFieldIsValid(name: String): Boolean = name.isNotEmpty()
 fun timesPerFrequencyIsValid(
     timesPerFrequency: Int,
     frequency: HabitFrequency,
-): Boolean =
-    when (frequency) {
-        HabitFrequency.Daily -> IntRange(1, 1)
-        HabitFrequency.Weekly -> IntRange(1, 7)
-        HabitFrequency.Monthly -> IntRange(1, 28)
-        HabitFrequency.Yearly -> IntRange(1, 365)
-    }.contains(timesPerFrequency)
+): Boolean = IntRange(1, frequency.toDays()).contains(timesPerFrequency)
 
 fun habitFormValid(habit: Habit): Boolean =
     requiredFieldIsValid(habit.name) &&
