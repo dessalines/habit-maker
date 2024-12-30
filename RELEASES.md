@@ -1,3 +1,11 @@
+## What's Changed in 0.0.3
+
+- Adding working weekly, monthly, and yearly streaks. by @dessalines in [#7](https://github.com/dessalines/habit-maker/pull/7)
+- Fixing a few screen transitions. by @dessalines
+- Fixing animate items. by @dessalines
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.2...0.0.3
+
 ## What's Changed in 0.0.2
 
 - Fixing createHabit back by @dessalines
