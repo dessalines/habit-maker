@@ -15,12 +15,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberBasicTooltipState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -50,7 +52,6 @@ import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionDivider
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
-import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
@@ -92,9 +93,27 @@ fun HabitsPane(
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                text = title,
+            CenterAlignedTopAppBar(
+                title = { Text(title) },
                 scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    BasicTooltipBox(
+                        positionProvider = tooltipPosition,
+                        state = rememberBasicTooltipState(isPersistent = false),
+                        tooltip = {
+                            ToolTip(stringResource(R.string.settings))
+                        },
+                    ) {
+                        IconButton(
+                            onClick = onSettingsClick,
+                        ) {
+                            Icon(
+                                Icons.Filled.Settings,
+                                contentDescription = stringResource(R.string.settings),
+                            )
+                        }
+                    }
+                },
                 actions = {
                     BasicTooltipBox(
                         positionProvider = tooltipPosition,
@@ -111,22 +130,6 @@ fun HabitsPane(
                             Icon(
                                 hideIcon,
                                 contentDescription = hideText,
-                            )
-                        }
-                    }
-                    BasicTooltipBox(
-                        positionProvider = tooltipPosition,
-                        state = rememberBasicTooltipState(isPersistent = false),
-                        tooltip = {
-                            ToolTip(stringResource(R.string.settings))
-                        },
-                    ) {
-                        IconButton(
-                            onClick = onSettingsClick,
-                        ) {
-                            Icon(
-                                Icons.Outlined.Settings,
-                                contentDescription = stringResource(R.string.settings),
                             )
                         }
                     }
@@ -260,7 +263,7 @@ fun HabitRow(
 
     val (icon, tint) =
         if (habit.completed.toBool()) {
-            Pair(Icons.Outlined.Check, MaterialTheme.colorScheme.onSurface)
+            Pair(Icons.Outlined.Check, MaterialTheme.colorScheme.primary)
         } else {
             Pair(Icons.Outlined.Close, MaterialTheme.colorScheme.outline)
         }

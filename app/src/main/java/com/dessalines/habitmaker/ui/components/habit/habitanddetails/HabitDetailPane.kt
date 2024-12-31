@@ -167,7 +167,7 @@ fun HabitDetailPane(
                 }
                 item {
                     FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(LARGE_PADDING),
+                        horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
                         modifier = Modifier.padding(horizontal = LARGE_PADDING),
                     ) {
                         HabitTypeInfo(habit)

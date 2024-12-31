@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
+import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitStatus
 import com.dessalines.habitmaker.utils.toBool
@@ -138,3 +140,12 @@ fun habitStatusFromStreak(streak: Int) =
         in 22..500 -> HabitStatus.Platinum
         else -> HabitStatus.Normal
     }
+
+@Composable
+@Preview
+fun HabitChipsFlowRowPreview() {
+    HabitChipsFlowRow(
+        habit = sampleHabit,
+        settings = null,
+    )
+}
