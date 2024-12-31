@@ -1,3 +1,9 @@
+## What's Changed in 0.0.4
+
+- Fixing checkmark color, main screen top bar. by @dessalines in [#8](https://github.com/dessalines/habit-maker/pull/8)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.3...0.0.4
+
 ## What's Changed in 0.0.3
 
 - Adding working weekly, monthly, and yearly streaks. by @dessalines in [#7](https://github.com/dessalines/habit-maker/pull/7)
