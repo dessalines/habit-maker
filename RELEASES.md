@@ -1,3 +1,17 @@
+## What's Changed in 0.0.5
+
+- Merge remote-tracking branch 'refs/remotes/origin/main'
+- Add x times info chip by @dessalines in [#13](https://github.com/dessalines/habit-maker/pull/13)
+- Merge remote-tracking branch 'refs/remotes/origin/main'
+- Add fastlane generation by @dessalines in [#12](https://github.com/dessalines/habit-maker/pull/12)
+- Removing pointless import.
+
+## New Contributors
+
+- @dessalines made their first contribution in [#13](https://github.com/dessalines/habit-maker/pull/13)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.4...0.0.5
+
 ## What's Changed in 0.0.4
 
 - Fixing checkmark color, main screen top bar. by @dessalines in [#8](https://github.com/dessalines/habit-maker/pull/8)
