@@ -52,6 +52,10 @@
     <string name="add_encouragement">Add encouragement</string>
     <string name="title">Title</string>
     <string name="how_many_times">How many times</string>
+    <string name="x_times_per_day">%1$s times per day</string>
+    <string name="x_times_per_week">%1$s times per week</string>
+    <string name="x_times_per_month">%1$s times per month</string>
+    <string name="x_times_per_year">%1$s times per year</string>
     <string name="out_of_range">Out of range</string>
     <string name="notes_optional">Notes (optional)</string>
     <string name="delete">Delete</string>
