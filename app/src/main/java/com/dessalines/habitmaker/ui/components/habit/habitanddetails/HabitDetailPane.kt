@@ -43,6 +43,7 @@ import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.sampleHabit
+import com.dessalines.habitmaker.db.sampleHabit2
 import com.dessalines.habitmaker.ui.components.common.AreYouSureDialog
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.HabitInfoChip
@@ -239,8 +240,23 @@ fun HabitDetailsPreview() {
 @Composable
 fun HabitTypeInfo(habit: Habit) {
     val frequency = HabitFrequency.entries[habit.frequency]
+
+    // If its more than 1, do a X times per Interval string
+    val text =
+        if (habit.timesPerFrequency > 1) {
+            val times = habit.timesPerFrequency
+            when (frequency) {
+                HabitFrequency.Daily -> stringResource(R.string.x_times_per_day, times)
+                HabitFrequency.Weekly -> stringResource(R.string.x_times_per_week, times)
+                HabitFrequency.Monthly -> stringResource(R.string.x_times_per_month, times)
+                HabitFrequency.Yearly -> stringResource(R.string.x_times_per_year, times)
+            }
+        } else {
+            stringResource(frequency.resId)
+        }
+
     HabitInfoChip(
-        text = stringResource(frequency.resId),
+        text = text,
         icon = Icons.Default.CalendarToday,
     )
 }
@@ -256,4 +272,16 @@ fun HabitStartedInfo(firstCheck: HabitCheck) {
             ),
         icon = Icons.Default.Create,
     )
+}
+
+@Composable
+@Preview
+fun HabitTypeInfoPreview() {
+    HabitTypeInfo(sampleHabit)
+}
+
+@Composable
+@Preview
+fun HabitTypeInfoPreview2() {
+    HabitTypeInfo(sampleHabit2)
 }

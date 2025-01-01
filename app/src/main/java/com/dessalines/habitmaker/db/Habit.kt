@@ -288,3 +288,17 @@ val sampleHabit =
         streak = 0,
         completed = 0,
     )
+
+val sampleHabit2 =
+    Habit(
+        id = 1,
+        name = "Clean up around the house",
+        frequency = 1,
+        timesPerFrequency = 3,
+        notes = null,
+        archived = 0,
+        points = 0,
+        score = 0,
+        streak = 0,
+        completed = 0,
+    )
