@@ -26,7 +26,7 @@
   </p>
   <p align="center">
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80"></a>
-    <a href="https://f-droid.org/packages/com.dessalines.habitmaker"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a>
+    <!-- <a href="https://f-droid.org/packages/com.dessalines.habitmaker"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a> -->
     <a href="https://play.google.com/store/apps/details?id=com.dessalines.habitmaker"><img src="https://cdn.rawgit.com/steverichey/google-play-badge-svg/master/img/en_get.svg" height="80"></a>
     <a href="https://github.com/dessalines/habit-maker/releases/latest"><img src="https://raw.githubusercontent.com/andOTP/andOTP/master/assets/badges/get-it-on-github.png" height="80"></a>
   </p>
@@ -87,7 +87,7 @@ Once a habit has been formed, its relatively easy to continue doing it, almost a
 
 - [Releases](https://github.com/dessalines/habit-maker/releases)
 - [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker)
-- [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/)
+<!-- - [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/) -->
 - [Google Play](https://play.google.com/store/apps/details?id=com.dessalines.habitmaker)
 
 ## Support / Donate
@@ -118,10 +118,6 @@ Your donations directly support full-time development, and help keep this mainta
 - [Develop good habits](https://www.developgoodhabits.com/build-habits/)
 - [James clear - how to build a new habit](https://medium.com/the-blog-of-james-clear/how-to-build-a-new-habit-this-is-your-strategy-guide-79a7abd186a5)
 - [CNN habit tips](https://www.cnn.com/2021/11/29/health/5-steps-habit-builder-wellness/index.html)
-
-## TODO
-
-- [ ] Get weekly, monthly, yearly calculations working.
 
 ## Icons
 
