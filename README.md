@@ -65,13 +65,13 @@ A good encouragement should have:
 
 Some examples of good encouragements:
 
-| Activity                | Encouragement                                                                                      |
-| ----------------------- | -------------------------------------------------------------------------------------------------- |
-| Brushing your teeth     | Great job! Your friends will like seeing your whiter teeth, and less coffee stains.                |
-| Lifting weights for 10m | Nice job! People will notice your better physique.                                                 |
-| Cardio for 10m          | Well done! Studies show you're going to live a lot longer!                                         |
-| Working out for 10m     | Excellent! You'll have more energy, and feel healthier by continuing!                              |
-| Meditating for 10m      | Nice! You're on your way to bettering the lives of those around you, by developing your awareness. |
+| Activity                    | Encouragement                                                                                      |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| Brushing your teeth         | Great job! Your friends will like seeing your whiter teeth, and less coffee stains.                |
+| Lifting weights for 10m     | Nice job! People will notice your better physique.                                                 |
+| Learning a language for 10m | Excellent! You'll be able to talk to new people, and learn a new culture different from your own.  |
+| Cardio for 10m              | Well done! Studies show you're going to live a lot longer!                                         |
+| Meditating for 10m          | Nice! You're on your way to bettering the lives of those around you, by developing your awareness. |
 
 ### Completing a habit
 
