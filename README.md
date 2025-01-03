@@ -75,7 +75,7 @@ Some examples of good encouragements:
 
 ### When and where?
 
-- [Studies have shown](https://pmc.ncbi.nlm.nih.gov/articles/PMC3505409/) that adding contextual cues can _greatly_ increase the chances that you continue a habit, so Habit-Maker has a special _when / where_ field to help. Some examples might be:
+[Studies have shown](https://pmc.ncbi.nlm.nih.gov/articles/PMC3505409/) that adding contextual cues can _greatly_ increase the chances that you continue a habit, so Habit-Maker has a special _when / where_ field to help. Some examples might be:
 
 | Activity          | When / where                  |
 | ----------------- | ----------------------------- |
