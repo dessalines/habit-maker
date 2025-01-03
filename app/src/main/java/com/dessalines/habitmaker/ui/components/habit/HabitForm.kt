@@ -61,6 +61,10 @@ fun HabitForm(
         mutableStateOf(habit?.notes.orEmpty())
     }
 
+    var context by rememberSaveable {
+        mutableStateOf(habit?.context.orEmpty())
+    }
+
     var archived by rememberSaveable {
         mutableStateOf((habit?.archived ?: 0).toBool())
     }
@@ -73,6 +77,7 @@ fun HabitForm(
                 frequency = frequency.ordinal,
                 timesPerFrequency = timesPerFrequency,
                 notes = notes,
+                context = context,
                 archived = archived.toInt(),
                 points = habit?.points ?: 0,
                 score = habit?.score ?: 0,
@@ -157,7 +162,15 @@ fun HabitForm(
                     },
                 )
             }
-
+            OutlinedTextField(
+                label = { Text(stringResource(R.string.when_and_where_optional)) },
+                modifier = Modifier.fillMaxWidth(),
+                value = context,
+                onValueChange = {
+                    context = it
+                    habitChange()
+                },
+            )
             OutlinedTextField(
                 label = { Text(stringResource(R.string.notes_optional)) },
                 modifier = Modifier.fillMaxWidth(),

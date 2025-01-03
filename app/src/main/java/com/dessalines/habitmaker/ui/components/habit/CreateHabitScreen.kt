@@ -89,6 +89,7 @@ fun CreateHabitScreen(
                                         frequency = it.frequency,
                                         timesPerFrequency = it.timesPerFrequency,
                                         notes = it.notes,
+                                        context = it.context,
                                         archived = it.archived,
                                     )
                                 val insertedHabitId = habitViewModel.insert(insert)

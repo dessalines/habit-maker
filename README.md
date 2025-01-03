@@ -73,6 +73,16 @@ Some examples of good encouragements:
 | Cardio for 10m              | Well done! Studies show you're going to live a lot longer!                                         |
 | Meditating for 10m          | Nice! You're on your way to bettering the lives of those around you, by developing your awareness. |
 
+### When and where?
+
+- [Studies have shown](https://pmc.ncbi.nlm.nih.gov/articles/PMC3505409/) that adding contextual cues can _greatly_ increase the chances that you continue a habit, so Habit-Maker has a special _when / where_ field to help. Some examples might be:
+
+| Activity          | When / where                  |
+| ----------------- | ----------------------------- |
+| Meditate          | In my room, after breakfast   |
+| Work out          | After work                    |
+| Language learning | On my computer, before dinner |
+
 ### Completing a habit
 
 Once a habit has been formed, its relatively easy to continue doing it, almost as if it were on auto-pilot. Research shows that ~40% of our daily activities are habits that don't require much (if any) willpower once they've been formed.

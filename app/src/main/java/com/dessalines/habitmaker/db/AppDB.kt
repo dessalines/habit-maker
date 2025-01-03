@@ -11,7 +11,7 @@ import com.dessalines.habitmaker.utils.TAG
 import java.util.concurrent.Executors
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         AppSettings::class,
         Habit::class,
@@ -44,10 +44,9 @@ abstract class AppDB : RoomDatabase() {
                             AppDB::class.java,
                             TAG,
                         ).allowMainThreadQueries()
-//                        .addMigrations(
-//                            MIGRATION_1_2,
-//                            MIGRATION_2_3,
-//                        )
+                        .addMigrations(
+                            MIGRATION_1_2,
+                        )
                         // Necessary because it can't insert data on creation
                         .addCallback(
                             object : Callback() {
