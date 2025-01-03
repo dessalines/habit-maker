@@ -51,6 +51,7 @@ import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionDivider
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
+import com.dessalines.habitmaker.ui.components.common.TodayCompletedCount
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
@@ -78,8 +79,13 @@ fun HabitsPane(
     val listState = rememberLazyListState()
     val title = stringResource(R.string.habits)
 
+    // Calculate the completed today before filtering (since hide completed would filter these out)
+    val todayCompletedCount = habits.orEmpty().sumOf { it.completed }
+
+    // Filter and sort the habits
     val filteredHabits = filterAndSortHabits(habits.orEmpty(), settings)
 
+    // Group them by frequency
     val habitsByFrequency = buildHabitsByFrequency(filteredHabits)
 
     val hideCompleted = (settings?.hideCompleted ?: 0).toBool()
@@ -175,6 +181,11 @@ fun HabitsPane(
                                 modifier = Modifier.Companion.padding(horizontal = LARGE_PADDING),
                             )
                         }
+                    }
+                }
+                if (todayCompletedCount > 0) {
+                    item {
+                        TodayCompletedCount(todayCompletedCount)
                     }
                 }
             }
