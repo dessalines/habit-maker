@@ -75,6 +75,10 @@ data class Habit(
         defaultValue = "0",
     )
     val completed: Int,
+    @ColumnInfo(
+        name = "context",
+    )
+    val context: String?,
 )
 
 @Entity
@@ -102,6 +106,10 @@ data class HabitInsert(
         defaultValue = "0",
     )
     val archived: Int,
+    @ColumnInfo(
+        name = "context",
+    )
+    val context: String?,
 )
 
 @Entity
@@ -130,6 +138,10 @@ data class HabitUpdate(
         defaultValue = "0",
     )
     val archived: Int,
+    @ColumnInfo(
+        name = "context",
+    )
+    val context: String?,
 )
 
 @Entity
@@ -282,6 +294,7 @@ val sampleHabit =
         frequency = 0,
         timesPerFrequency = 1,
         notes = null,
+        context = "After breakfast, in my room",
         archived = 0,
         points = 0,
         score = 0,
@@ -296,6 +309,7 @@ val sampleHabit2 =
         frequency = 1,
         timesPerFrequency = 3,
         notes = null,
+        context = null,
         archived = 0,
         points = 0,
         score = 0,

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -90,6 +91,13 @@ fun HabitChipsFlowRow(
         horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
         modifier = modifier,
     ) {
+        if (habit.context?.isNotBlank() == true) {
+            HabitInfoChip(
+                text = habit.context,
+                icon = Icons.Default.Schedule,
+            )
+        }
+
         if (!(settings?.hideStreakOnHome ?: 0).toBool()) {
             val freq = HabitFrequency.entries[habit.frequency]
             // Streak has special colors
