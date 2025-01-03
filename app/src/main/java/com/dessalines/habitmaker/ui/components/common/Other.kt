@@ -41,6 +41,14 @@ fun SectionTitle(title: String) =
     )
 
 @Composable
+fun TodayCompletedCount(todayCompletedCount: Int) =
+    Text(
+        text = stringResource(R.string.completed_count_alt, todayCompletedCount),
+        modifier = Modifier.padding(horizontal = LARGE_PADDING),
+        style = MaterialTheme.typography.bodyMedium,
+    )
+
+@Composable
 fun SectionDivider() = HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
 
 @Composable

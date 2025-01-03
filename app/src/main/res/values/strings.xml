@@ -79,6 +79,7 @@
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
     <string name="completed_count">Completed count: %1$s</string>
+    <string name="completed_count_alt">%1$s habits completed today</string>
     <string name="completed_count_summary">The number of times before a habit is fully learned. (66 on average)</string>
     <string name="sort">Sort</string>
     <string name="sort_order">Sort order</string>
