@@ -1,14 +1,19 @@
+## What's Changed in 0.0.6
+
+- Adding a today completed count, displayed at the bottom of the list. by @dessalines in [#25](https://github.com/dessalines/habit-maker/pull/25)
+- Adding an optional context (IE when / where) field for habits. by @dessalines in [#24](https://github.com/dessalines/habit-maker/pull/24)
+- Using a different encouragement example. by @dessalines
+- Comment out f-droid links for now. by @dessalines
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.5...0.0.6
+
 ## What's Changed in 0.0.5
 
-- Merge remote-tracking branch 'refs/remotes/origin/main'
+- Merge remote-tracking branch 'refs/remotes/origin/main' by @dessalines
 - Add x times info chip by @dessalines in [#13](https://github.com/dessalines/habit-maker/pull/13)
-- Merge remote-tracking branch 'refs/remotes/origin/main'
+- Merge remote-tracking branch 'refs/remotes/origin/main' by @dessalines
 - Add fastlane generation by @dessalines in [#12](https://github.com/dessalines/habit-maker/pull/12)
-- Removing pointless import.
-
-## New Contributors
-
-- @dessalines made their first contribution in [#13](https://github.com/dessalines/habit-maker/pull/13)
+- Removing pointless import. by @dessalines
 
 **Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.4...0.0.5
 
