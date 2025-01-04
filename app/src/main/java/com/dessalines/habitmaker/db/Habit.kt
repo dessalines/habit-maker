@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
         Index(value = ["streak"]),
         Index(value = ["completed"]),
         Index(value = ["last_streak_time"]),
+        Index(value = ["last_completed_time"]),
     ],
 )
 @Keep
@@ -79,11 +80,19 @@ data class Habit(
         name = "context",
     )
     val context: String?,
+    /**
+     * This can be in the future for non-daily habits.
+     */
     @ColumnInfo(
         name = "last_streak_time",
         defaultValue = "0",
     )
     val lastStreakTime: Long,
+    @ColumnInfo(
+        name = "last_completed_time",
+        defaultValue = "0",
+    )
+    val lastCompletedTime: Long,
 )
 
 @Entity
@@ -172,6 +181,11 @@ data class HabitUpdateStats(
         defaultValue = "0",
     )
     val lastStreakTime: Long,
+    @ColumnInfo(
+        name = "last_completed_time",
+        defaultValue = "0",
+    )
+    val lastCompletedTime: Long,
 )
 
 private const val BY_ID_QUERY = "SELECT * FROM Habit where id = :id"
@@ -293,6 +307,7 @@ val sampleHabit =
         streak = 0,
         completed = 0,
         lastStreakTime = 0L,
+        lastCompletedTime = 0L,
     )
 
 val sampleHabit2 =
@@ -309,4 +324,5 @@ val sampleHabit2 =
         streak = 0,
         completed = 0,
         lastStreakTime = 0L,
+        lastCompletedTime = 0L,
     )

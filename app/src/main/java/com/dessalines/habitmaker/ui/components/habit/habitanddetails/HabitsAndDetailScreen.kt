@@ -45,7 +45,7 @@ import com.dessalines.habitmaker.utils.calculatePoints
 import com.dessalines.habitmaker.utils.calculateScore
 import com.dessalines.habitmaker.utils.calculateStreaks
 import com.dessalines.habitmaker.utils.epochMillisToLocalDate
-import com.dessalines.habitmaker.utils.isCompleted
+import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.nthTriangle
 import com.dessalines.habitmaker.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.toInt
@@ -130,7 +130,7 @@ fun HabitsAndDetailScreen(
                                     val todayStats = updateStatsForHabit(habit, habitViewModel, checks, completedCount)
 
                                     // If successful, show a random encouragement
-                                    if (todayStats.completed) {
+                                    if (isCompletedToday(todayStats.lastCompletedTime)) {
                                         val randomEncouragement =
                                             encouragementViewModel.getRandomForHabit(habitId) ?: defaultEncouragements.random()
                                         val congratsMessage = buildCongratsSnackMessage(ctx, todayStats, randomEncouragement)
@@ -251,7 +251,8 @@ fun checkHabitForDay(
 }
 
 data class HabitTodayStats(
-    val completed: Boolean,
+    val lastStreakTime: Long,
+    val lastCompletedTime: Long,
     val streak: Long,
     val points: Long,
     val frequency: HabitFrequency,
@@ -271,13 +272,14 @@ fun updateStatsForHabit(
     val points = calculatePoints(frequency, streaks)
     val score = calculateScore(checks, completedCount)
 
-    val todayStreak = todayStreak(frequency, streaks.lastOrNull())
-
-    // Use the last streak time (which can be in the future for non-daily habits)
+    // The last streak time can be in the future for non-daily habits,
+    // and is used for filtering / hiding.
     val lastStreakTime = streaks.lastOrNull()?.end?.toEpochMillis() ?: 0
 
-    // Note: You could also use the today streak, which extends past today for non-dailies
-    //    val todayCompleted = todayStreak > 0
+    // The last completed time is used to see which habits have been checked today.
+    val lastCompletedTime = checks.lastOrNull()?.checkTime ?: 0
+
+    val todayStreak = todayStreak(frequency, streaks.lastOrNull())
     val streakPoints = todayStreak.nthTriangle()
 
     val statsUpdate =
@@ -287,11 +289,13 @@ fun updateStatsForHabit(
             score = score,
             streak = todayStreak.toInt(),
             lastStreakTime = lastStreakTime,
+            lastCompletedTime = lastCompletedTime,
         )
     habitViewModel.updateStats(statsUpdate)
 
     return HabitTodayStats(
-        completed = isCompleted(lastStreakTime),
+        lastStreakTime = lastStreakTime,
+        lastCompletedTime = lastCompletedTime,
         points = streakPoints,
         streak = todayStreak,
         frequency = frequency,

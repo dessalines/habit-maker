@@ -84,6 +84,7 @@ fun HabitForm(
                 streak = habit?.streak ?: 0,
                 completed = 0,
                 lastStreakTime = habit?.lastStreakTime ?: 0,
+                lastCompletedTime = habit?.lastCompletedTime ?: 0,
             ),
         )
 

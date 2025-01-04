@@ -180,6 +180,17 @@ fun calculateScore(
 ): Int = (100 * habitChecks.size).div(completedCount)
 
 /**
- * Determines whether a habit is completed or not.
+ * Determines whether a habit is completed or not. Virtual means that entries
+ * may be fake, from the streak calculations, to account for non-daily habits.
+ *
+ * A weekly habit might be satisfied for this week, so although it wasn't checked today,
+ * it might complete for the week.
+ *
+ * Used for filtering out virtually completed habits.
  */
-fun isCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
+fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
+
+/**
+ * Determines whether a habit is completed today or not.
+ */
+fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
