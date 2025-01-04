@@ -6,6 +6,7 @@ import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 
 data class Streak(
     val begin: LocalDate,
@@ -69,9 +70,10 @@ fun calculateStreaks(
         }
     }
     streaks.add(Streak(begin, end))
+    streaks.reverse()
     Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
 
-    return streaks.reversed().toImmutableList()
+    return streaks.toImmutableList()
 }
 
 /**
@@ -91,7 +93,12 @@ fun buildVirtualDates(
 
             var rangeFirstDate =
                 when (frequency) {
-                    HabitFrequency.Weekly -> dates.firstOrNull()?.with(DayOfWeek.MONDAY)
+                    HabitFrequency.Weekly ->
+                        dates.firstOrNull()?.with(
+                            TemporalAdjusters.previousOrSame(
+                                DayOfWeek.SUNDAY,
+                            ),
+                        )
                     HabitFrequency.Monthly -> dates.firstOrNull()?.withDayOfMonth(1)
                     HabitFrequency.Yearly -> dates.firstOrNull()?.withDayOfYear(1)
                     else -> null
@@ -103,7 +110,12 @@ fun buildVirtualDates(
                 virtualDates.add(entry)
                 val entryRange =
                     when (frequency) {
-                        HabitFrequency.Weekly -> entry.with(DayOfWeek.SUNDAY)
+                        HabitFrequency.Weekly ->
+                            entry.with(
+                                TemporalAdjusters.previousOrSame(
+                                    DayOfWeek.SUNDAY,
+                                ),
+                            )
                         HabitFrequency.Monthly -> entry.withDayOfMonth(1)
                         HabitFrequency.Yearly -> entry.withDayOfYear(1)
                         else -> entry
