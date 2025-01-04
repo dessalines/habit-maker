@@ -18,7 +18,7 @@ val MIGRATION_1_2 =
     }
 
 /**
- * Replace the completed boolean column, for a last_streak_time column
+ * Replace the completed boolean column, for a last_streak_time column.
  */
 val MIGRATION_2_3 =
     object : Migration(2, 3) {
