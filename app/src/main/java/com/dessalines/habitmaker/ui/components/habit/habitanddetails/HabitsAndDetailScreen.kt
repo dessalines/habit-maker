@@ -127,13 +127,20 @@ fun HabitsAndDetailScreen(
                                     val checkTime = LocalDate.now().toEpochMillis()
                                     checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                                    val todayStats = updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                                    val stats = updateStatsForHabit(habit, habitViewModel, checks, completedCount)
 
                                     // If successful, show a random encouragement
-                                    if (isCompletedToday(todayStats.lastCompletedTime)) {
+                                    if (isCompletedToday(stats.lastCompletedTime)) {
                                         val randomEncouragement =
                                             encouragementViewModel.getRandomForHabit(habitId) ?: defaultEncouragements.random()
-                                        val congratsMessage = buildCongratsSnackMessage(ctx, todayStats, randomEncouragement)
+                                        val frequency = HabitFrequency.entries[habit.frequency]
+                                        val congratsMessage =
+                                            buildCongratsSnackMessage(
+                                                ctx = ctx,
+                                                stats = stats,
+                                                frequency = frequency,
+                                                encouragement = randomEncouragement,
+                                            )
                                         scope.launch {
                                             snackbarHostState.showSnackbar(congratsMessage)
                                         }
@@ -250,24 +257,17 @@ fun checkHabitForDay(
     }
 }
 
-data class HabitTodayStats(
-    val lastStreakTime: Long,
-    val lastCompletedTime: Long,
-    val streak: Long,
-    val points: Long,
-    val frequency: HabitFrequency,
-)
-
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
     checks: List<HabitCheck>,
     completedCount: Int,
-): HabitTodayStats {
+): HabitUpdateStats {
     val dateChecks = checks.map { it.checkTime.epochMillisToLocalDate() }
 
     val frequency = HabitFrequency.entries[habit.frequency]
 
+    // Calculating a few totals
     val streaks = calculateStreaks(frequency, habit.timesPerFrequency, dateChecks)
     val points = calculatePoints(frequency, streaks)
     val score = calculateScore(checks, completedCount)
@@ -278,9 +278,7 @@ fun updateStatsForHabit(
 
     // The last completed time is used to see which habits have been checked today.
     val lastCompletedTime = checks.lastOrNull()?.checkTime ?: 0
-
     val todayStreak = todayStreak(frequency, streaks.lastOrNull())
-    val streakPoints = todayStreak.nthTriangle()
 
     val statsUpdate =
         HabitUpdateStats(
@@ -293,37 +291,33 @@ fun updateStatsForHabit(
         )
     habitViewModel.updateStats(statsUpdate)
 
-    return HabitTodayStats(
-        lastStreakTime = lastStreakTime,
-        lastCompletedTime = lastCompletedTime,
-        points = streakPoints,
-        streak = todayStreak,
-        frequency = frequency,
-    )
+    return statsUpdate
 }
 
 fun buildCongratsSnackMessage(
     ctx: Context,
-    todayStats: HabitTodayStats,
+    stats: HabitUpdateStats,
+    frequency: HabitFrequency,
     encouragement: Encouragement,
 ): String {
     val randomSuccessEmoji = SUCCESS_EMOJIS.random()
     val congratsLine = randomSuccessEmoji + " " + encouragement.content
     var messages = mutableListOf<String>(congratsLine)
+    val todayPoints = stats.streak.toLong().nthTriangle()
 
     val resId =
-        when (todayStats.frequency) {
+        when (frequency) {
             HabitFrequency.Daily -> R.string.youre_on_a_x_day_streak
             HabitFrequency.Weekly -> R.string.youre_on_a_x_week_streak
             HabitFrequency.Monthly -> R.string.youre_on_a_x_month_streak
             HabitFrequency.Yearly -> R.string.youre_on_a_x_year_streak
         }
-    if (todayStats.streak > 0) {
+    if (stats.streak > 0) {
         messages.add(
             ctx.getString(
                 resId,
-                todayStats.streak.toString(),
-                todayStats.points.toString(),
+                stats.streak.toString(),
+                todayPoints,
             ),
         )
     }
