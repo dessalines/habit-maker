@@ -65,6 +65,9 @@
     <string name="history">History</string>
     <string name="notes">Notes</string>
     <string name="youre_on_a_x_day_streak">You\'re on a %1$s day streak, +%2$s points</string>
+    <string name="youre_on_a_x_week_streak">You\'re on a %1$s week streak, +%2$s points</string>
+    <string name="youre_on_a_x_month_streak">You\'re on a %1$s month streak, +%2$s points</string>
+    <string name="youre_on_a_x_year_streak">You\'re on a %1$s year streak, +%2$s points</string>
     <string name="default_encouragement_1">Great job! Not everyone is as hard-working as you are.</string>
     <string name="default_encouragement_2">Excellent job! Take a minute to think about why this is important to you.</string>
     <string name="default_encouragement_3">Outstanding! You\'re hitting your stride.</string>

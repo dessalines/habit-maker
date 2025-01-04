@@ -31,11 +31,10 @@ fun Streak.duration(frequency: HabitFrequency): Long =
 fun todayStreak(
     frequency: HabitFrequency,
     lastStreak: Streak?,
-    todayDate: LocalDate,
 ): Long {
     val todayStreak =
         lastStreak?.let {
-            if (it.end >= todayDate) {
+            if (it.end >= LocalDate.now()) {
                 it.duration(frequency)
             } else {
                 0
@@ -179,3 +178,8 @@ fun calculateScore(
     habitChecks: List<HabitCheck>,
     completedCount: Int,
 ): Int = (100 * habitChecks.size).div(completedCount)
+
+/**
+ * Determines whether a habit is completed or not.
+ */
+fun isCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()

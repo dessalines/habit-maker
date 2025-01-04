@@ -15,10 +15,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
-import com.dessalines.habitmaker.utils.toEpochMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 @Entity(
     indices = [
@@ -27,6 +25,7 @@ import java.time.LocalDate
         Index(value = ["score"]),
         Index(value = ["streak"]),
         Index(value = ["completed"]),
+        Index(value = ["last_streak_time"]),
     ],
 )
 @Keep
@@ -74,11 +73,17 @@ data class Habit(
         name = "completed",
         defaultValue = "0",
     )
+    @Deprecated("Use last_streak_time instead")
     val completed: Int,
     @ColumnInfo(
         name = "context",
     )
     val context: String?,
+    @ColumnInfo(
+        name = "last_streak_time",
+        defaultValue = "0",
+    )
+    val lastStreakTime: Long,
 )
 
 @Entity
@@ -163,10 +168,10 @@ data class HabitUpdateStats(
     )
     val streak: Int,
     @ColumnInfo(
-        name = "completed",
+        name = "last_streak_time",
         defaultValue = "0",
     )
-    val completed: Int,
+    val lastStreakTime: Long,
 )
 
 private const val BY_ID_QUERY = "SELECT * FROM Habit where id = :id"
@@ -232,20 +237,12 @@ class HabitRepository(
     suspend fun updateStats(habit: HabitUpdateStats) = habitDao.updateStats(habit)
 
     @WorkerThread
-    suspend fun updateCompletedForCurrentDate(currentDate: Long) = habitDao.updateCompletedForCurrentDate(currentDate)
-
-    @WorkerThread
     suspend fun delete(habit: Habit) = habitDao.delete(habit)
 }
 
 class HabitViewModel(
     private val repository: HabitRepository,
 ) : ViewModel() {
-    init {
-        // On first load, you need to update the completed columns for the current date
-        updateCompletedForCurrentDate(LocalDate.now().toEpochMillis())
-    }
-
     val getAll = repository.getAll
 
     fun getById(id: Int) = repository.getById(id)
@@ -262,11 +259,6 @@ class HabitViewModel(
     fun updateStats(habit: HabitUpdateStats) =
         viewModelScope.launch {
             repository.updateStats(habit)
-        }
-
-    fun updateCompletedForCurrentDate(currentDate: Long) =
-        viewModelScope.launch {
-            repository.updateCompletedForCurrentDate(currentDate)
         }
 
     fun delete(habit: Habit) =
@@ -300,6 +292,7 @@ val sampleHabit =
         score = 0,
         streak = 0,
         completed = 0,
+        lastStreakTime = 0L,
     )
 
 val sampleHabit2 =
@@ -315,4 +308,5 @@ val sampleHabit2 =
         score = 0,
         streak = 0,
         completed = 0,
+        lastStreakTime = 0L,
     )

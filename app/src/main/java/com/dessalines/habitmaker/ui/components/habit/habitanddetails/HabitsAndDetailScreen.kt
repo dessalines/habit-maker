@@ -45,6 +45,7 @@ import com.dessalines.habitmaker.utils.calculatePoints
 import com.dessalines.habitmaker.utils.calculateScore
 import com.dessalines.habitmaker.utils.calculateStreaks
 import com.dessalines.habitmaker.utils.epochMillisToLocalDate
+import com.dessalines.habitmaker.utils.isCompleted
 import com.dessalines.habitmaker.utils.nthTriangle
 import com.dessalines.habitmaker.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.toInt
@@ -253,6 +254,7 @@ data class HabitTodayStats(
     val completed: Boolean,
     val streak: Long,
     val points: Long,
+    val frequency: HabitFrequency,
 )
 
 fun updateStatsForHabit(
@@ -262,7 +264,6 @@ fun updateStatsForHabit(
     completedCount: Int,
 ): HabitTodayStats {
     val dateChecks = checks.map { it.checkTime.epochMillisToLocalDate() }
-    val todayDate = LocalDate.now()
 
     val frequency = HabitFrequency.entries[habit.frequency]
 
@@ -270,9 +271,10 @@ fun updateStatsForHabit(
     val points = calculatePoints(frequency, streaks)
     val score = calculateScore(checks, completedCount)
 
-    // Use the
-    val todayStreak = todayStreak(frequency, streaks.lastOrNull(), todayDate)
-    val todayCompleted = dateChecks.lastOrNull() == todayDate
+    val todayStreak = todayStreak(frequency, streaks.lastOrNull())
+
+    // Use the last streak time (which can be in the future for non-daily habits)
+    val lastStreakTime = streaks.lastOrNull()?.end?.toEpochMillis() ?: 0
 
     // Note: You could also use the today streak, which extends past today for non-dailies
     //    val todayCompleted = todayStreak > 0
@@ -284,14 +286,15 @@ fun updateStatsForHabit(
             points = points.toInt(),
             score = score,
             streak = todayStreak.toInt(),
-            completed = todayCompleted.toInt(),
+            lastStreakTime = lastStreakTime,
         )
     habitViewModel.updateStats(statsUpdate)
 
     return HabitTodayStats(
-        completed = todayCompleted,
+        completed = isCompleted(lastStreakTime),
         points = streakPoints,
         streak = todayStreak,
+        frequency = frequency,
     )
 }
 
@@ -303,10 +306,18 @@ fun buildCongratsSnackMessage(
     val randomSuccessEmoji = SUCCESS_EMOJIS.random()
     val congratsLine = randomSuccessEmoji + " " + encouragement.content
     var messages = mutableListOf<String>(congratsLine)
+
+    val resId =
+        when (todayStats.frequency) {
+            HabitFrequency.Daily -> R.string.youre_on_a_x_day_streak
+            HabitFrequency.Weekly -> R.string.youre_on_a_x_week_streak
+            HabitFrequency.Monthly -> R.string.youre_on_a_x_month_streak
+            HabitFrequency.Yearly -> R.string.youre_on_a_x_year_streak
+        }
     if (todayStats.streak > 0) {
         messages.add(
             ctx.getString(
-                R.string.youre_on_a_x_day_streak,
+                resId,
                 todayStats.streak.toString(),
                 todayStats.points.toString(),
             ),
