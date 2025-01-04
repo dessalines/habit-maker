@@ -239,11 +239,6 @@ class AppSettingsRepository(
     val appSettings = appSettingsDao.getSettings()
 
     @WorkerThread
-    suspend fun updateSettings(settings: SettingsUpdate) {
-        appSettingsDao.updateSettings(settings)
-    }
-
-    @WorkerThread
     suspend fun updateHideCompleted(settings: SettingsUpdateHideCompleted) {
         appSettingsDao.updateHideCompleted(settings)
     }
@@ -285,11 +280,6 @@ class AppSettingsViewModel(
 ) : ViewModel() {
     val appSettings = repository.appSettings
     val changelog = repository.changelog
-
-    fun updateSettings(settings: SettingsUpdate) =
-        viewModelScope.launch {
-            repository.updateSettings(settings)
-        }
 
     fun updateHideCompleted(settings: SettingsUpdateHideCompleted) =
         viewModelScope.launch {
