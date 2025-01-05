@@ -1,3 +1,10 @@
+## What's Changed in 0.0.7
+
+- Adding virtual complete for non-daily habits. by @dessalines in [#28](https://github.com/dessalines/habit-maker/pull/28)
+- Fixing readme error. by @dessalines
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.6...0.0.7
+
 ## What's Changed in 0.0.6
 
 - Adding a today completed count, displayed at the bottom of the list. by @dessalines in [#25](https://github.com/dessalines/habit-maker/pull/25)
