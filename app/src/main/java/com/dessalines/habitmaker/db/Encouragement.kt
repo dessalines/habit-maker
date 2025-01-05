@@ -50,15 +50,6 @@ data class EncouragementInsert(
     val content: String,
 )
 
-@Entity
-data class EncouragementUpdate(
-    val id: Int,
-    @ColumnInfo(
-        name = "content",
-    )
-    val content: String,
-)
-
 private const val BY_HABIT_ID_QUERY = "SELECT * FROM Encouragement where habit_id = :habitId"
 
 @Dao
@@ -84,10 +75,6 @@ interface EncouragementDao {
 class EncouragementRepository(
     private val encouragementDao: EncouragementDao,
 ) {
-    // Room executes all queries on a separate thread.
-    // Observed Flow will notify the observer when the data has changed.
-    fun listForHabit(habitId: Int) = encouragementDao.listForHabit(habitId)
-
     fun listForHabitSync(habitId: Int) = encouragementDao.listForHabitSync(habitId)
 
     fun getRandomForHabit(habitId: Int) = encouragementDao.getRandomForHabit(habitId)
@@ -100,8 +87,6 @@ class EncouragementRepository(
 class EncouragementViewModel(
     private val repository: EncouragementRepository,
 ) : ViewModel() {
-    fun listForHabit(habitId: Int) = repository.listForHabit(habitId)
-
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
     fun getRandomForHabit(habitId: Int) = repository.getRandomForHabit(habitId)

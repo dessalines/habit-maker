@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.utils.ThemeColor
 import com.dessalines.habitmaker.utils.ThemeMode
-import kotlin.collections.get
 
 @Composable
 fun HabitMakerTheme(

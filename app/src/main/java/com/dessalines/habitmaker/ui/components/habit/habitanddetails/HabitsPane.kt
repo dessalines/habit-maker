@@ -57,6 +57,8 @@ import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
+import com.dessalines.habitmaker.utils.isCompletedToday
+import com.dessalines.habitmaker.utils.isVirtualCompleted
 import com.dessalines.habitmaker.utils.toBool
 import okhttp3.internal.toImmutableList
 import kotlin.collections.orEmpty
@@ -80,7 +82,7 @@ fun HabitsPane(
     val title = stringResource(R.string.habits)
 
     // Calculate the completed today before filtering (since hide completed would filter these out)
-    val todayCompletedCount = habits.orEmpty().sumOf { it.completed }
+    val todayCompletedCount = habits.orEmpty().count { isCompletedToday(it.lastCompletedTime) }
 
     // Filter and sort the habits
     val filteredHabits = filterAndSortHabits(habits.orEmpty(), settings)
@@ -272,7 +274,7 @@ fun HabitRow(
         if (!selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant
 
     val (icon, tint) =
-        if (habit.completed.toBool()) {
+        if (isCompletedToday(habit.lastCompletedTime)) {
             Pair(Icons.Outlined.Check, MaterialTheme.colorScheme.primary)
         } else {
             Pair(Icons.Outlined.Close, MaterialTheme.colorScheme.outline)
@@ -336,7 +338,7 @@ fun filterAndSortHabits(
 
     // Hide completed
     if ((settings?.hideCompleted ?: 0).toBool()) {
-        tmp.removeAll { it.completed.toBool() }
+        tmp.removeAll { isVirtualCompleted(it.lastStreakTime) }
     }
 
     // Hide archived
@@ -351,7 +353,7 @@ fun filterAndSortHabits(
         HabitSort.Points -> tmp.sortBy { it.points }
         HabitSort.Score -> tmp.sortBy { it.score }
         HabitSort.Streak -> tmp.sortBy { it.streak }
-        HabitSort.Status -> tmp.sortBy { it.completed }
+        HabitSort.Status -> tmp.sortBy { isVirtualCompleted(it.lastStreakTime) }
         HabitSort.DateCreated -> tmp.sortBy { it.id }
     }
     val sortOrder = HabitSortOrder.entries[settings?.sortOrder ?: 0]

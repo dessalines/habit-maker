@@ -50,15 +50,6 @@ data class HabitCheckInsert(
     val checkTime: Long,
 )
 
-@Entity
-data class HabitCheckUpdate(
-    val id: Int,
-    @ColumnInfo(
-        name = "check_time",
-    )
-    val checkTime: Long,
-)
-
 private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitCheck where habit_id = :habitId order by check_time"
 
 @Dao

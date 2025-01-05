@@ -82,7 +82,9 @@ fun HabitForm(
                 points = habit?.points ?: 0,
                 score = habit?.score ?: 0,
                 streak = habit?.streak ?: 0,
-                completed = habit?.completed ?: 0,
+                completed = 0,
+                lastStreakTime = habit?.lastStreakTime ?: 0,
+                lastCompletedTime = habit?.lastCompletedTime ?: 0,
             ),
         )
 

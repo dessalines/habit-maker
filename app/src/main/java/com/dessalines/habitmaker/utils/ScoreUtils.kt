@@ -6,6 +6,7 @@ import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 
 data class Streak(
     val begin: LocalDate,
@@ -30,11 +31,10 @@ fun Streak.duration(frequency: HabitFrequency): Long =
 fun todayStreak(
     frequency: HabitFrequency,
     lastStreak: Streak?,
-    todayDate: LocalDate,
 ): Long {
     val todayStreak =
         lastStreak?.let {
-            if (it.end >= todayDate) {
+            if (it.end >= LocalDate.now()) {
                 it.duration(frequency)
             } else {
                 0
@@ -69,9 +69,10 @@ fun calculateStreaks(
         }
     }
     streaks.add(Streak(begin, end))
+    streaks.reverse()
     Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
 
-    return streaks.reversed().toImmutableList()
+    return streaks.toImmutableList()
 }
 
 /**
@@ -91,7 +92,12 @@ fun buildVirtualDates(
 
             var rangeFirstDate =
                 when (frequency) {
-                    HabitFrequency.Weekly -> dates.firstOrNull()?.with(DayOfWeek.MONDAY)
+                    HabitFrequency.Weekly ->
+                        dates.firstOrNull()?.with(
+                            TemporalAdjusters.previousOrSame(
+                                DayOfWeek.SUNDAY,
+                            ),
+                        )
                     HabitFrequency.Monthly -> dates.firstOrNull()?.withDayOfMonth(1)
                     HabitFrequency.Yearly -> dates.firstOrNull()?.withDayOfYear(1)
                     else -> null
@@ -103,7 +109,12 @@ fun buildVirtualDates(
                 virtualDates.add(entry)
                 val entryRange =
                     when (frequency) {
-                        HabitFrequency.Weekly -> entry.with(DayOfWeek.SUNDAY)
+                        HabitFrequency.Weekly ->
+                            entry.with(
+                                TemporalAdjusters.previousOrSame(
+                                    DayOfWeek.SUNDAY,
+                                ),
+                            )
                         HabitFrequency.Monthly -> entry.withDayOfMonth(1)
                         HabitFrequency.Yearly -> entry.withDayOfYear(1)
                         else -> entry
@@ -167,3 +178,19 @@ fun calculateScore(
     habitChecks: List<HabitCheck>,
     completedCount: Int,
 ): Int = (100 * habitChecks.size).div(completedCount)
+
+/**
+ * Determines whether a habit is completed or not. Virtual means that entries
+ * may be fake, from the streak calculations, to account for non-daily habits.
+ *
+ * A weekly habit might be satisfied for this week, so although it wasn't checked today,
+ * it might complete for the week.
+ *
+ * Used for filtering out virtually completed habits.
+ */
+fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
+
+/**
+ * Determines whether a habit is completed today or not.
+ */
+fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
