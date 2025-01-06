@@ -7,7 +7,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -15,6 +18,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -59,6 +63,7 @@ import java.time.ZoneId
     ExperimentalFoundationApi::class,
     ExperimentalMaterial3AdaptiveApi::class,
     ExperimentalSharedTransitionApi::class,
+    ExperimentalMaterial3Api::class,
 )
 @Composable
 fun HabitsAndDetailScreen(
@@ -82,6 +87,8 @@ fun HabitsAndDetailScreen(
     var selectedHabitId: Int? by rememberSaveable { mutableStateOf(id) }
     val habits by habitViewModel.getAll.asLiveData().observeAsState()
 
+    val habitsPaneListState = rememberLazyListState()
+    val habitsPaneScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
     val isListAndDetailVisible =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Companion.Expanded &&
@@ -113,6 +120,8 @@ fun HabitsAndDetailScreen(
                     AnimatedPane {
                         HabitsPane(
                             habits = habits,
+                            listState = habitsPaneListState,
+                            scrollBehavior = habitsPaneScrollBehavior,
                             settings = settings,
                             snackbarHostState = snackbarHostState,
                             onHabitClick = { habitId ->

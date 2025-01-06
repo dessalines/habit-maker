@@ -5,13 +5,12 @@ import androidx.compose.foundation.BasicTooltipBox
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberBasicTooltipState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -35,8 +34,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,6 +65,8 @@ import kotlin.collections.orEmpty
 @Composable
 fun HabitsPane(
     habits: List<Habit>?,
+    listState: LazyListState,
+    scrollBehavior: TopAppBarScrollBehavior,
     settings: AppSettings?,
     snackbarHostState: SnackbarHostState,
     onHabitClick: (habitId: Int) -> Unit,
@@ -77,8 +77,6 @@ fun HabitsPane(
     selectionState: SelectionVisibilityState<Int>,
 ) {
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val listState = rememberLazyListState()
     val title = stringResource(R.string.habits)
 
     // Calculate the completed today before filtering (since hide completed would filter these out)
@@ -146,7 +144,7 @@ fun HabitsPane(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-        modifier = Modifier.Companion.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { padding ->
             LazyColumn(
                 state = listState,
@@ -260,7 +258,6 @@ fun LazyListScope.habitFrequencySection(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HabitRow(
     habit: Habit,
@@ -364,7 +361,6 @@ fun filterAndSortHabits(
     return tmp.toImmutableList()
 }
 
-@Composable
 fun buildHabitsByFrequency(habits: List<Habit>) =
     listOf(
         HabitListAndTitle(

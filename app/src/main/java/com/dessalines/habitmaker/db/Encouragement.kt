@@ -12,7 +12,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Entity(
     foreignKeys = [
@@ -54,9 +53,6 @@ private const val BY_HABIT_ID_QUERY = "SELECT * FROM Encouragement where habit_i
 
 @Dao
 interface EncouragementDao {
-    @Query(BY_HABIT_ID_QUERY)
-    fun listForHabit(habitId: Int): Flow<List<Encouragement>>
-
     @Query(BY_HABIT_ID_QUERY)
     fun listForHabitSync(habitId: Int): List<Encouragement>
 
