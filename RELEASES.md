@@ -1,3 +1,9 @@
+## What's Changed in 0.0.8
+
+- Remembering scroll position in habits pane. by @dessalines in [#29](https://github.com/dessalines/habit-maker/pull/29)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.7...0.0.8
+
 ## What's Changed in 0.0.7
 
 - Adding virtual complete for non-daily habits. by @dessalines in [#28](https://github.com/dessalines/habit-maker/pull/28)
