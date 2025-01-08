@@ -1,3 +1,9 @@
+## What's Changed in 0.0.10
+
+- Fix about page crash caused by adaptive icon addition. by @dessalines in [#36](https://github.com/dessalines/habit-maker/pull/36)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.9...0.0.10
+
 ## What's Changed in 0.0.9
 
 - Adding adaptive / monochrome icons. by @dessalines in [#34](https://github.com/dessalines/habit-maker/pull/34)
