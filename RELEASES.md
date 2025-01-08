@@ -1,3 +1,9 @@
+## What's Changed in 0.0.9
+
+- Adding adaptive / monochrome icons. by @dessalines in [#34](https://github.com/dessalines/habit-maker/pull/34)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.8...0.0.9
+
 ## What's Changed in 0.0.8
 
 - Remembering scroll position in habits pane. by @dessalines in [#29](https://github.com/dessalines/habit-maker/pull/29)
