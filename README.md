@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/dessalines/habit-maker" rel="noopener">
-    <img width=200px height=200px src="https://raw.githubusercontent.com/dessalines/habit-maker/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="phone_screen" />
+    <img width=200px height=200px src="https://raw.githubusercontent.com/dessalines/habit-maker/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" alt="phone_screen" />
   </a>
 
  <h3 align="center"><a href="https://github.com/dessalines/habit-maker">Habit-Maker</a></h3>
