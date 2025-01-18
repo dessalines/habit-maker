@@ -22,13 +22,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.EncouragementInsert
 import com.dessalines.habitmaker.db.EncouragementViewModel
+import com.dessalines.habitmaker.db.HabitReminderInsert
+import com.dessalines.habitmaker.db.HabitReminderViewModel
 import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitViewModel
+import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 
@@ -38,13 +42,16 @@ fun EditHabitScreen(
     navController: NavController,
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
+    reminderViewModel: HabitReminderViewModel,
     id: Int,
 ) {
+    val ctx = LocalContext.current
     val scrollState = rememberScrollState()
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
 
     val habit = habitViewModel.getByIdSync(id)
     val encouragements = encouragementViewModel.listForHabitSync(id)
+    val reminders = reminderViewModel.listForHabitSync(id)
 
     // Copy the habit and encouragements from the DB first
     var editedHabit by remember {
@@ -53,6 +60,10 @@ fun EditHabitScreen(
 
     var editedEncouragements by remember {
         mutableStateOf(encouragements)
+    }
+
+    var editedReminders by remember {
+        mutableStateOf(reminders)
     }
 
     Scaffold(
@@ -73,6 +84,10 @@ fun EditHabitScreen(
                 HabitForm(
                     habit = editedHabit,
                     onChange = { editedHabit = it },
+                )
+                HabitRemindersForm(
+                    initialReminders = editedReminders,
+                    onChange = { editedReminders = it },
                 )
                 EncouragementsForm(
                     initialEncouragements = editedEncouragements,
@@ -104,10 +119,27 @@ fun EditHabitScreen(
                                 )
                             habitViewModel.update(update)
 
+                            // Delete then add all the reminders
+                            reminderViewModel.delete(editedHabit.id)
+                            editedReminders.forEach {
+                                val insert =
+                                    HabitReminderInsert(
+                                        habitId = editedHabit.id,
+                                        time = it.time,
+                                        day = it.day,
+                                    )
+                                reminderViewModel.insert(insert)
+                            }
+                            // Reschedule the reminders for that habit
+                            scheduleRemindersForHabit(
+                                ctx,
+                                editedReminders,
+                                editedHabit.name,
+                                editedHabit.id,
+                            )
+
                             // Delete then add all the encouragements
                             encouragementViewModel.deleteForHabit(editedHabit.id)
-
-                            // Now update the encouragements
                             editedEncouragements.forEach {
                                 val insert =
                                     EncouragementInsert(

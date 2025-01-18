@@ -67,3 +67,14 @@ enum class HabitStatus {
     Gold,
     Platinum,
 }
+
+/**
+ * A frequency picker for reminders
+ */
+enum class HabitReminderFrequency(
+    @StringRes val resId: Int,
+) {
+    NoReminders(R.string.no_reminders),
+    EveryDay(R.string.remind_every_day),
+    SpecificDays(R.string.remind_specific_days),
+}

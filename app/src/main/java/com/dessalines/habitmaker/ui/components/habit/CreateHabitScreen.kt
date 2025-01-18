@@ -28,7 +28,11 @@ import com.dessalines.habitmaker.db.EncouragementInsert
 import com.dessalines.habitmaker.db.EncouragementViewModel
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsert
+import com.dessalines.habitmaker.db.HabitReminder
+import com.dessalines.habitmaker.db.HabitReminderInsert
+import com.dessalines.habitmaker.db.HabitReminderViewModel
 import com.dessalines.habitmaker.db.HabitViewModel
+import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 
@@ -38,6 +42,7 @@ fun CreateHabitScreen(
     navController: NavController,
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
+    reminderViewModel: HabitReminderViewModel,
 ) {
     val scrollState = rememberScrollState()
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
@@ -45,6 +50,7 @@ fun CreateHabitScreen(
 
     var habit: Habit? = null
     var encouragements: List<Encouragement> = listOf()
+    var reminders: List<HabitReminder> = listOf()
 
     Scaffold(
         topBar = {
@@ -63,6 +69,10 @@ fun CreateHabitScreen(
             ) {
                 HabitForm(
                     onChange = { habit = it },
+                )
+                HabitRemindersForm(
+                    initialReminders = reminders,
+                    onChange = { reminders = it },
                 )
                 EncouragementsForm(
                     initialEncouragements = encouragements,
@@ -96,7 +106,25 @@ fun CreateHabitScreen(
 
                                 // The id is -1 if its a failed insert
                                 if (insertedHabitId != -1L) {
-                                    // Now insert the encouragements
+                                    // Insert the reminders
+                                    reminders.forEach {
+                                        val insert =
+                                            HabitReminderInsert(
+                                                habitId = insertedHabitId.toInt(),
+                                                time = it.time,
+                                                day = it.day,
+                                            )
+                                        reminderViewModel.insert(insert)
+                                    }
+                                    // Reschedule the reminders for that habit
+                                    scheduleRemindersForHabit(
+                                        ctx,
+                                        reminders,
+                                        it.name,
+                                        insertedHabitId.toInt(),
+                                    )
+
+                                    // Insert the encouragements
                                     encouragements.forEach {
                                         val insert =
                                             EncouragementInsert(

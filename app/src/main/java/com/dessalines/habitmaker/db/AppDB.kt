@@ -6,20 +6,23 @@ import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.dessalines.habitmaker.utils.TAG
 import java.util.concurrent.Executors
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         AppSettings::class,
         Habit::class,
         Encouragement::class,
         HabitCheck::class,
+        HabitReminder::class,
     ],
     exportSchema = true,
 )
+@TypeConverters(Converters::class)
 abstract class AppDB : RoomDatabase() {
     abstract fun appSettingsDao(): AppSettingsDao
 
@@ -28,6 +31,8 @@ abstract class AppDB : RoomDatabase() {
     abstract fun encouragementDao(): EncouragementDao
 
     abstract fun habitCheckDao(): HabitCheckDao
+
+    abstract fun habitReminderDao(): HabitReminderDao
 
     companion object {
         @Volatile
@@ -47,6 +52,7 @@ abstract class AppDB : RoomDatabase() {
                         .addMigrations(
                             MIGRATION_1_2,
                             MIGRATION_2_3,
+                            MIGRATION_3_4,
                         )
                         // Necessary because it can't insert data on creation
                         .addCallback(

@@ -36,6 +36,7 @@
     <string name="go_back">Go back</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="x_day_streak">%1$s day streak</string>
     <string name="x_week_streak">%1$s week streak</string>
@@ -99,4 +100,14 @@
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
     <string name="archived">Archived</string>
+    <string name="did_you_complete">Did you complete this habit today?</string>
+    <string name="no_reminders">No reminders</string>
+    <string name="remind_every_day">Remind me every day</string>
+    <string name="remind_specific_days">Remind me on specific days</string>
+    <string name="time">Time</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="confirm">Confirm</string>
+    <string name="days">Days</string>
+    <string name="request_notification_permission">Request notification permission</string>
+    <string name="notification_permission_required">Notification permission is required for this feature</string>
 </resources>

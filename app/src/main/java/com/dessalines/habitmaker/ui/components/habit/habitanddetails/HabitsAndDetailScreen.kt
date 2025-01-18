@@ -204,7 +204,6 @@ fun HabitsAndDetailScreen(
                                         scope.launch {
                                             habitViewModel.delete(habit)
                                             navigator.navigateBack()
-//                                        Toast.makeText(ctx, deletedMessage, Toast.LENGTH_SHORT).show()
                                         }
                                     },
                                     onHabitCheck = {

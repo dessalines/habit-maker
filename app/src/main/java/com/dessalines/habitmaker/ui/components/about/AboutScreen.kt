@@ -1,6 +1,5 @@
 package com.dessalines.habitmaker.ui.components.about
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,7 +33,6 @@ import com.dessalines.habitmaker.utils.GITHUB_URL
 import com.dessalines.habitmaker.utils.LEMMY_URL
 import com.dessalines.habitmaker.utils.MASTODON_URL
 import com.dessalines.habitmaker.utils.MATRIX_CHAT_URL
-import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.openLink
 import me.zhanghai.compose.preference.Preference
 import me.zhanghai.compose.preference.PreferenceCategory
@@ -43,8 +41,6 @@ import me.zhanghai.compose.preference.ProvidePreferenceTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(navController: NavController) {
-    Log.d(TAG, "Got to About activity")
-
     val ctx = LocalContext.current
 
     val version = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName ?: "1"

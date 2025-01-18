@@ -37,3 +37,26 @@ val MIGRATION_2_3 =
             db.execSQL("CREATE INDEX IF NOT EXISTS `index_Habit_last_completed_time` ON Habit (last_completed_time)")
         }
     }
+
+/**
+ * Create a table for habit reminders
+ */
+val MIGRATION_3_4 =
+    object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS HabitReminder (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    `habit_id` INTEGER NOT NULL,
+                    `time` INTEGER NOT NULL,
+                    `day` INTEGER NOT NULL,
+                    FOREIGN KEY(`habit_id`) REFERENCES `Habit`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+                )
+                """.trimIndent(),
+            )
+            db.execSQL(
+                "CREATE UNIQUE INDEX IF NOT EXISTS `index_HabitReminder_habit_id_time_day` ON `HabitReminder` (`habit_id`, `time`,`day`)",
+            )
+        }
+    }
