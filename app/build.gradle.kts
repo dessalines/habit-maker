@@ -103,7 +103,7 @@ dependencies {
     // Adaptive layouts
     implementation("androidx.compose.material3.adaptive:adaptive:1.1.0-alpha09")
     implementation("androidx.compose.material3.adaptive:adaptive-layout:1.1.0-alpha08")
-    implementation("androidx.compose.material3.adaptive:adaptive-navigation:1.1.0-alpha08")
+    implementation("androidx.compose.material3.adaptive:adaptive-navigation:1.1.0-alpha09")
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
 
     // Activities
