@@ -89,7 +89,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     // Compose-Calendar
-    implementation("com.kizitonwose.calendar:compose:2.6.1")
+    implementation("com.kizitonwose.calendar:compose:2.6.2")
 
     // Exporting / importing DB helper
     implementation("com.github.dessalines:room-db-export-import:0.1.0")
