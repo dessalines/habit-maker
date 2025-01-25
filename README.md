@@ -4,6 +4,7 @@
 [![status-badge](https://woodpecker.join-lemmy.org/api/badges/dessalines/habit-maker/status.svg)](https://woodpecker.join-lemmy.org/dessalines/habit-maker)
 [![GitHub issues](https://img.shields.io/github/issues-raw/dessalines/habit-maker.svg)](https://github.com/dessalines/habit-maker/issues)
 [![License](https://img.shields.io/github/license/dessalines/habit-maker.svg)](LICENSE)
+[![Translation status](https://hosted.weblate.org/widget/habit-maker/habit-maker/status-badge.png)](https://hosted.weblate.org/engage/habit-maker/)
 ![GitHub stars](https://img.shields.io/github/stars/dessalines/habit-maker?style=social)
 
 </div>
@@ -99,6 +100,10 @@ Once a habit has been formed, its relatively easy to continue doing it, almost a
 - [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker)
 <!-- - [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/) -->
 - [Google Play](https://play.google.com/store/apps/details?id=com.dessalines.habitmaker)
+
+## Contributing
+
+See [Contributing.md](CONTRIBUTING.md) for how to contribute.
 
 ## Support / Donate
 
