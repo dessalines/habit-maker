@@ -17,6 +17,7 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 @Entity(
     indices = [
@@ -93,7 +94,7 @@ data class Habit(
         defaultValue = "0",
     )
     val lastCompletedTime: Long,
-)
+) : Serializable
 
 @Entity
 data class HabitInsert(

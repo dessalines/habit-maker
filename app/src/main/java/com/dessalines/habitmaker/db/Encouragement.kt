@@ -12,6 +12,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import java.io.Serializable
 
 @Entity(
     foreignKeys = [
@@ -35,7 +36,7 @@ data class Encouragement(
         name = "content",
     )
     val content: String,
-)
+) : Serializable
 
 @Entity
 data class EncouragementInsert(

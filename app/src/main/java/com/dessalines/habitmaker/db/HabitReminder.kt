@@ -1,4 +1,5 @@
 package com.dessalines.habitmaker.db
+import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.ColumnInfo
@@ -10,6 +11,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import java.io.Serializable
 import java.time.DayOfWeek
 import java.time.LocalTime
 
@@ -24,6 +26,7 @@ import java.time.LocalTime
     ],
     indices = [Index(value = ["habit_id", "time", "day"], unique = true)],
 )
+@Keep
 data class HabitReminder(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(
@@ -38,7 +41,7 @@ data class HabitReminder(
         name = "day",
     )
     val day: DayOfWeek,
-)
+) : Serializable
 
 @Entity
 data class HabitReminderInsert(
