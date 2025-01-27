@@ -1,3 +1,16 @@
+## What's Changed in 0.0.15
+
+- Fixing crash on switch screen. by @dessalines in [#56](https://github.com/dessalines/habit-maker/pull/56)
+- Translations update from Hosted Weblate by @weblate in [#53](https://github.com/dessalines/habit-maker/pull/53)
+- Use svg badge by @dessalines
+- Adding contributing.md. Fixes #51 by @dessalines in [#54](https://github.com/dessalines/habit-maker/pull/54)
+
+## New Contributors
+
+- @weblate made their first contribution in [#53](https://github.com/dessalines/habit-maker/pull/53)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.14...0.0.15
+
 ## What's Changed in 0.0.14
 
 - Try to force remove network perm. by @dessalines in [#50](https://github.com/dessalines/habit-maker/pull/50)

@@ -13,6 +13,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import java.io.Serializable
 
 @Entity(
     foreignKeys = [
@@ -36,7 +37,7 @@ data class HabitCheck(
         name = "check_time",
     )
     val checkTime: Long,
-)
+) : Serializable
 
 @Entity
 data class HabitCheckInsert(
