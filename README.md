@@ -27,7 +27,7 @@
   </p>
   <p align="center">
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80"></a>
-    <!-- <a href="https://f-droid.org/packages/com.dessalines.habitmaker"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a> -->
+    <a href="https://f-droid.org/packages/com.dessalines.habitmaker"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a>
     <a href="https://play.google.com/store/apps/details?id=com.dessalines.habitmaker"><img src="https://cdn.rawgit.com/steverichey/google-play-badge-svg/master/img/en_get.svg" height="80"></a>
     <a href="https://github.com/dessalines/habit-maker/releases/latest"><img src="https://raw.githubusercontent.com/andOTP/andOTP/master/assets/badges/get-it-on-github.png" height="80"></a>
   </p>
@@ -98,12 +98,16 @@ Once a habit has been formed, its relatively easy to continue doing it, almost a
 
 - [Releases](https://github.com/dessalines/habit-maker/releases)
 - [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker)
-<!-- - [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/) -->
+- [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/)
 - [Google Play](https://play.google.com/store/apps/details?id=com.dessalines.habitmaker)
 
 ## Contributing
 
 See [Contributing.md](CONTRIBUTING.md) for how to contribute.
+
+Translations via [weblate](https://hosted.weblate.org/engage/habit-maker/):
+
+[![Translation status](https://hosted.weblate.org/widget/habit-maker/habit-maker/multi-auto.svg)](https://hosted.weblate.org/engage/habit-maker/)
 
 ## Support / Donate
 
