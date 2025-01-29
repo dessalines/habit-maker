@@ -105,7 +105,9 @@ Once a habit has been formed, its relatively easy to continue doing it, almost a
 
 See [Contributing.md](CONTRIBUTING.md) for how to contribute.
 
-You can add translation via [weblate](https://hosted.weblate.org/engage/habit-maker/), or add translations manually in the `app/src/main/res/values-{locale}/strings.xml` file.
+Translations via [weblate](https://hosted.weblate.org/engage/habit-maker/):
+
+[![Translation status](https://hosted.weblate.org/widget/habit-maker/habit-maker/multi-auto.svg)](https://hosted.weblate.org/engage/habit-maker/)
 
 ## Support / Donate
 
