@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -24,7 +25,7 @@ import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateTheme
-import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
+import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.utils.ThemeColor
 import com.dessalines.habitmaker.utils.ThemeMode
 import me.zhanghai.compose.preference.ListPreference
@@ -56,9 +57,13 @@ fun LookAndFeelScreen(
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                text = stringResource(R.string.look_and_feel),
-                onBackClick = { navController.navigateUp() },
+            TopAppBar(
+                title = { Text(stringResource(R.string.look_and_feel)) },
+                navigationIcon = {
+                    BackButton(
+                        onBackClick = { navController.navigateUp() },
+                    )
+                },
             )
         },
         content = { padding ->

@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppDB
-import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
+import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.roomdbexportimport.RoomDBExportImport
 import me.zhanghai.compose.preference.Preference
 import me.zhanghai.compose.preference.ProvidePreferenceTheme
@@ -61,9 +62,13 @@ fun BackupAndRestoreScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                text = stringResource(R.string.backup_and_restore),
-                onBackClick = { navController.navigateUp() },
+            TopAppBar(
+                title = { Text(stringResource(R.string.backup_and_restore)) },
+                navigationIcon = {
+                    BackButton(
+                        onBackClick = { navController.navigateUp() },
+                    )
+                },
             )
         },
         content = { padding ->

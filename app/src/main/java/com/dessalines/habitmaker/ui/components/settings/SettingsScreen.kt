@@ -15,13 +15,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
+import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.utils.USER_GUIDE_URL
 import com.dessalines.habitmaker.utils.openLink
 import me.zhanghai.compose.preference.Preference
@@ -35,9 +36,13 @@ fun SettingsScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                text = stringResource(R.string.settings),
-                onBackClick = { navController.navigateUp() },
+            TopAppBar(
+                title = { Text(stringResource(R.string.settings)) },
+                navigationIcon = {
+                    BackButton(
+                        onBackClick = { navController.navigateUp() },
+                    )
+                },
             )
         },
         content = { padding ->

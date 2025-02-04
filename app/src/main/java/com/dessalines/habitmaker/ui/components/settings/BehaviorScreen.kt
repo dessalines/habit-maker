@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -32,7 +33,7 @@ import com.dessalines.habitmaker.db.DEFAULT_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MAX_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MIN_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
-import com.dessalines.habitmaker.ui.components.common.SimpleTopAppBar
+import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.toBool
@@ -83,9 +84,13 @@ fun BehaviorScreen(
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                text = stringResource(R.string.behavior),
-                onBackClick = { navController.navigateUp() },
+            TopAppBar(
+                title = { Text(stringResource(R.string.behavior)) },
+                navigationIcon = {
+                    BackButton(
+                        onBackClick = { navController.navigateUp() },
+                    )
+                },
             )
         },
         content = { padding ->
