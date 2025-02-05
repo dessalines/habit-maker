@@ -110,4 +110,6 @@
     <string name="days">Days</string>
     <string name="request_notification_permission">Request notification permission</string>
     <string name="notification_permission_required">Notification permission is required for this feature</string>
+    <string name="hide_chip_descriptions">Hide chip descriptions</string>
+    <string name="hide_chip_descriptions_summary">Only shows icon and number for the info chips.</string>
 </resources>

@@ -60,3 +60,15 @@ val MIGRATION_3_4 =
             )
         }
     }
+
+/**
+ * Add a setting to hide the chip descriptions.
+ */
+val MIGRATION_4_5 =
+    object : Migration(4, 5) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE AppSettings ADD COLUMN hide_chip_descriptions INTEGER NOT NULL DEFAULT 0",
+            )
+        }
+    }

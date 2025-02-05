@@ -61,6 +61,7 @@ fun BehaviorScreen(
     var hidePointsOnHomeState = (settings?.hidePointsOnHome ?: 0).toBool()
     var hideScoreOnHomeState = (settings?.hideScoreOnHome ?: 0).toBool()
     var hideStreakOnHomeState = (settings?.hideStreakOnHome ?: 0).toBool()
+    var hideChipDescriptions = (settings?.hideChipDescriptions ?: 0).toBool()
 
     var completedCountState = (settings?.completedCount ?: DEFAULT_COMPLETED_COUNT).toFloat()
     var completedCountSliderState by remember { mutableFloatStateOf(completedCountState) }
@@ -77,6 +78,7 @@ fun BehaviorScreen(
                 hidePointsOnHome = hidePointsOnHomeState.toInt(),
                 hideScoreOnHome = hideScoreOnHomeState.toInt(),
                 hideStreakOnHome = hideStreakOnHomeState.toInt(),
+                hideChipDescriptions = hideChipDescriptions.toInt(),
             ),
         )
 
@@ -254,6 +256,26 @@ fun BehaviorScreen(
                         },
                         title = {
                             Text(stringResource(R.string.hide_score_on_home))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+
+                    SwitchPreference(
+                        value = hideChipDescriptions,
+                        onValueChange = {
+                            hideChipDescriptions = it
+                            updateSettings()
+                        },
+                        title = {
+                            Text(stringResource(R.string.hide_chip_descriptions))
+                        },
+                        summary = {
+                            Text(stringResource(R.string.hide_chip_descriptions_summary))
                         },
                         icon = {
                             Icon(

@@ -82,60 +82,11 @@ data class AppSettings(
         defaultValue = "0",
     )
     val hideStreakOnHome: Int,
-)
-
-data class SettingsUpdate(
-    val id: Int,
     @ColumnInfo(
-        name = "theme",
+        name = "hide_chip_descriptions",
         defaultValue = "0",
     )
-    val theme: Int,
-    @ColumnInfo(
-        name = "theme_color",
-        defaultValue = "0",
-    )
-    val themeColor: Int,
-    @ColumnInfo(
-        name = "sort",
-        defaultValue = "0",
-    )
-    val sort: Int,
-    @ColumnInfo(
-        name = "sort_order",
-        defaultValue = "0",
-    )
-    val sortOrder: Int,
-    @ColumnInfo(
-        name = "completed_count",
-        defaultValue = DEFAULT_COMPLETED_COUNT.toString(),
-    )
-    val completedCount: Int,
-    @ColumnInfo(
-        name = "hide_completed",
-        defaultValue = "0",
-    )
-    val hideCompleted: Int,
-    @ColumnInfo(
-        name = "hide_archived",
-        defaultValue = "0",
-    )
-    val hideArchived: Int,
-    @ColumnInfo(
-        name = "hide_points_on_home",
-        defaultValue = "0",
-    )
-    val hidePointsOnHome: Int,
-    @ColumnInfo(
-        name = "hide_score_on_home",
-        defaultValue = "0",
-    )
-    val hideScoreOnHome: Int,
-    @ColumnInfo(
-        name = "hide_streak_on_home",
-        defaultValue = "0",
-    )
-    val hideStreakOnHome: Int,
+    val hideChipDescriptions: Int,
 )
 
 data class SettingsUpdateHideCompleted(
@@ -203,15 +154,17 @@ data class SettingsUpdateBehavior(
         defaultValue = "0",
     )
     val hideStreakOnHome: Int,
+    @ColumnInfo(
+        name = "hide_chip_descriptions",
+        defaultValue = "0",
+    )
+    val hideChipDescriptions: Int,
 )
 
 @Dao
 interface AppSettingsDao {
     @Query("SELECT * FROM AppSettings limit 1")
     fun getSettings(): Flow<AppSettings>
-
-    @Update(entity = AppSettings::class)
-    suspend fun updateSettings(settings: SettingsUpdate)
 
     @Update(entity = AppSettings::class)
     suspend fun updateHideCompleted(settings: SettingsUpdateHideCompleted)
@@ -318,3 +271,20 @@ class AppSettingsViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+val sampleAppSettings =
+    AppSettings(
+        id = 0,
+        theme = 0,
+        themeColor = 0,
+        lastVersionCodeViewed = 0,
+        sort = 0,
+        sortOrder = 0,
+        completedCount = 0,
+        hideCompleted = 0,
+        hideArchived = 0,
+        hidePointsOnHome = 0,
+        hideScoreOnHome = 0,
+        hideStreakOnHome = 0,
+        hideChipDescriptions = 0,
+    )

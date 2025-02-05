@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
+import com.dessalines.habitmaker.db.sampleAppSettings
 import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitStatus
@@ -110,8 +111,8 @@ fun HabitChipsFlowRow(
             val freq = HabitFrequency.entries[habit.frequency]
             // Streak has special colors
             val habitStatus = habitStatusFromStreak(habit.streak)
-            HabitInfoChip(
-                text =
+            val text =
+                if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                     stringResource(
                         when (freq) {
                             HabitFrequency.Daily -> R.string.x_day_streak
@@ -120,28 +121,44 @@ fun HabitChipsFlowRow(
                             HabitFrequency.Yearly -> R.string.x_year_streak
                         },
                         habit.streak.toString(),
-                    ),
+                    )
+                } else {
+                    habit.streak.toString()
+                }
+            HabitInfoChip(
+                text = text,
                 habitStatus = habitStatus,
                 icon = Icons.AutoMirrored.Default.ShowChart,
             )
         }
         if (!(settings?.hidePointsOnHome ?: 0).toBool()) {
-            HabitInfoChip(
-                text =
+            val text =
+                if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                     stringResource(
                         R.string.x_points,
                         habit.points.toString(),
-                    ),
+                    )
+                } else {
+                    habit.points.toString()
+                }
+            HabitInfoChip(
+                text = text,
                 icon = Icons.Outlined.FavoriteBorder,
             )
         }
         if (!(settings?.hideScoreOnHome ?: 0).toBool()) {
-            HabitInfoChip(
-                text =
+            val text =
+                if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                     stringResource(
                         R.string.x_percent_complete,
                         habit.score.toString(),
-                    ),
+                    )
+                } else {
+                    habit.score.toString() + "%"
+                }
+
+            HabitInfoChip(
+                text = text,
                 icon = Icons.Default.Check,
             )
         }
@@ -163,5 +180,14 @@ fun HabitChipsFlowRowPreview() {
     HabitChipsFlowRow(
         habit = sampleHabit,
         settings = null,
+    )
+}
+
+@Composable
+@Preview
+fun HabitChipsFlowRowNoDescriptionsPreview() {
+    HabitChipsFlowRow(
+        habit = sampleHabit,
+        settings = sampleAppSettings.copy(hideChipDescriptions = 1),
     )
 }
