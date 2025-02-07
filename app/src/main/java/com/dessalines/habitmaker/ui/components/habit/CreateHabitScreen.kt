@@ -128,6 +128,7 @@ fun CreateHabitScreen(
                                         reminders,
                                         it.name,
                                         insertedHabitId.toInt(),
+                                        false,
                                     )
 
                                     // Insert the encouragements

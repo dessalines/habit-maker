@@ -48,6 +48,7 @@ import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_ACTION
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.SystemBroadcastReceiver
 import com.dessalines.habitmaker.notifications.createNotificationChannel
+import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.notifications.setupReminders
 import com.dessalines.habitmaker.ui.components.about.AboutScreen
 import com.dessalines.habitmaker.ui.components.common.ShowChangelog
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                 settings,
                 habitViewModel,
                 habitCheckViewModel,
+                reminderViewModel,
             )
 
             HabitMakerTheme(
@@ -151,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 habitCheckViewModel = habitCheckViewModel,
+                                reminderViewModel = reminderViewModel,
                                 id = id,
                             )
                         }
@@ -268,6 +271,7 @@ fun BroadcastReceivers(
     settings: AppSettings?,
     habitViewModel: HabitViewModel,
     habitCheckViewModel: HabitCheckViewModel,
+    reminderViewModel: HabitReminderViewModel,
 ) {
     val ctx = LocalContext.current
 
@@ -280,12 +284,23 @@ fun BroadcastReceivers(
             val checkTime = LocalDate.now().toEpochMillis()
             val completedCount = settings?.completedCount ?: 0
 
+            val isCompleted = isCompletedToday(habit.lastCompletedTime)
             // Only check the habit if it hasn't been checked
-            if (!isCompletedToday(habit.lastCompletedTime)) {
+            if (!isCompleted) {
                 checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                 val checks = habitCheckViewModel.listForHabitSync(habitId)
                 updateStatsForHabit(habit, habitViewModel, checks, completedCount)
             }
+
+            // Reschedule the reminders, to skip today
+            val reminders = reminderViewModel.listForHabitSync(habit.id)
+            scheduleRemindersForHabit(
+                ctx,
+                reminders,
+                habit.name,
+                habit.id,
+                isCompleted,
+            )
 
             // Cancel the notif
             NotificationManagerCompat.from(ctx).cancel(habitId)

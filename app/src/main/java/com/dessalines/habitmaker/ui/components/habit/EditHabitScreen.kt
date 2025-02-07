@@ -37,6 +37,7 @@ import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
+import com.dessalines.habitmaker.utils.isCompletedToday
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -136,12 +137,15 @@ fun EditHabitScreen(
                                     )
                                 reminderViewModel.insert(insert)
                             }
+
                             // Reschedule the reminders for that habit
+                            val isCompleted = isCompletedToday(habit.lastCompletedTime)
                             scheduleRemindersForHabit(
                                 ctx,
                                 editedReminders,
                                 editedHabit.name,
                                 editedHabit.id,
+                                isCompleted,
                             )
 
                             // Delete then add all the encouragements

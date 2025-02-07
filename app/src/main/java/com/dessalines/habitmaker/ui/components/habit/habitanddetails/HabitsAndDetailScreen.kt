@@ -39,9 +39,11 @@ import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckViewModel
+import com.dessalines.habitmaker.db.HabitReminderViewModel
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
+import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
@@ -72,6 +74,7 @@ fun HabitsAndDetailScreen(
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     habitCheckViewModel: HabitCheckViewModel,
+    reminderViewModel: HabitReminderViewModel,
     id: Int?,
 ) {
     val ctx = LocalContext.current
@@ -88,7 +91,8 @@ fun HabitsAndDetailScreen(
     val habits by habitViewModel.getAll.asLiveData().observeAsState()
 
     val habitsPaneListState = rememberLazyListState()
-    val habitsPaneScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val habitsPaneScrollBehavior =
+        TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
     val isListAndDetailVisible =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Companion.Expanded &&
@@ -136,12 +140,20 @@ fun HabitsAndDetailScreen(
                                     val checkTime = LocalDate.now().toEpochMillis()
                                     checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                                    val stats = updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                                    val stats =
+                                        updateStatsForHabit(
+                                            habit,
+                                            habitViewModel,
+                                            checks,
+                                            completedCount,
+                                        )
 
                                     // If successful, show a random encouragement
-                                    if (isCompletedToday(stats.lastCompletedTime)) {
+                                    val isCompleted = isCompletedToday(stats.lastCompletedTime)
+                                    if (isCompleted) {
                                         val randomEncouragement =
-                                            encouragementViewModel.getRandomForHabit(habitId) ?: defaultEncouragements.random()
+                                            encouragementViewModel.getRandomForHabit(habitId)
+                                                ?: defaultEncouragements.random()
                                         val frequency = HabitFrequency.entries[habit.frequency]
                                         val congratsMessage =
                                             buildCongratsSnackMessage(
@@ -154,6 +166,15 @@ fun HabitsAndDetailScreen(
                                             snackbarHostState.showSnackbar(congratsMessage)
                                         }
                                     }
+                                    // Reschedule the reminders, to skip completed today
+                                    val reminders = reminderViewModel.listForHabitSync(habit.id)
+                                    scheduleRemindersForHabit(
+                                        ctx,
+                                        reminders,
+                                        habit.name,
+                                        habit.id,
+                                        isCompleted,
+                                    )
                                 }
                             },
                             selectionState = selectionState,

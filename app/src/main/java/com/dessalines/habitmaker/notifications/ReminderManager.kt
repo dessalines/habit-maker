@@ -25,7 +25,7 @@ fun setupReminders(
     workManager.cancelAllWork()
 
     reminders.forEach { (reminder, habit) ->
-        scheduleReminderForHabit(workManager, reminder, habit.name, habit.id)
+        scheduleReminderForHabit(workManager, reminder, habit.name, habit.id, false)
     }
 }
 
@@ -34,6 +34,7 @@ fun scheduleRemindersForHabit(
     reminders: List<HabitReminder>,
     habitName: String,
     habitId: Int,
+    skipToday: Boolean,
 ) {
     val workManager = WorkManager.getInstance(ctx)
 
@@ -42,7 +43,7 @@ fun scheduleRemindersForHabit(
 
     // Schedule them again
     reminders.forEach { reminder ->
-        scheduleReminderForHabit(workManager, reminder, habitName, habitId)
+        scheduleReminderForHabit(workManager, reminder, habitName, habitId, skipToday)
     }
 }
 
@@ -51,13 +52,26 @@ private fun scheduleReminderForHabit(
     reminder: HabitReminder,
     habitName: String,
     habitId: Int,
+    skipToday: Boolean,
 ) {
     val myWorkRequestBuilder = OneTimeWorkRequestBuilder<ReminderWorker>()
 
+    val adjuster =
+        if (skipToday) {
+            TemporalAdjusters.next(reminder.day)
+        } else {
+            TemporalAdjusters.nextOrSame(reminder.day)
+        }
+
     // Work manager cant handle specific times, so you have to use diffs from now.
-    val nextOrSameDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(reminder.day))
-    val scheduledTime = reminder.time.atDate(nextOrSameDate)
-    val diff = scheduledTime.toEpochSecond(ZoneOffset.UTC) - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    val nextDate = LocalDate.now().with(adjuster)
+
+    val scheduledTime = reminder.time.atDate(nextDate)
+    val diff =
+        scheduledTime.toEpochSecond(ZoneOffset.UTC) -
+            LocalDateTime
+                .now()
+                .toEpochSecond(ZoneOffset.UTC)
 
     // Only schedule it if the diff > 0
     if (diff > 0) {
