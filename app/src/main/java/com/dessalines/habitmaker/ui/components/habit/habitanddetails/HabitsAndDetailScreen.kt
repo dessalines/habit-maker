@@ -242,11 +242,22 @@ fun HabitsAndDetailScreen(
                                             )
                                             val checks =
                                                 habitCheckViewModel.listForHabitSync(habitId)
-                                            updateStatsForHabit(
-                                                habit,
-                                                habitViewModel,
-                                                checks,
-                                                completedCount,
+                                            val stats =
+                                                updateStatsForHabit(
+                                                    habit,
+                                                    habitViewModel,
+                                                    checks,
+                                                    completedCount,
+                                                )
+                                            // Reschedule the reminders, to skip completed today
+                                            val isCompleted = isCompletedToday(stats.lastCompletedTime)
+                                            val reminders = reminderViewModel.listForHabitSync(habit.id)
+                                            scheduleRemindersForHabit(
+                                                ctx,
+                                                reminders,
+                                                habit.name,
+                                                habit.id,
+                                                isCompleted,
                                             )
                                         }
                                     },
