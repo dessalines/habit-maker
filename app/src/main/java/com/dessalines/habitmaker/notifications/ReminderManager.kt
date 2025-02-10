@@ -25,7 +25,7 @@ fun setupReminders(
     workManager.cancelAllWork()
 
     reminders.forEach { (reminder, habit) ->
-        scheduleReminderForHabit(workManager, reminder, habit.name, habit.id, false)
+        scheduleReminderForHabit(ctx, reminder, habit.name, habit.id, false)
     }
 }
 
@@ -36,24 +36,23 @@ fun scheduleRemindersForHabit(
     habitId: Int,
     skipToday: Boolean,
 ) {
-    val workManager = WorkManager.getInstance(ctx)
-
-    // Cancel work for the current habit
-    workManager.cancelAllWorkByTag(habitId.toString())
+    deleteRemindersForHabit(ctx, habitId)
 
     // Schedule them again
     reminders.forEach { reminder ->
-        scheduleReminderForHabit(workManager, reminder, habitName, habitId, skipToday)
+        scheduleReminderForHabit(ctx, reminder, habitName, habitId, skipToday)
     }
 }
 
 private fun scheduleReminderForHabit(
-    workManager: WorkManager,
+    ctx: Context,
     reminder: HabitReminder,
     habitName: String,
     habitId: Int,
     skipToday: Boolean,
 ) {
+    val workManager = WorkManager.getInstance(ctx)
+
     val myWorkRequestBuilder = OneTimeWorkRequestBuilder<ReminderWorker>()
 
     val adjuster =
@@ -83,4 +82,14 @@ private fun scheduleReminderForHabit(
             .addTag(habitId.toString())
         workManager.enqueue(myWorkRequestBuilder.build())
     }
+}
+
+fun deleteRemindersForHabit(
+    ctx: Context,
+    habitId: Int,
+) {
+    val workManager = WorkManager.getInstance(ctx)
+
+    // Cancel work for the current habit
+    workManager.cancelAllWorkByTag(habitId.toString())
 }

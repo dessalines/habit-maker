@@ -43,6 +43,7 @@ import com.dessalines.habitmaker.db.HabitReminderViewModel
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
+import com.dessalines.habitmaker.notifications.deleteRemindersForHabit
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
@@ -223,6 +224,7 @@ fun HabitsAndDetailScreen(
                                     },
                                     onDelete = {
                                         scope.launch {
+                                            deleteRemindersForHabit(ctx, habitId)
                                             habitViewModel.delete(habit)
                                             navigator.navigateBack()
                                         }
