@@ -15,7 +15,7 @@
     <string name="restore_database_warning">Achtung: Dieser Vorgang wird die jetzige Datenbank löschen</string>
     <string name="are_you_sure">Bist du sicher?</string>
     <string name="cancel">Abbrechen</string>
-    <string name="x_day_streak">%1$s-Tage-Serie</string>
+    <string name="x_day_streak">%1$s Tagesverlauf</string>
     <string name="save">Speichern</string>
     <string name="edit_habit">Gewohnheit bearbeiten</string>
     <string name="what_are_encouragements">Was sind Ermutigungen?</string>
