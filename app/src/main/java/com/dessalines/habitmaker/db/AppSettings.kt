@@ -166,6 +166,9 @@ interface AppSettingsDao {
     @Query("SELECT * FROM AppSettings limit 1")
     fun getSettings(): Flow<AppSettings>
 
+    @Query("SELECT * FROM AppSettings limit 1")
+    fun getSettingsSync(): AppSettings
+
     @Update(entity = AppSettings::class)
     suspend fun updateHideCompleted(settings: SettingsUpdateHideCompleted)
 
@@ -186,6 +189,8 @@ class AppSettingsRepository(
 ) {
     private val _changelog = MutableStateFlow("")
     val changelog = _changelog.asStateFlow()
+
+    val appSettingsSync = appSettingsDao.getSettingsSync()
 
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
@@ -232,6 +237,7 @@ class AppSettingsViewModel(
     private val repository: AppSettingsRepository,
 ) : ViewModel() {
     val appSettings = repository.appSettings
+    val appSettingsSync = repository.appSettingsSync
     val changelog = repository.changelog
 
     fun updateHideCompleted(settings: SettingsUpdateHideCompleted) =

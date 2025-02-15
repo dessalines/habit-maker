@@ -196,6 +196,9 @@ interface HabitDao {
     @Query("SELECT * FROM Habit")
     fun getAll(): Flow<List<Habit>>
 
+    @Query("SELECT * FROM Habit")
+    fun getAllSync(): List<Habit>
+
     @Query(BY_ID_QUERY)
     fun getById(id: Int): Flow<Habit>
 
@@ -211,21 +214,6 @@ interface HabitDao {
     @Update(entity = Habit::class)
     suspend fun updateStats(habit: HabitUpdateStats)
 
-    /**
-     * This updates the habit.completed column for the current day,
-     * by finding missing rows from the join and setting it to false.
-     */
-    @Query(
-        """
-        UPDATE Habit SET completed = 0 WHERE NOT EXISTS (
-            SELECT * from HabitCheck
-            WHERE HabitCheck.habit_id = Habit.id
-            AND HabitCheck.check_time = :currentDate
-        )
-        """,
-    )
-    suspend fun updateCompletedForCurrentDate(currentDate: Long)
-
     @Delete
     suspend fun delete(habit: Habit)
 }
@@ -238,6 +226,8 @@ class HabitRepository(
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
     val getAll = habitDao.getAll()
+
+    val getAllSync = habitDao.getAllSync()
 
     fun getById(id: Int) = habitDao.getById(id)
 
@@ -259,6 +249,8 @@ class HabitViewModel(
     private val repository: HabitRepository,
 ) : ViewModel() {
     val getAll = repository.getAll
+
+    val getAllSync = repository.getAllSync
 
     fun getById(id: Int) = repository.getById(id)
 

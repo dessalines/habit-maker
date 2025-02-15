@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -121,6 +122,10 @@ class MainActivity : AppCompatActivity() {
                 habitCheckViewModel,
                 reminderViewModel,
             )
+
+            LaunchedEffect(Unit) {
+                updateHabitStatsOnStartup()
+            }
 
             HabitMakerTheme(
                 settings = settings,
@@ -244,6 +249,24 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Check habit streaks on startup.
+     */
+    fun updateHabitStatsOnStartup() {
+        val settings = appSettingsViewModel.appSettingsSync
+
+        // Unfortunately this requires looping over every habit.
+        habitViewModel.getAllSync.forEach { habit ->
+            val isCompleted = isCompletedToday(habit.lastCompletedTime)
+            // Only check the habit if it hasn't been checked
+            if (!isCompleted) {
+                val checks = habitCheckViewModel.listForHabitSync(habit.id)
+                val completedCount = settings.completedCount
+                updateStatsForHabit(habit, habitViewModel, checks, completedCount)
             }
         }
     }
