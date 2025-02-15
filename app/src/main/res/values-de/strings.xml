@@ -15,7 +15,7 @@
     <string name="restore_database_warning">Achtung: Dieser Vorgang wird die jetzige Datenbank löschen</string>
     <string name="are_you_sure">Bist du sicher?</string>
     <string name="cancel">Abbrechen</string>
-    <string name="x_day_streak">%1$s Tagesverlauf</string>
+    <string name="x_day_streak">%1$s-Tage-Serie</string>
     <string name="save">Speichern</string>
     <string name="edit_habit">Gewohnheit bearbeiten</string>
     <string name="what_are_encouragements">Was sind Ermutigungen?</string>
@@ -31,7 +31,7 @@
     <string name="hide_completed">Abgeschlossene ausblenden</string>
     <string name="weekly">Wöchentlich</string>
     <string name="monthly">Monatlich</string>
-    <string name="sort">Sortiere</string>
+    <string name="sort">Sortiere nach</string>
     <string name="sort_order">Sortierreihenfolge</string>
     <string name="hide_archived">Archivierte ausblenden</string>
     <string name="status">Status</string>
@@ -68,7 +68,7 @@
     <string name="developer_matrix_chatroom">Entwickler Matrix Chat</string>
     <string name="system">System</string>
     <string name="green">Grün</string>
-    <string name="completed_count">Anzahl von Abgeschlossenen: %1$s</string>
+    <string name="completed_count">Anzahl von Wiederholungen: %1$s</string>
     <string name="look_and_feel">Erscheinungsbild</string>
     <string name="streak">Serie</string>
     <string name="go_back">Zurück</string>
