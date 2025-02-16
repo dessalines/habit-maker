@@ -64,6 +64,7 @@ import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.isCompletedToday
+import com.dessalines.habitmaker.utils.isCompletedYesterday
 import com.dessalines.habitmaker.utils.toEpochMillis
 import java.time.LocalDate
 
@@ -261,9 +262,10 @@ class MainActivity : AppCompatActivity() {
 
         // Unfortunately this requires looping over every habit.
         habitViewModel.getAllSync.forEach { habit ->
-            val isCompleted = isCompletedToday(habit.lastCompletedTime)
+            // Use not completed yesterday to update streaks, otherwise all streaks today will appear broken.
+            val isCompletedYesterday = isCompletedYesterday(habit.lastCompletedTime)
             // Only check the habit if it hasn't been checked
-            if (!isCompleted) {
+            if (!isCompletedYesterday) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
                 updateStatsForHabit(habit, habitViewModel, checks, completedCount)

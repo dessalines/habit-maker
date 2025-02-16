@@ -194,3 +194,8 @@ fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now()
  * Determines whether a habit is completed today or not.
  */
 fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
+
+/**
+ * Determines whether a habit is completed yesterday.
+ */
+fun isCompletedYesterday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().minusDays(1).toEpochMillis()
