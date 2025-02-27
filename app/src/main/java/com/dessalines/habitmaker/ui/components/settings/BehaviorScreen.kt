@@ -61,6 +61,7 @@ fun BehaviorScreen(
     var hidePointsOnHomeState = (settings?.hidePointsOnHome ?: 0).toBool()
     var hideScoreOnHomeState = (settings?.hideScoreOnHome ?: 0).toBool()
     var hideStreakOnHomeState = (settings?.hideStreakOnHome ?: 0).toBool()
+    var hideDaysCompletedOnHomeState = (settings?.hideDaysCompletedOnHome ?: 0).toBool()
     var hideChipDescriptions = (settings?.hideChipDescriptions ?: 0).toBool()
 
     var completedCountState = (settings?.completedCount ?: DEFAULT_COMPLETED_COUNT).toFloat()
@@ -78,6 +79,7 @@ fun BehaviorScreen(
                 hidePointsOnHome = hidePointsOnHomeState.toInt(),
                 hideScoreOnHome = hideScoreOnHomeState.toInt(),
                 hideStreakOnHome = hideStreakOnHomeState.toInt(),
+                hideDaysCompletedOnHome = hideDaysCompletedOnHomeState.toInt(),
                 hideChipDescriptions = hideChipDescriptions.toInt(),
             ),
         )
@@ -256,6 +258,23 @@ fun BehaviorScreen(
                         },
                         title = {
                             Text(stringResource(R.string.hide_score_on_home))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+
+                    SwitchPreference(
+                        value = hideDaysCompletedOnHomeState,
+                        onValueChange = {
+                            hideDaysCompletedOnHomeState = it
+                            updateSettings()
+                        },
+                        title = {
+                            Text(stringResource(R.string.hide_days_completed_on_home))
                         },
                         icon = {
                             Icon(

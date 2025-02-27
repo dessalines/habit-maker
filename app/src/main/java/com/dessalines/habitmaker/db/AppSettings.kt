@@ -87,6 +87,11 @@ data class AppSettings(
         defaultValue = "0",
     )
     val hideChipDescriptions: Int,
+    @ColumnInfo(
+        name = "hide_days_completed_on_home",
+        defaultValue = "0",
+    )
+    val hideDaysCompletedOnHome: Int,
 )
 
 data class SettingsUpdateHideCompleted(
@@ -159,6 +164,11 @@ data class SettingsUpdateBehavior(
         defaultValue = "0",
     )
     val hideChipDescriptions: Int,
+    @ColumnInfo(
+        name = "hide_days_completed_on_home",
+        defaultValue = "0",
+    )
+    val hideDaysCompletedOnHome: Int,
 )
 
 @Dao
@@ -293,4 +303,5 @@ val sampleAppSettings =
         hideScoreOnHome = 0,
         hideStreakOnHome = 0,
         hideChipDescriptions = 0,
+        hideDaysCompletedOnHome = 0,
     )

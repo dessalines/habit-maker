@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -160,6 +161,22 @@ fun HabitChipsFlowRow(
             HabitInfoChip(
                 text = text,
                 icon = Icons.Default.Check,
+            )
+        }
+        if (!(settings?.hideDaysCompletedOnHome ?: 0).toBool()) {
+            val text =
+                if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
+                    stringResource(
+                        R.string.x_days_completed,
+                        habit.completed.toString(),
+                    )
+                } else {
+                    habit.completed.toString()
+                }
+
+            HabitInfoChip(
+                text = text,
+                icon = Icons.Default.Today,
             )
         }
     }

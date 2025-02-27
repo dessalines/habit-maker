@@ -72,3 +72,15 @@ val MIGRATION_4_5 =
             )
         }
     }
+
+/**
+ * Add a setting to hide the days completed on home
+ */
+val MIGRATION_5_6 =
+    object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE AppSettings ADD COLUMN hide_days_completed_on_home INTEGER NOT NULL DEFAULT 0",
+            )
+        }
+    }

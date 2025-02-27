@@ -44,6 +44,7 @@
     <string name="x_year_streak">%1$s year streak</string>
     <string name="x_points">%1$s points</string>
     <string name="x_percent_complete">%1$s%% complete</string>
+    <string name="x_days_completed">%1$s days completed</string>
     <string name="create_habit">Create habit</string>
     <string name="save">Save</string>
     <string name="habit_already_exists">Habit already exists</string>
@@ -91,6 +92,7 @@
     <string name="hide_streak_on_home">Hide streaks on home</string>
     <string name="hide_points_on_home">Hide points on home</string>
     <string name="hide_score_on_home">Hide score on home</string>
+    <string name="hide_days_completed_on_home">Hide days completed on home</string>
     <string name="streak">Streak</string>
     <string name="points">Points</string>
     <string name="score">Score</string>

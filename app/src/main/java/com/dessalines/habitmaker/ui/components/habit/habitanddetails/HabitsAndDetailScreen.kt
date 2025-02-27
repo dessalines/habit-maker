@@ -330,6 +330,7 @@ fun updateStatsForHabit(
             streak = todayStreak.toInt(),
             lastStreakTime = lastStreakTime,
             lastCompletedTime = lastCompletedTime,
+            completed = checks.size,
         )
     habitViewModel.updateStats(statsUpdate)
 

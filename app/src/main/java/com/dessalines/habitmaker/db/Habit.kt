@@ -75,7 +75,6 @@ data class Habit(
         name = "completed",
         defaultValue = "0",
     )
-    @Deprecated("Use last_streak_time instead")
     val completed: Int,
     @ColumnInfo(
         name = "context",
@@ -177,6 +176,11 @@ data class HabitUpdateStats(
         defaultValue = "0",
     )
     val streak: Int,
+    @ColumnInfo(
+        name = "completed",
+        defaultValue = "0",
+    )
+    val completed: Int,
     @ColumnInfo(
         name = "last_streak_time",
         defaultValue = "0",
