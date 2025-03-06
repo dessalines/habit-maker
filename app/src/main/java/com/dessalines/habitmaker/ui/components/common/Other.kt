@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -49,9 +48,6 @@ fun TodayCompletedCount(todayCompletedCount: Int) =
         modifier = Modifier.padding(horizontal = LARGE_PADDING),
         style = MaterialTheme.typography.bodyMedium,
     )
-
-@Composable
-fun SectionDivider() = HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
 
 @Composable
 fun textFieldBorder() =

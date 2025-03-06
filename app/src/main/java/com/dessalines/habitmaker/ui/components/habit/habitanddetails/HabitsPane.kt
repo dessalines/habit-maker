@@ -47,7 +47,7 @@ import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
-import com.dessalines.habitmaker.ui.components.common.SectionDivider
+import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.TodayCompletedCount
 import com.dessalines.habitmaker.ui.components.common.ToolTip
@@ -253,7 +253,7 @@ fun LazyListScope.habitFrequencySection(
             }
         }
         item {
-            SectionDivider()
+            HorizontalDivider(modifier = Modifier.padding(bottom = MEDIUM_PADDING))
         }
     }
 }

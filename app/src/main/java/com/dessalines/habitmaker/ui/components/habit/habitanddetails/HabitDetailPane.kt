@@ -51,7 +51,6 @@ import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.HabitInfoChip
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
-import com.dessalines.habitmaker.ui.components.common.SectionDivider
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.calendars.HabitCalendar
@@ -191,7 +190,7 @@ fun HabitDetailPane(
                     )
                 }
                 item {
-                    SectionDivider()
+                    HorizontalDivider()
                 }
                 item {
                     SectionTitle(stringResource(R.string.history))
@@ -203,7 +202,7 @@ fun HabitDetailPane(
                     )
                 }
                 item {
-                    SectionDivider()
+                    HorizontalDivider()
                 }
                 if (habit.notes?.isNotBlank() == true) {
                     item {
