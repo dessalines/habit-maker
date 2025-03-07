@@ -46,8 +46,8 @@
     <string name="habits">Nawyki</string>
     <string name="hide_completed">Ukryj zakończone</string>
     <string name="show_completed">Pokaż zakończone</string>
-    <string name="daily">Dziennie</string>
-    <string name="weekly">Tygodniowo</string>
+    <string name="daily">Codziennie</string>
+    <string name="weekly">Co tydzień</string>
     <string name="started_on_x">Rozpoczęte %1$s</string>
     <string name="all_completed_for_today">Na dziś wszystko zrobione!</string>
     <string name="no_habits">Brak nawyków</string>
@@ -73,10 +73,10 @@
     <string name="notification_permission_required">Ta funkcja wymaga zezwolenia na wysyłanie powiadomień</string>
     <string name="save">Zapisz</string>
     <string name="name">Nazwa</string>
-    <string name="yearly">Rocznie</string>
+    <string name="yearly">Co rok</string>
     <string name="archived">Zarchiwizowane</string>
     <string name="did_you_complete">Udało ci się dzisiaj zrealizować ten nawyk?</string>
-    <string name="monthly">Miesięcznie</string>
+    <string name="monthly">Co miesiąc</string>
     <string name="hide_archived">Ukryj zarchiwizowane</string>
     <string name="overview">Przegląd</string>
     <string name="pink">Różowy</string>
