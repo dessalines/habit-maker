@@ -91,4 +91,9 @@
     <string name="follow_me_mastodon">Obserwuj mnie na Mastodonie</string>
     <string name="edit_habit">Edytuj nawyk</string>
     <string name="source_code_subtitle">Habit-Maker to wolne otwartoźródłowe oprogramowanie, na licencji GNU Affero General Public License v3.0</string>
+    <string name="app_name">Kreator nawyków</string>
+    <string name="look_and_feel">Wygląd</string>
+    <string name="streak">Seria</string>
+    <string name="hide_streak_on_home">Ukryj serie na stronie głównej</string>
+    <string name="request_notification_permission">Zezwól na wyświetlanie powiadomień</string>
 </resources>
