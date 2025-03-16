@@ -7,9 +7,9 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 
-fun Long.epochMillisToLocalDate() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
+fun Long.epochMillisToLocalDate(): LocalDate = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
 
 fun LocalDate.toEpochMillis() = this.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.toLocalTime() = LocalTime.of(this.hour, this.minute)
+fun TimePickerState.toLocalTime(): LocalTime = LocalTime.of(this.hour, this.minute)

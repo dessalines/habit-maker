@@ -50,7 +50,7 @@ fun TodayCompletedCount(todayCompletedCount: Int) =
     )
 
 @Composable
-fun textFieldBorder() =
+fun Modifier.textFieldBorder() =
     Modifier.border(
         width = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
         color = OutlinedTextFieldDefaults.colors().unfocusedIndicatorColor,

@@ -140,7 +140,7 @@ fun HabitRemindersForm(
     ) {
         ProvidePreferenceTheme {
             ListPreference(
-                modifier = textFieldBorder(),
+                modifier = Modifier.textFieldBorder(),
                 type = ListPreferenceType.DROPDOWN_MENU,
                 value = frequency,
                 onValueChange = {
@@ -201,7 +201,7 @@ fun HabitRemindersForm(
                 frequency == HabitReminderFrequency.SpecificDays,
             ) {
                 MultiSelectListPreference(
-                    modifier = textFieldBorder(),
+                    modifier = Modifier.textFieldBorder(),
                     title = { Text(stringResource(R.string.days)) },
                     summary = {
                         val daysStr = days.joinToString { it.toLocaleStr(locale) }
@@ -245,4 +245,4 @@ fun daysToReminders(
     )
 }
 
-fun DayOfWeek.toLocaleStr(locale: Locale) = this.getDisplayName(TextStyle.SHORT, locale)
+fun DayOfWeek.toLocaleStr(locale: Locale): String = this.getDisplayName(TextStyle.SHORT, locale)

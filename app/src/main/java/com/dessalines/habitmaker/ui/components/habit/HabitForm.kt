@@ -112,7 +112,7 @@ fun HabitForm(
             )
 
             ListPreference(
-                modifier = textFieldBorder(),
+                modifier = Modifier.textFieldBorder(),
                 type = ListPreferenceType.DROPDOWN_MENU,
                 value = frequency,
                 onValueChange = {

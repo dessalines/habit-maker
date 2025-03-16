@@ -261,11 +261,11 @@ fun LazyListScope.habitFrequencySection(
 @Composable
 fun HabitRow(
     habit: Habit,
+    modifier: Modifier = Modifier,
     settings: AppSettings?,
     selected: Boolean = false,
     onCheck: () -> Unit,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val containerColor =
         if (!selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant

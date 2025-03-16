@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
+import androidx.core.net.toUri
 
 const val TAG = "com.habitmaker"
 
@@ -23,7 +23,7 @@ fun openLink(
     url: String,
     ctx: Context,
 ) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
     ctx.startActivity(intent)
 }
 
