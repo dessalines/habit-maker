@@ -96,4 +96,7 @@
     <string name="streak">Seria</string>
     <string name="hide_streak_on_home">Ukryj serie na stronie głównej</string>
     <string name="request_notification_permission">Zezwól na wyświetlanie powiadomień</string>
+    <string name="user_guide">Przewodnik użytkownika</string>
+    <string name="x_percent_complete">Ukończono %1$s%%</string>
+    <string name="x_days_completed">Ukończono %1$s dni</string>
 </resources>
