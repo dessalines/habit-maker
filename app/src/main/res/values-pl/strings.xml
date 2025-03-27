@@ -99,4 +99,13 @@
     <string name="user_guide">Przewodnik użytkownika</string>
     <string name="x_percent_complete">Ukończono %1$s%%</string>
     <string name="x_days_completed">Ukończono %1$s dni</string>
+    <string name="x_day_streak">Seria %1$s dni</string>
+    <string name="x_week_streak">Seria %1$s tygodni</string>
+    <string name="x_month_streak">Seria %1$s miesięcy</string>
+    <string name="x_year_streak">Seria %1$s lat</string>
+    <string name="encouragement">Zachęta</string>
+    <string name="what_are_encouragements">Czym są zachęty?</string>
+    <string name="add_encouragement">Dodaj zachętę</string>
+    <string name="hide_chip_descriptions">Ukryj opisy kafelków</string>
+    <string name="hide_chip_descriptions_summary">Wyświetlaj tylko ikonę i liczbę kafelka informacyjnego.</string>
 </resources>
