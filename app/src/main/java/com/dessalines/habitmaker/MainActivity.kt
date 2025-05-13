@@ -1,6 +1,7 @@
 package com.dessalines.habitmaker
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -48,9 +49,9 @@ import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_ACTION
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.SystemBroadcastReceiver
+import com.dessalines.habitmaker.notifications.cancelReminders
 import com.dessalines.habitmaker.notifications.createNotificationChannel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
-import com.dessalines.habitmaker.notifications.setupReminders
 import com.dessalines.habitmaker.ui.components.about.AboutScreen
 import com.dessalines.habitmaker.ui.components.common.ShowChangelog
 import com.dessalines.habitmaker.ui.components.habit.CreateHabitScreen
@@ -65,6 +66,7 @@ import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.isCompletedYesterday
+import com.dessalines.habitmaker.utils.isVirtualCompleted
 import com.dessalines.habitmaker.utils.toEpochMillis
 import java.time.LocalDate
 
@@ -112,10 +114,6 @@ class MainActivity : AppCompatActivity() {
 
             val ctx = LocalContext.current
             createNotificationChannel(ctx)
-            setupReminders(
-                ctx,
-                reminderViewModel,
-            )
 
             BroadcastReceivers(
                 settings,
@@ -125,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             LaunchedEffect(Unit) {
-                updateHabitStatsOnStartup()
+                updateHabitStatsOnStartup(ctx)
             }
 
             HabitMakerTheme(
@@ -257,8 +255,10 @@ class MainActivity : AppCompatActivity() {
     /**
      * Check habit streaks on startup.
      */
-    fun updateHabitStatsOnStartup() {
+    fun updateHabitStatsOnStartup(ctx: Context) {
         val settings = appSettingsViewModel.appSettingsSync
+
+        cancelReminders(ctx)
 
         // Unfortunately this requires looping over every habit.
         habitViewModel.getAllSync.forEach { habit ->
@@ -270,6 +270,19 @@ class MainActivity : AppCompatActivity() {
                 val completedCount = settings.completedCount
                 updateStatsForHabit(habit, habitViewModel, checks, completedCount)
             }
+            // Reschedule the reminders, to skip today, or if its already virtual completed
+            val reminders = reminderViewModel.listForHabitSync(habit.id)
+
+            // Use virtual completed or is completed to skip today
+            val isVirtualCompleted = isVirtualCompleted(habit.lastStreakTime)
+            val isCompleted = isCompletedToday(habit.lastCompletedTime)
+            scheduleRemindersForHabit(
+                ctx,
+                reminders,
+                habit.name,
+                habit.id,
+                isCompleted || isVirtualCompleted,
+            )
         }
     }
 }

@@ -5,7 +5,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.dessalines.habitmaker.db.HabitReminder
-import com.dessalines.habitmaker.db.HabitReminderViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -14,19 +13,9 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.component1
 import kotlin.collections.component2
 
-fun setupReminders(
-    ctx: Context,
-    reminderViewModel: HabitReminderViewModel,
-) {
+fun cancelReminders(ctx: Context) {
     val workManager = WorkManager.getInstance(ctx)
-    val reminders = reminderViewModel.listAllSync()
-
-    // First, cancel all current work
     workManager.cancelAllWork()
-
-    reminders.forEach { (reminder, habit) ->
-        scheduleReminderForHabit(ctx, reminder, habit.name, habit.id, false)
-    }
 }
 
 fun scheduleRemindersForHabit(
