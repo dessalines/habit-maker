@@ -318,30 +318,31 @@ fun BroadcastReceivers(
             val habitId = intent.getIntExtra(CHECK_HABIT_INTENT_HABIT_ID, 0)
 
             // Check the habit
-            val habit = habitViewModel.getByIdSync(habitId)
-            val checkTime = LocalDate.now().toEpochMillis()
-            val completedCount = settings?.completedCount ?: 0
+            habitViewModel.getByIdSync(habitId)?.let { habit ->
+                val checkTime = LocalDate.now().toEpochMillis()
+                val completedCount = settings?.completedCount ?: 0
 
-            val isCompleted = isCompletedToday(habit.lastCompletedTime)
-            // Only check the habit if it hasn't been checked
-            if (!isCompleted) {
-                checkHabitForDay(habitId, checkTime, habitCheckViewModel)
-                val checks = habitCheckViewModel.listForHabitSync(habitId)
-                updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                val isCompleted = isCompletedToday(habit.lastCompletedTime)
+                // Only check the habit if it hasn't been checked
+                if (!isCompleted) {
+                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                    val checks = habitCheckViewModel.listForHabitSync(habitId)
+                    updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                }
+
+                // Reschedule the reminders, to skip today
+                val reminders = reminderViewModel.listForHabitSync(habit.id)
+                scheduleRemindersForHabit(
+                    ctx,
+                    reminders,
+                    habit.name,
+                    habit.id,
+                    isCompleted,
+                )
+
+                // Cancel the notif
+                NotificationManagerCompat.from(ctx).cancel(habitId)
             }
-
-            // Reschedule the reminders, to skip today
-            val reminders = reminderViewModel.listForHabitSync(habit.id)
-            scheduleRemindersForHabit(
-                ctx,
-                reminders,
-                habit.name,
-                habit.id,
-                isCompleted,
-            )
-
-            // Cancel the notif
-            NotificationManagerCompat.from(ctx).cancel(habitId)
         }
     }
 

@@ -63,9 +63,6 @@ private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitReminder where habit_i
 
 @Dao
 interface HabitReminderDao {
-    @Query("SELECT * FROM HabitReminder inner join Habit on HabitReminder.habit_id = Habit.id")
-    fun listAllSync(): Map<HabitReminder, Habit>
-
     @Query(BY_HABIT_ID_QUERY)
     fun listForHabitSync(habitId: Int): List<HabitReminder>
 
@@ -81,8 +78,6 @@ interface HabitReminderDao {
 class HabitReminderRepository(
     private val habitReminderDao: HabitReminderDao,
 ) {
-    fun listAllSync() = habitReminderDao.listAllSync()
-
     fun listForHabitSync(habitId: Int) = habitReminderDao.listForHabitSync(habitId)
 
     fun insert(habitReminder: HabitReminderInsert) = habitReminderDao.insert(habitReminder)
@@ -93,8 +88,6 @@ class HabitReminderRepository(
 class HabitReminderViewModel(
     private val repository: HabitReminderRepository,
 ) : ViewModel() {
-    fun listAllSync() = repository.listAllSync()
-
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
     fun insert(habitReminder: HabitReminderInsert) = repository.insert(habitReminder)
