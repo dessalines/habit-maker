@@ -45,6 +45,7 @@ android {
             }
         }
     }
+
     buildTypes {
         release {
             if (project.hasProperty("RELEASE_STORE_FILE")) {
@@ -67,6 +68,12 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = " (DEBUG)"
         }
+    }
+
+    lint {
+        disable += "MissingTranslation"
+        disable += "KtxExtensionAvailable"
+        disable += "UseKtx"
     }
 
     compileOptions {
