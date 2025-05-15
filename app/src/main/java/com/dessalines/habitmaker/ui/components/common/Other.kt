@@ -50,13 +50,13 @@ fun TodayCompletedCount(todayCompletedCount: Int) =
     )
 
 @Composable
-fun Modifier.textFieldBorder(): Modifier {
-    return this then Modifier.border(
-        width = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
-        color = OutlinedTextFieldDefaults.colors().unfocusedIndicatorColor,
-        shape = OutlinedTextFieldDefaults.shape,
-    )
-}
+fun Modifier.textFieldBorder(): Modifier =
+    this then
+        Modifier.border(
+            width = OutlinedTextFieldDefaults.UnfocusedBorderThickness,
+            color = OutlinedTextFieldDefaults.colors().unfocusedIndicatorColor,
+            shape = OutlinedTextFieldDefaults.shape,
+        )
 
 @Composable
 fun HabitInfoChip(
