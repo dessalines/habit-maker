@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="about">حول</string>
+    <string name="app_name">صانع العادة</string>
+    <string name="settings">الاعدادت</string>
+    <string name="system">النظام</string>
+    <string name="light">فاتح</string>
+    <string name="dark">مظلم</string>
+    <string name="dynamic">تلقائي</string>
+    <string name="green">اخضر</string>
+    <string name="pink">بمبي</string>
+    <string name="whats_new">ما الجديد</string>
+    <string name="version">اصدار</string>
+</resources>
