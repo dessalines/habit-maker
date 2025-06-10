@@ -57,6 +57,7 @@ import com.dessalines.habitmaker.utils.nthTriangle
 import com.dessalines.habitmaker.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.toInt
 import com.dessalines.habitmaker.utils.todayStreak
+import com.dessalines.prettyFormat
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
@@ -359,8 +360,8 @@ fun buildCongratsSnackMessage(
         messages.add(
             ctx.getString(
                 resId,
-                stats.streak.toString(),
-                todayPoints,
+                prettyFormat(stats.streak),
+                prettyFormat(todayPoints),
             ),
         )
     }

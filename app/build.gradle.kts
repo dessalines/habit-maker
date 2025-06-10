@@ -91,6 +91,8 @@ android {
 }
 
 dependencies {
+    // PrettyNum
+    implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
     // Workmanager
     implementation("androidx.work:work-runtime-ktx:2.10.1")

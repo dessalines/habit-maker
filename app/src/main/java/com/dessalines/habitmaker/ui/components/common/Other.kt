@@ -32,6 +32,7 @@ import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitStatus
 import com.dessalines.habitmaker.utils.toBool
+import com.dessalines.prettyFormat
 
 @Composable
 fun SectionTitle(title: String) =
@@ -118,10 +119,10 @@ fun HabitChipsFlowRow(
                             HabitFrequency.Monthly -> R.string.x_month_streak
                             HabitFrequency.Yearly -> R.string.x_year_streak
                         },
-                        habit.streak.toString(),
+                        prettyFormat(habit.streak),
                     )
                 } else {
-                    habit.streak.toString()
+                    prettyFormat(habit.streak)
                 }
             HabitInfoChip(
                 text = text,
@@ -134,10 +135,10 @@ fun HabitChipsFlowRow(
                 if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                     stringResource(
                         R.string.x_points,
-                        habit.points.toString(),
+                        prettyFormat(habit.points),
                     )
                 } else {
-                    habit.points.toString()
+                    prettyFormat(habit.points)
                 }
             HabitInfoChip(
                 text = text,
@@ -165,10 +166,10 @@ fun HabitChipsFlowRow(
                 if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                     stringResource(
                         R.string.x_days_completed,
-                        habit.completed.toString(),
+                        prettyFormat(habit.completed),
                     )
                 } else {
-                    habit.completed.toString()
+                    prettyFormat(habit.completed)
                 }
 
             HabitInfoChip(
