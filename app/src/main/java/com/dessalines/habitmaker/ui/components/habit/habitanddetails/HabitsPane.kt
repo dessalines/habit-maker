@@ -348,9 +348,9 @@ fun filterAndSortHabits(
     when (sortSetting) {
         HabitSort.Name -> tmp.sortedBy { it.name }
         HabitSort.Points -> tmp.sortedBy { it.points }
-        HabitSort.Score -> tmp.sortWith(compareBy({it.score}, {it.points}))
-        HabitSort.Streak -> tmp.sortWith(compareBy({it.streak}, {it.points}))
-        HabitSort.Status -> tmp.sortWith(compareBy({isVirtualCompleted(it.lastStreakTime)}, {it.points}))
+        HabitSort.Score -> tmp.sortWith(compareBy({ it.score }, { it.points }))
+        HabitSort.Streak -> tmp.sortWith(compareBy({ it.streak }, { it.points }))
+        HabitSort.Status -> tmp.sortWith(compareBy({ isVirtualCompleted(it.lastStreakTime) }, { it.points }))
         HabitSort.DateCreated -> tmp.sortedBy { it.id }
     }
     val sortOrder = HabitSortOrder.entries[settings?.sortOrder ?: 0]
