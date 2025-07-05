@@ -126,7 +126,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.9.0")
+    implementation("androidx.navigation:navigation-compose:2.9.1")
 
     // Markdown
     implementation("com.github.jeziellago:compose-markdown:0.5.7")
