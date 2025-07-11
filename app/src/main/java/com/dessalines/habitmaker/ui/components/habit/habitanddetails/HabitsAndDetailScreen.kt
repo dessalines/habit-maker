@@ -165,7 +165,10 @@ fun HabitsAndDetailScreen(
                                                 encouragement = randomEncouragement,
                                             )
                                         scope.launch {
-                                            snackbarHostState.showSnackbar(congratsMessage)
+                                            snackbarHostState.showSnackbar(
+                                                message = congratsMessage,
+                                                withDismissAction = true,
+                                            )
                                         }
                                     }
                                     // Reschedule the reminders, to skip completed today
@@ -230,11 +233,11 @@ fun HabitsAndDetailScreen(
                                             navigator.navigateBack()
                                         }
                                     },
-                                    onHabitCheck = {
+                                    onHabitCheck = { localDate ->
                                         val habit = habits?.find { it.id == habitId }
                                         habit?.let { habit ->
                                             val checkTime =
-                                                it
+                                                localDate
                                                     .atStartOfDay(ZoneId.systemDefault())
                                                     .toInstant()
                                                     .toEpochMilli()
@@ -346,7 +349,7 @@ fun buildCongratsSnackMessage(
 ): String {
     val randomSuccessEmoji = SUCCESS_EMOJIS.random()
     val congratsLine = randomSuccessEmoji + " " + encouragement.content
-    var messages = mutableListOf<String>(congratsLine)
+    val messages = mutableListOf(congratsLine)
     val todayPoints = stats.streak.toLong().nthTriangle()
 
     val resId =
