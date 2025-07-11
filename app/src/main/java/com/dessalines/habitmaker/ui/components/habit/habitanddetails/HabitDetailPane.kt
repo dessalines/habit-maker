@@ -32,6 +32,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,6 +58,7 @@ import com.dessalines.habitmaker.ui.components.habit.habitanddetails.calendars.H
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.epochMillisToLocalDate
 import dev.jeziellago.compose.markdowntext.MarkdownText
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -69,6 +71,7 @@ import java.time.format.DateTimeFormatter
 fun HabitDetailPane(
     habit: Habit,
     habitChecks: List<HabitCheck>,
+    firstDayOfWeek: DayOfWeek,
     isListAndDetailVisible: Boolean,
     onHabitCheck: (LocalDate) -> Unit,
     onEditClick: () -> Unit,
@@ -196,10 +199,14 @@ fun HabitDetailPane(
                     SectionTitle(stringResource(R.string.history))
                 }
                 item {
-                    HabitCalendar(
-                        habitChecks = habitChecks,
-                        onClickDay = onHabitCheck,
-                    )
+                    // Force rerender wher first day of week changes
+                    key(firstDayOfWeek) {
+                        HabitCalendar(
+                            habitChecks = habitChecks,
+                            firstDayOfWeek = firstDayOfWeek,
+                            onClickDay = onHabitCheck,
+                        )
+                    }
                 }
                 item {
                     HorizontalDivider()

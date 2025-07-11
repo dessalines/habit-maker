@@ -20,14 +20,17 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
+import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.EncouragementInsert
 import com.dessalines.habitmaker.db.EncouragementViewModel
 import com.dessalines.habitmaker.db.HabitReminderInsert
@@ -38,16 +41,21 @@ import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.isCompletedToday
+import java.time.DayOfWeek
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun EditHabitScreen(
     navController: NavController,
+    appSettingsViewModel: AppSettingsViewModel,
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     reminderViewModel: HabitReminderViewModel,
     id: Int,
 ) {
+    val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
+    val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
+
     val ctx = LocalContext.current
     val scrollState = rememberScrollState()
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
@@ -94,6 +102,7 @@ fun EditHabitScreen(
                 )
                 HabitRemindersForm(
                     initialReminders = editedReminders,
+                    firstDayOfWeek = firstDayOfWeek,
                     onChange = { editedReminders = it },
                 )
                 EncouragementsForm(

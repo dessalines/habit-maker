@@ -84,3 +84,14 @@ val MIGRATION_5_6 =
             )
         }
     }
+
+/**
+ * Add a customizable first_day_of_week
+ */
+val MIGRATION_6_7 =
+    object : Migration(6, 7) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // 6 is Sunday
+            db.execSQL("ALTER TABLE AppSettings ADD COLUMN first_day_of_week INTEGER NOT NULL DEFAULT 6")
+        }
+    }

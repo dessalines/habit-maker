@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.outlined.DataThresholding
 import androidx.compose.material.icons.outlined.SortByAlpha
+import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,15 +35,19 @@ import com.dessalines.habitmaker.db.MAX_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MIN_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
 import com.dessalines.habitmaker.ui.components.common.BackButton
+import com.dessalines.habitmaker.ui.components.habit.toLocaleStr
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.toBool
 import com.dessalines.habitmaker.utils.toInt
+import com.kizitonwose.calendar.core.daysOfWeek
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
 import me.zhanghai.compose.preference.ProvidePreferenceTheme
 import me.zhanghai.compose.preference.SliderPreference
 import me.zhanghai.compose.preference.SwitchPreference
+import java.time.DayOfWeek
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +57,7 @@ fun BehaviorScreen(
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
     val ctx = LocalContext.current
+    val locale = Locale.getDefault()
 
     var sortState = HabitSort.entries[settings?.sort ?: 0]
     var sortOrderState = HabitSortOrder.entries[settings?.sortOrder ?: 0]
@@ -67,6 +73,9 @@ fun BehaviorScreen(
     var completedCountState = (settings?.completedCount ?: DEFAULT_COMPLETED_COUNT).toFloat()
     var completedCountSliderState by remember { mutableFloatStateOf(completedCountState) }
 
+    var firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
+    val daysOfWeek = daysOfWeek(firstDayOfWeek)
+
     fun updateSettings() =
         appSettingsViewModel.updateBehavior(
             SettingsUpdateBehavior(
@@ -81,6 +90,7 @@ fun BehaviorScreen(
                 hideStreakOnHome = hideStreakOnHomeState.toInt(),
                 hideDaysCompletedOnHome = hideDaysCompletedOnHomeState.toInt(),
                 hideChipDescriptions = hideChipDescriptions.toInt(),
+                firstDayOfWeek = firstDayOfWeek,
             ),
         )
 
@@ -180,6 +190,29 @@ fun BehaviorScreen(
                                 imageVector = Icons.Outlined.SortByAlpha,
                                 contentDescription = null,
                             )
+                        },
+                    )
+
+                    ListPreference(
+                        type = ListPreferenceType.DROPDOWN_MENU,
+                        title = { Text(stringResource(R.string.first_day_of_week)) },
+                        summary = {
+                            Text(firstDayOfWeek.toLocaleStr(locale))
+                        },
+                        value = firstDayOfWeek,
+                        values = daysOfWeek,
+                        valueToText = {
+                            AnnotatedString(it.toLocaleStr(locale))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Today,
+                                contentDescription = null,
+                            )
+                        },
+                        onValueChange = {
+                            firstDayOfWeek = it
+                            updateSettings()
                         },
                     )
 

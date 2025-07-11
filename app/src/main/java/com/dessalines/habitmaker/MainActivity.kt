@@ -68,6 +68,7 @@ import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.isCompletedYesterday
 import com.dessalines.habitmaker.utils.isVirtualCompleted
 import com.dessalines.habitmaker.utils.toEpochMillis
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 class HabitMakerApplication : Application() {
@@ -170,6 +171,7 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             CreateHabitScreen(
                                 navController = navController,
+                                appSettingsViewModel = appSettingsViewModel,
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 reminderViewModel = reminderViewModel,
@@ -186,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                             val id = it.arguments?.getInt("id") ?: 0
                             EditHabitScreen(
                                 navController = navController,
+                                appSettingsViewModel = appSettingsViewModel,
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 reminderViewModel = reminderViewModel,
@@ -257,6 +260,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun updateHabitStatsOnStartup(ctx: Context) {
         val settings = appSettingsViewModel.appSettingsSync
+        val firstDayOfWeek = settings.firstDayOfWeek
 
         cancelReminders(ctx)
 
@@ -268,7 +272,7 @@ class MainActivity : AppCompatActivity() {
             if (!isCompletedYesterday) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                updateStatsForHabit(habit, habitViewModel, checks, completedCount, firstDayOfWeek)
             }
             // Reschedule the reminders, to skip today, or if its already virtual completed
             val reminders = reminderViewModel.listForHabitSync(habit.id)
@@ -316,6 +320,7 @@ fun BroadcastReceivers(
     SystemBroadcastReceiver(CHECK_HABIT_INTENT_ACTION) { intent ->
         if (intent?.action == CHECK_HABIT_INTENT_ACTION) {
             val habitId = intent.getIntExtra(CHECK_HABIT_INTENT_HABIT_ID, 0)
+            val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
 
             // Check the habit
             habitViewModel.getByIdSync(habitId)?.let { habit ->
@@ -327,7 +332,7 @@ fun BroadcastReceivers(
                 if (!isCompleted) {
                     checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                    updateStatsForHabit(habit, habitViewModel, checks, completedCount)
+                    updateStatsForHabit(habit, habitViewModel, checks, completedCount, firstDayOfWeek)
                 }
 
                 // Reschedule the reminders, to skip today

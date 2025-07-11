@@ -20,11 +20,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
+import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.Encouragement
 import com.dessalines.habitmaker.db.EncouragementInsert
 import com.dessalines.habitmaker.db.EncouragementViewModel
@@ -37,15 +41,20 @@ import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
+import java.time.DayOfWeek
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun CreateHabitScreen(
     navController: NavController,
+    appSettingsViewModel: AppSettingsViewModel,
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     reminderViewModel: HabitReminderViewModel,
 ) {
+    val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
+    val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
+
     val scrollState = rememberScrollState()
     val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
     val ctx = LocalContext.current
@@ -78,6 +87,7 @@ fun CreateHabitScreen(
                 )
                 HabitRemindersForm(
                     initialReminders = reminders,
+                    firstDayOfWeek = firstDayOfWeek,
                     onChange = { reminders = it },
                 )
                 EncouragementsForm(
@@ -97,16 +107,16 @@ fun CreateHabitScreen(
                 FloatingActionButton(
                     modifier = Modifier.imePadding(),
                     onClick = {
-                        habit?.let {
-                            if (habitFormValid(it)) {
+                        habit?.let { habit ->
+                            if (habitFormValid(habit)) {
                                 val insert =
                                     HabitInsert(
-                                        name = it.name,
-                                        frequency = it.frequency,
-                                        timesPerFrequency = it.timesPerFrequency,
-                                        notes = it.notes,
-                                        context = it.context,
-                                        archived = it.archived,
+                                        name = habit.name,
+                                        frequency = habit.frequency,
+                                        timesPerFrequency = habit.timesPerFrequency,
+                                        notes = habit.notes,
+                                        context = habit.context,
+                                        archived = habit.archived,
                                     )
                                 val insertedHabitId = habitViewModel.insert(insert)
 
@@ -126,7 +136,7 @@ fun CreateHabitScreen(
                                     scheduleRemindersForHabit(
                                         ctx,
                                         reminders,
-                                        it.name,
+                                        habit.name,
                                         insertedHabitId.toInt(),
                                         false,
                                     )
