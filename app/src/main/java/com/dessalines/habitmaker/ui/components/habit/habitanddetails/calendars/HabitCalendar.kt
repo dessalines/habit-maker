@@ -27,7 +27,7 @@ import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -36,6 +36,7 @@ import java.util.Locale
 @Composable
 fun HabitCalendar(
     habitChecks: List<HabitCheck>,
+    firstDayOfWeek: DayOfWeek,
     onClickDay: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -44,7 +45,7 @@ fun HabitCalendar(
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(100) }
     val endMonth = remember { currentMonth }
-    val firstDayOfWeek = remember { firstDayOfWeekFromLocale() }
+    val firstDayOfWeek = remember { firstDayOfWeek }
 
     val state =
         rememberCalendarState(
@@ -60,12 +61,12 @@ fun HabitCalendar(
         monthHeader = { month ->
             MonthHeader(month)
         },
-        dayContent = {
+        dayContent = { day ->
             Day(
-                day = it,
+                day = day,
                 // TODO probably a more efficient way to do this
                 // Maybe a hashmap of dates?
-                checked = checkDates.contains(it.date),
+                checked = checkDates.contains(day.date),
                 onClick = { onClickDay(it.date) },
                 modifier = modifier,
             )
@@ -159,6 +160,7 @@ fun Day(
 fun HabitCalendarPreview() {
     HabitCalendar(
         habitChecks = sampleHabitChecks,
+        firstDayOfWeek = DayOfWeek.SUNDAY,
         onClickDay = {},
     )
 }

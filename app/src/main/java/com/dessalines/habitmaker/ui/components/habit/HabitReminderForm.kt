@@ -51,6 +51,7 @@ import java.util.Locale
 @Composable
 fun HabitRemindersForm(
     initialReminders: List<HabitReminder>,
+    firstDayOfWeek: DayOfWeek,
     onChange: (List<HabitReminder>) -> Unit,
 ) {
     val ctx = LocalContext.current
@@ -85,7 +86,7 @@ fun HabitRemindersForm(
     }
 
     // Necessary to match the enum ordinals
-    val daysOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.MONDAY)
+    val daysOfWeek = daysOfWeek(firstDayOfWeek)
 
     var frequency by rememberSaveable {
         val freq =
@@ -227,6 +228,7 @@ fun HabitRemindersForm(
 fun HabitRemindersFormPreview() {
     HabitRemindersForm(
         initialReminders = emptyList(),
+        firstDayOfWeek = DayOfWeek.SUNDAY,
         onChange = {},
     )
 }

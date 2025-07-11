@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.DayOfWeek
 
 const val DEFAULT_COMPLETED_COUNT = 66
 const val MIN_COMPLETED_COUNT = 7
@@ -92,6 +93,12 @@ data class AppSettings(
         defaultValue = "0",
     )
     val hideDaysCompletedOnHome: Int,
+    @ColumnInfo(
+        name = "first_day_of_week",
+        // 6 is Sunday
+        defaultValue = "6",
+    )
+    val firstDayOfWeek: DayOfWeek,
 )
 
 data class SettingsUpdateHideCompleted(
@@ -169,6 +176,11 @@ data class SettingsUpdateBehavior(
         defaultValue = "0",
     )
     val hideDaysCompletedOnHome: Int,
+    @ColumnInfo(
+        name = "first_day_of_week",
+        defaultValue = "6",
+    )
+    val firstDayOfWeek: DayOfWeek,
 )
 
 @Dao
@@ -304,4 +316,5 @@ val sampleAppSettings =
         hideStreakOnHome = 0,
         hideChipDescriptions = 0,
         hideDaysCompletedOnHome = 0,
+        firstDayOfWeek = DayOfWeek.SUNDAY,
     )

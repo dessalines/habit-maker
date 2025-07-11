@@ -47,8 +47,9 @@ fun calculateStreaks(
     frequency: HabitFrequency,
     timesPerFrequency: Int,
     dates: List<LocalDate>,
+    firstDayOfWeek: DayOfWeek,
 ): List<Streak> {
-    val virtualDates = buildVirtualDates(frequency, timesPerFrequency, dates).sortedDescending()
+    val virtualDates = buildVirtualDates(frequency, timesPerFrequency, dates, firstDayOfWeek).sortedDescending()
 
     if (virtualDates.isEmpty()) {
         return emptyList()
@@ -83,6 +84,7 @@ fun buildVirtualDates(
     frequency: HabitFrequency,
     timesPerFrequency: Int,
     dates: List<LocalDate>,
+    firstDayOfWeek: DayOfWeek,
 ): List<LocalDate> =
     when (frequency) {
         HabitFrequency.Daily -> dates
@@ -95,7 +97,7 @@ fun buildVirtualDates(
                     HabitFrequency.Weekly ->
                         dates.firstOrNull()?.with(
                             TemporalAdjusters.previousOrSame(
-                                DayOfWeek.SUNDAY,
+                                firstDayOfWeek,
                             ),
                         )
                     HabitFrequency.Monthly -> dates.firstOrNull()?.withDayOfMonth(1)
@@ -112,7 +114,7 @@ fun buildVirtualDates(
                         HabitFrequency.Weekly ->
                             entry.with(
                                 TemporalAdjusters.previousOrSame(
-                                    DayOfWeek.SUNDAY,
+                                    firstDayOfWeek,
                                 ),
                             )
                         HabitFrequency.Monthly -> entry.withDayOfMonth(1)
