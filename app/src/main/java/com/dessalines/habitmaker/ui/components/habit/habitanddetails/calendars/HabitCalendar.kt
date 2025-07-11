@@ -65,8 +65,8 @@ fun HabitCalendar(
                 day = day,
                 // TODO probably a more efficient way to do this
                 // Maybe a hashmap of dates?
-                checked = checkDates.contains(it.date),
-                onClick = { onClickDay(it.date) },
+                checked = checkDates.contains(day.date),
+                onClick = { onClickDay(day.date) },
                 modifier = modifier,
             )
         },

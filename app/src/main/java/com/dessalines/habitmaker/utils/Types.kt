@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.dessalines.habitmaker.R
 
 enum class ThemeMode(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     System(R.string.system),
     Light(R.string.light),
@@ -12,7 +12,7 @@ enum class ThemeMode(
 }
 
 enum class ThemeColor(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     Dynamic(R.string.dynamic),
     Green(R.string.green),
@@ -20,7 +20,7 @@ enum class ThemeColor(
 }
 
 enum class HabitFrequency(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     Daily(R.string.daily),
     Weekly(R.string.weekly),
@@ -37,7 +37,7 @@ fun HabitFrequency.toDays() =
     }
 
 enum class HabitSort(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     Streak(R.string.streak),
     Points(R.string.points),
@@ -52,7 +52,7 @@ enum class HabitSort(
 }
 
 enum class HabitSortOrder(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     Descending(R.string.descending),
     Ascending(R.string.ascending),
@@ -72,7 +72,7 @@ enum class HabitStatus {
  * A frequency picker for reminders
  */
 enum class HabitReminderFrequency(
-    @StringRes val resId: Int,
+    @param:StringRes val resId: Int,
 ) {
     NoReminders(R.string.no_reminders),
     EveryDay(R.string.remind_every_day),
