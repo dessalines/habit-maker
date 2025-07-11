@@ -323,7 +323,7 @@ fun HabitRowPreview() {
 }
 
 data class HabitListAndTitle(
-    @StringRes val titleResId: Int,
+    @param:StringRes val titleResId: Int,
     val list: List<Habit>,
 )
 

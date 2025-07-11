@@ -10,8 +10,6 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.temporal.TemporalAdjusters
 import java.util.concurrent.TimeUnit
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 fun cancelReminders(ctx: Context) {
     val workManager = WorkManager.getInstance(ctx)

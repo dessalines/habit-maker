@@ -113,12 +113,12 @@ fun CreateHabitScreen(
                                 // The id is -1 if its a failed insert
                                 if (insertedHabitId != -1L) {
                                     // Insert the reminders
-                                    reminders.forEach {
+                                    reminders.forEach { reminder ->
                                         val insert =
                                             HabitReminderInsert(
                                                 habitId = insertedHabitId.toInt(),
-                                                time = it.time,
-                                                day = it.day,
+                                                time = reminder.time,
+                                                day = reminder.day,
                                             )
                                         reminderViewModel.insert(insert)
                                     }
@@ -132,11 +132,11 @@ fun CreateHabitScreen(
                                     )
 
                                     // Insert the encouragements
-                                    encouragements.forEach {
+                                    encouragements.forEach { enc ->
                                         val insert =
                                             EncouragementInsert(
                                                 habitId = insertedHabitId.toInt(),
-                                                content = it.content,
+                                                content = enc.content,
                                             )
                                         encouragementViewModel.insert(insert)
                                     }

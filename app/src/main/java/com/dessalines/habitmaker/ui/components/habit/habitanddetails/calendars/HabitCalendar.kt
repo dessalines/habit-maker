@@ -60,9 +60,9 @@ fun HabitCalendar(
         monthHeader = { month ->
             MonthHeader(month)
         },
-        dayContent = {
+        dayContent = { day ->
             Day(
-                day = it,
+                day = day,
                 // TODO probably a more efficient way to do this
                 // Maybe a hashmap of dates?
                 checked = checkDates.contains(it.date),

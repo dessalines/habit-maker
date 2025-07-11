@@ -112,7 +112,7 @@ fun HabitRemindersForm(
     fun habitRemindersChange() =
         onChange(
             when (frequency) {
-                HabitReminderFrequency.NoReminders -> emptyList<HabitReminder>()
+                HabitReminderFrequency.NoReminders -> emptyList()
                 HabitReminderFrequency.EveryDay -> {
                     daysToReminders(daysOfWeek, habitId, timePickerState)
                 }
