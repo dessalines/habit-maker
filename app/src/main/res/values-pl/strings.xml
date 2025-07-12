@@ -109,10 +109,10 @@
     <string name="hide_chip_descriptions">Ukryj opisy kafelków</string>
     <string name="hide_chip_descriptions_summary">Wyświetlaj tylko ikonę i liczbę kafelka informacyjnego.</string>
     <string name="out_of_range">Poza zakresem</string>
-    <string name="youre_on_a_x_day_streak">Masz %1$s-dniową passę, +%2$s punktów</string>
-    <string name="youre_on_a_x_week_streak">Masz %1$s-tygodniową passę, +%2$s punktów</string>
-    <string name="youre_on_a_x_month_streak">Masz %1$s-miesięczną passę, +%2$s punktów</string>
-    <string name="youre_on_a_x_year_streak">Masz %1$s-letnią passę, %2$s punktów</string>
+    <string name="youre_on_a_x_day_streak">Jesteś na serii przez %1$s dni, +%2$s punktów</string>
+    <string name="youre_on_a_x_week_streak">Jesteś na serii przez %1$s tygodni, +%2$s punktów</string>
+    <string name="youre_on_a_x_month_streak">Jesteś na serii przez %1$s miesięcy, +%2$s punktów</string>
+    <string name="youre_on_a_x_year_streak">Jesteś na serii przez %1$s lat, +%2$s punktów</string>
     <string name="default_encouragement_2">Wspaniała robota! Poświęć chwilę na zastanowienie się nad tym, dlaczego jest to dla Ciebie ważne.</string>
     <string name="default_encouragement_3">Wybitnie! Odnajdujesz właściwy rytm.</string>
     <string name="first_day_of_week">Pierwszy dzień tygodnia</string>
