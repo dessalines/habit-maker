@@ -67,7 +67,7 @@
     <string name="remind_every_day">Przypominaj mi każdego dnia</string>
     <string name="remind_specific_days">Przypominaj mi w określone dni</string>
     <string name="time">Czas</string>
-    <string name="dismiss">Anuluj</string>
+    <string name="dismiss">Odrzuć</string>
     <string name="confirm">Potwierdź</string>
     <string name="days">Dni</string>
     <string name="notification_permission_required">Ta funkcja wymaga zezwolenia na wysyłanie powiadomień</string>
@@ -108,4 +108,12 @@
     <string name="add_encouragement">Dodaj zachętę</string>
     <string name="hide_chip_descriptions">Ukryj opisy kafelków</string>
     <string name="hide_chip_descriptions_summary">Wyświetlaj tylko ikonę i liczbę kafelka informacyjnego.</string>
+    <string name="out_of_range">Poza zakresem</string>
+    <string name="youre_on_a_x_day_streak">Masz %1$s-dniową passę, +%2$s punktów</string>
+    <string name="youre_on_a_x_week_streak">Masz %1$s-tygodniową passę, +%2$s punktów</string>
+    <string name="youre_on_a_x_month_streak">Masz %1$s-miesięczną passę, +%2$s punktów</string>
+    <string name="youre_on_a_x_year_streak">Masz %1$s-letnią passę, %2$s punktów</string>
+    <string name="default_encouragement_2">Wspaniała robota! Poświęć chwilę na zastanowienie się nad tym, dlaczego jest to dla Ciebie ważne.</string>
+    <string name="default_encouragement_3">Wybitnie! Odnajdujesz właściwy rytm.</string>
+    <string name="first_day_of_week">Pierwszy dzień tygodnia</string>
 </resources>
