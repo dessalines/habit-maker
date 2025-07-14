@@ -115,4 +115,5 @@
     <string name="hide_chip_descriptions">Без описания на етикетите</string>
     <string name="hide_days_completed_on_home">Скриване на изпълнените дни от първия екран</string>
     <string name="x_days_completed">%1$s изпълнени дни</string>
+    <string name="first_day_of_week">Начало на седмицата</string>
 </resources>
