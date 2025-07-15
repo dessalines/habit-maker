@@ -10,5 +10,11 @@
     <string name="pink">صورتی</string>
     <string name="about">درباره</string>
     <string name="whats_new">چه چیزی جدید است</string>
-    <string name="version">نسخه</string>
+    <string name="version">نسخه%1$s</string>
+    <string name="releases">منتشر کردن</string>
+    <string name="support">پشتیبانی</string>
+    <string name="issue_tracker">گزارش مشکل</string>
+    <string name="developer_matrix_chatroom">چت روم Matrix توسعه دهنده</string>
+    <string name="donate_to_habit_maker">حمایت از برنامه ی سازنده ی عادت ها</string>
+    <string name="social">شبکه</string>
 </resources>
