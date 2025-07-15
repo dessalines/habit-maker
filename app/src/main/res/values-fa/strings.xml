@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">سازنده ی عادت</string>
+    <string name="settings">تنظیمات</string>
+    <string name="system">سیستم</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="dynamic">پویا ( داینامیک )</string>
+    <string name="green">سبز</string>
+    <string name="pink">صورتی</string>
+    <string name="about">درباره</string>
+    <string name="whats_new">چه چیزی جدید است !؟</string>
 </resources>
