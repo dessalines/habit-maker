@@ -91,6 +91,6 @@
     <string name="sort_order">ترتیب مرتب‌سازی</string>
     <string name="hide_archived">پنهان کردن بایگانی شده ها</string>
     <string name="hide_streak_on_home">مخفی کردن رکوردهای متوالی در صفحه اصلی</string>
-    <string name="hide_points_on_home">مخفی کردن جایزه ها در خانه</string>
-    <string name="hide_score_on_home">مخفی کردن امتیاز در صفحه اصلی</string>
+    <string name="hide_points_on_home">مخفی کردن جایزه ها (جزئی ) در خانه</string>
+    <string name="hide_score_on_home">مخفی کردن امتیازهای کلی در صفحه اصلی</string>
 </resources>
