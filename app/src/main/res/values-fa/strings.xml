@@ -55,5 +55,18 @@
     <string name="add_encouragement">اضافه کردن یک جایزه</string>
     <string name="title">عنوان</string>
     <string name="how_many_times">چند بار</string>
-    <string name="x_times_per_day">%1\\$s بار در روز</string>
+    <string name="x_times_per_day">%1$s بار در روز</string>
+    <string name="x_times_per_week">%1$s بار در هفته</string>
+    <string name="x_times_per_month">%1$s بار در ماه</string>
+    <string name="x_times_per_year">%1$s بار در سال</string>
+    <string name="out_of_range">خارج از محدوده</string>
+    <string name="notes_optional">یادداشت ها (اختیاری)</string>
+    <string name="when_and_where_optional">کی و کجا؟ (اختیاری)</string>
+    <string name="delete">حذف</string>
+    <string name="more_actions">اقدامات بیشتر</string>
+    <string name="overview">نمای کلی</string>
+    <string name="history">تاریخچه</string>
+    <string name="notes">یادداشت ها</string>
+    <string name="youre_on_a_x_day_streak">شما در حال حاضر%1$s روز متوالی هستید و %2$s امتیاز دریافت کردید</string>
+    <string name="youre_on_a_x_week_streak">"شما در حال حاضر %1$s هفته  متوالی هستید و %2$s امتیاز دارید"</string>
 </resources>
