@@ -31,8 +31,8 @@
     <string name="backup_database">پشتیبان گیری از دیتابیس</string>
     <string name="restore_database">بازگردانی و فراخوانی دیتابیس</string>
     <string name="restore_database_warning">هشدار: این کار پایگاه داده فعلی شما را پاک می کند</string>
-    <string name="database_restored">پایگاه داده بازیابی شد</string>
-    <string name="database_backed_up">از دیتابیس پشتیبان گیری تهیه شد</string>
+    <string name="database_restored">پایگاه داده بازیابی شد.</string>
+    <string name="database_backed_up">از دیتابیس پشتیبان گیری تهیه شد.</string>
     <string name="backup_and_restore">پشتیبان گیری و بازیابی</string>
     <string name="go_back">بازگشت</string>
     <string name="are_you_sure">آیا مطمئن هستی؟</string>
@@ -73,7 +73,7 @@
     <string name="youre_on_a_x_year_streak">شما در حال حاضر%1$s سال متوالی هستید و %2$s امتیاز دریافت کردید</string>
     <string name="default_encouragement_1">کارتون عالی بود! همه به اندازه شما سخت کوش نیستند.</string>
     <string name="default_encouragement_2">کارتون عالی بود! یک دقیقه وقت بگذارید تا در مورد اینکه چرا این برای شما مهم است فکر کنید.</string>
-    <string name="default_encouragement_3">عالیه! داری خوب پیش میری</string>
+    <string name="default_encouragement_3">عالیه! داری خوب پیش میری.</string>
     <string name="started_on_x">شروع شده در %1$s</string>
     <string name="habits">عادت ها</string>
     <string name="hide_completed">مخفی کردن انجام شده ها</string>
@@ -87,7 +87,7 @@
     <string name="completed_count">تعداد انجام‌شده: %1$s</string>
     <string name="completed_count_alt">%1$sعادت امروز انجام شدن ( کامل شدن )</string>
     <string name="completed_count_summary">تعداد دفعاتی که باید انجام شود تا یک عادت به‌طور کامل شکل بگیرد. (میانگین ۶۶ بار)</string>
-    <string name="sort">مرتب سازی</string>
+    <string name="sort">دسته بندی</string>
     <string name="sort_order">ترتیب مرتب‌سازی</string>
     <string name="hide_archived">پنهان کردن بایگانی شده ها</string>
     <string name="hide_streak_on_home">مخفی کردن رکوردهای متوالی در صفحه اصلی</string>
