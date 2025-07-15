@@ -10,7 +10,7 @@
     <string name="pink">صورتی</string>
     <string name="about">درباره</string>
     <string name="whats_new">چه چیزی جدید است</string>
-    <string name="version">نسخه%1$s</string>
+    <string name="version">نسخه %1$s</string>
     <string name="releases">منتشر کردن</string>
     <string name="support">پشتیبانی</string>
     <string name="issue_tracker">گزارش مشکل</string>
@@ -32,7 +32,7 @@
     <string name="restore_database">بازگردانی و فراخوانی دیتابیس</string>
     <string name="restore_database_warning">هشدار: این کار پایگاه داده فعلی شما را پاک می کند</string>
     <string name="database_restored">پایگاه داده بازیابی شد</string>
-    <string name="database_backed_up">از دیتابیس پشتیبان گیری گرفته شد</string>
+    <string name="database_backed_up">از دیتابیس پشتیبان گیری تهیه شد</string>
     <string name="backup_and_restore">پشتیبان گیری و بازیابی</string>
     <string name="go_back">بازگشت</string>
     <string name="are_you_sure">آیا مطمئن هستی؟</string>
@@ -85,7 +85,7 @@
     <string name="monthly">ماهانه</string>
     <string name="yearly">سالانه</string>
     <string name="completed_count">تعداد انجام‌شده: %1$s</string>
-    <string name="completed_count_alt">%1$s عادت امروز انجام شدن ( کامل شدن )</string>
+    <string name="completed_count_alt">%1$sعادت امروز انجام شدن ( کامل شدن )</string>
     <string name="completed_count_summary">تعداد دفعاتی که باید انجام شود تا یک عادت به‌طور کامل شکل بگیرد. (میانگین ۶۶ بار)</string>
     <string name="sort">مرتب سازی</string>
     <string name="sort_order">ترتیب مرتب‌سازی</string>
@@ -95,6 +95,25 @@
     <string name="hide_score_on_home">مخفی کردن امتیازهای کلی در صفحه اصلی</string>
     <string name="hide_days_completed_on_home">مخفی کردن تعداد روزهای انجام شده در صفحه اصلی</string>
     <string name="streak">رکورد متوالی</string>
-    <string name="points">جایزه های جزئی</string>
+    <string name="points">امتیازات جزئی</string>
     <string name="score">امتیازات کلی</string>
+    <string name="status">وضعیت</string>
+    <string name="date_created">تاریخ ایجاد شده</string>
+    <string name="name">نام</string>
+    <string name="descending">نزولی</string>
+    <string name="ascending">صعودی</string>
+    <string name="archived">بایگانی شده</string>
+    <string name="did_you_complete">آیا امروز این عادت را کامل کردید؟</string>
+    <string name="no_reminders">بدون یادآوری</string>
+    <string name="remind_every_day">هر روز به من یادآوری کن</string>
+    <string name="remind_specific_days">در روزهای خاص به من یادآوری کنید</string>
+    <string name="time">زمان</string>
+    <string name="dismiss">برکناری</string>
+    <string name="confirm">تأیید کردن</string>
+    <string name="days">روزها</string>
+    <string name="request_notification_permission">درخواست اجازه ارسال اعلان و اطلاع رسانی</string>
+    <string name="notification_permission_required">مجوز اعلان برای این ویژگی لازم است</string>
+    <string name="hide_chip_descriptions">مخفی کردن توضیحات نشان‌ها</string>
+    <string name="hide_chip_descriptions_summary">فقط آیکون و شماره نشان‌ها را نمایش می‌دهد.</string>
+    <string name="first_day_of_week">روز اول هفته</string>
 </resources>
