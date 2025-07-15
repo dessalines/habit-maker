@@ -9,5 +9,6 @@
     <string name="green">سبز</string>
     <string name="pink">صورتی</string>
     <string name="about">درباره</string>
-    <string name="whats_new">چه چیزی جدید است !؟</string>
+    <string name="whats_new">چه چیزی جدید است</string>
+    <string name="version">نسخه</string>
 </resources>
