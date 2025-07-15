@@ -76,6 +76,21 @@
     <string name="default_encouragement_3">عالیه! داری خوب پیش میری</string>
     <string name="started_on_x">شروع شده در %1$s</string>
     <string name="habits">عادت ها</string>
-    <string name="hide_completed">مخفی کردن کامل شده ها</string>
+    <string name="hide_completed">مخفی کردن انجام شده ها</string>
     <string name="show_completed">نمایش انجام شده ها</string>
+    <string name="no_habits">بدون عادت</string>
+    <string name="all_completed_for_today">همه برای امروز تکمیل شدند ( انجام شدند) !</string>
+    <string name="daily">روزانه</string>
+    <string name="weekly">هفتگی</string>
+    <string name="monthly">ماهانه</string>
+    <string name="yearly">سالانه</string>
+    <string name="completed_count">تعداد انجام‌شده: %1$s</string>
+    <string name="completed_count_alt">%1$s عادت امروز انجام شدن ( کامل شدن )</string>
+    <string name="completed_count_summary">تعداد دفعاتی که باید انجام شود تا یک عادت به‌طور کامل شکل بگیرد. (میانگین ۶۶ بار)</string>
+    <string name="sort">مرتب سازی</string>
+    <string name="sort_order">ترتیب مرتب‌سازی</string>
+    <string name="hide_archived">پنهان کردن بایگانی شده ها</string>
+    <string name="hide_streak_on_home">مخفی کردن رکوردهای متوالی در صفحه اصلی</string>
+    <string name="hide_points_on_home">مخفی کردن جایزه ها در خانه</string>
+    <string name="hide_score_on_home">مخفی کردن امتیاز در صفحه اصلی</string>
 </resources>
