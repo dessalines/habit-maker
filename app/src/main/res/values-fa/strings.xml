@@ -69,5 +69,8 @@
     <string name="notes">یادداشت ها</string>
     <string name="youre_on_a_x_day_streak">شما در حال حاضر%1$s روز متوالی هستید و %2$s امتیاز دریافت کردید</string>
     <string name="youre_on_a_x_week_streak">شما در حال حاضر %1$s هفته متوالی هستید و %2$s امتیاز دریافت کردید</string>
-    <string name="youre_on_a_x_month_streak">%2$sشما در حال حاضر%1$s ماه متوالی هستید و %2$s امتیاز دریافت کردید</string>
+    <string name="youre_on_a_x_month_streak">شما در حال حاضر%1$s ماه متوالی هستید و %2$s امتیاز دریافت کردید</string>
+    <string name="youre_on_a_x_year_streak">شما در حال حاضر%1$s سال متوالی هستید و %2$s امتیاز دریافت کردید</string>
+    <string name="default_encouragement_1">کار عالی! همه به اندازه شما سخت کوش نیستند.</string>
+    <string name="default_encouragement_2">کارتون عالی بود! یک دقیقه وقت بگذارید تا در مورد اینکه چرا این برای شما مهم است فکر کنید.</string>
 </resources>
