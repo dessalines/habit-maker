@@ -68,5 +68,6 @@
     <string name="history">تاریخچه</string>
     <string name="notes">یادداشت ها</string>
     <string name="youre_on_a_x_day_streak">شما در حال حاضر%1$s روز متوالی هستید و %2$s امتیاز دریافت کردید</string>
-    <string name="youre_on_a_x_week_streak">"شما در حال حاضر %1$s هفته  متوالی هستید و %2$s امتیاز دارید"</string>
+    <string name="youre_on_a_x_week_streak">شما در حال حاضر %1$s هفته متوالی هستید و %2$s امتیاز دارید</string>
+    <string name="youre_on_a_x_month_streak">شما در حال حاضر%1$s ماه متوالی هستید و %2$s امتیاز دریافت کردید</string>
 </resources>
