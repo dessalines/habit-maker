@@ -18,7 +18,7 @@
     <string name="habit_already_exists">Cette habitude existe déjà</string>
     <string name="overview">Vue d\'ensemble</string>
     <string name="youre_on_a_x_year_streak">Vous êtes sur une série de %1$s ans, +%2$s points</string>
-    <string name="look_and_feel">Aspect et ressenti</string>
+    <string name="look_and_feel">Aspect et sensations</string>
     <string name="did_you_complete">Avez-vous complété cette habitude aujourd\'hui ?</string>
     <string name="title">Titre</string>
     <string name="light">Clair</string>
@@ -115,4 +115,5 @@
     <string name="descending">Décroissant</string>
     <string name="hide_days_completed_on_home">Cacher le nombre de jours complétés sur la page d\'accueil</string>
     <string name="completed_count_summary">Le nombre de répétitions nécessaire pour aquérir complètement une habitude. (66 en moyenne)</string>
+    <string name="first_day_of_week">Premier jour de la semaine</string>
 </resources>
