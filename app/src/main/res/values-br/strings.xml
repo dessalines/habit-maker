@@ -115,4 +115,5 @@
     <string name="hide_chip_descriptions_summary">Diskouez an arlun hag an niver evit ar padelligoù titouroù nemetken.</string>
     <string name="x_days_completed">%1$s a zevezhioù graet</string>
     <string name="hide_days_completed_on_home">Kuzhat an devezhioù graet war an degemer</string>
+    <string name="first_day_of_week">Deiz kentañ ar sizhun</string>
 </resources>
