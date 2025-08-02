@@ -1,3 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Vannedanner</string>
+    <string name="settings">Indstillinger</string>
+    <string name="system">System</string>
+    <string name="light">Lyst</string>
+    <string name="dark">Mørkt</string>
+    <string name="dynamic">Dynamisk</string>
+    <string name="green">Grøn</string>
+    <string name="pink">Lyserød</string>
+    <string name="about">Om</string>
+    <string name="whats_new">Nyheder</string>
+    <string name="version">Version %1$s</string>
+    <string name="releases">Udgivelser</string>
+    <string name="support">Hjælp</string>
+    <string name="issue_tracker">Fejlsporing</string>
+    <string name="developer_matrix_chatroom">Udviklerens Matrixchatrum</string>
+    <string name="donate_to_habit_maker">Doner til Vannedanner</string>
+    <string name="social">Social</string>
+    <string name="join_c_habitmaker">Tilslut dig lemmy.ml/c/habitmaker</string>
+    <string name="follow_me_mastodon">Følg mig på mastodon</string>
+    <string name="open_source">Åben kildekode</string>
+    <string name="source_code">Kildekode</string>
 </resources>
