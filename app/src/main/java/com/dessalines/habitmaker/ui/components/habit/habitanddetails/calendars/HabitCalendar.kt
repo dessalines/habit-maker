@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.ui.components.habit.habitanddetails.calendars
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -19,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.sampleHabitChecks
 import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
@@ -134,23 +138,33 @@ fun Day(
                 contentDescription = null,
             )
         } else {
-            Text(
-                text = day.date.dayOfMonth.toString(),
-                style = MaterialTheme.typography.bodyMedium,
-                // Underline today's date
-                textDecoration =
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier =
                     if (isToday) {
-                        TextDecoration.Underline
+                        Modifier
+                            .size(32.dp)
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape,
+                            )
                     } else {
-                        TextDecoration.None
+                        Modifier
                     },
-                color =
-                    if (allowedDate) {
-                        MaterialTheme.colorScheme.onSurface
-                    } else {
-                        MaterialTheme.colorScheme.outline
-                    },
-            )
+            ) {
+                Text(
+                    text = day.date.dayOfMonth.toString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textDecoration = TextDecoration.None,
+                    color =
+                        if (allowedDate) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.outline
+                        },
+                )
+            }
         }
     }
 }
