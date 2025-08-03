@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -143,7 +145,8 @@ fun Day(
                 modifier =
                     if (isToday) {
                         Modifier
-                            .size(32.dp)
+                            .fillMaxSize()
+                            .padding(4.dp)
                             .border(
                                 width = 2.dp,
                                 color = MaterialTheme.colorScheme.primary,
