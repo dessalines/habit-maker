@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -24,9 +24,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.sampleHabitChecks
+import com.dessalines.habitmaker.ui.components.common.CIRCLE_INDICATOR_FRACTION
 import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.components.common.THIN_BORDER
-import com.dessalines.habitmaker.ui.components.common.CIRCLE_INDICATOR_FRACTION
 import com.dessalines.habitmaker.utils.epochMillisToLocalDate
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
