@@ -1,6 +1,12 @@
-# Changelog
+## What's Changed in 0.0.34
 
-All notable changes to this project will be documented in this file.
+- feat: circle today's date by @nyancow in [#237](https://github.com/dessalines/habit-maker/pull/237)
+
+## New Contributors
+
+- @nyancow made their first contribution in [#237](https://github.com/dessalines/habit-maker/pull/237)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.33...0.0.34
 
 ## What's Changed in 0.0.32
 
