@@ -115,4 +115,5 @@
     <string name="notification_permission_required">此功能需要通知权限</string>
     <string name="hide_chip_descriptions">隐藏标签描述</string>
     <string name="hide_chip_descriptions_summary">仅显示信息标签的图标和数字</string>
+    <string name="first_day_of_week">一周开始日</string>
 </resources>
