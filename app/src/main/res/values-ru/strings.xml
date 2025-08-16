@@ -41,7 +41,7 @@
     <string name="x_week_streak">%1$s нед. подряд</string>
     <string name="x_month_streak">%1$s мес. подряд</string>
     <string name="x_year_streak">%1$s лет подряд</string>
-    <string name="x_points">%1$s очк.</string>
+    <string name="x_points">%1$s очк</string>
     <string name="x_percent_complete">%1$s%% завершено</string>
     <string name="x_days_completed">%1$s дн. завершено</string>
     <string name="create_habit">Создать привычку</string>
