@@ -71,7 +71,7 @@
     <string name="youre_on_a_x_month_streak">Sul on %1$s kuune järg, +%2$s punkti</string>
     <string name="youre_on_a_x_year_streak">Sul on %1$s aastane järg, +%2$s punkti</string>
     <string name="default_encouragement_1">Hästi tehtud! Su hoolsus on väärtuslik.</string>
-    <string name="default_encouragement_2">Võimas! Jätka samas vaimus, pidades meeles, miks see sulle tähtis on.</string>
+    <string name="default_encouragement_2">Võimas! Jätka samas vaimus ja pea meeles, miks see sulle tähtis on.</string>
     <string name="default_encouragement_3">Asi edeneb!</string>
     <string name="started_on_x">Alustasid %1$s</string>
     <string name="habits">Harjumused</string>
@@ -115,4 +115,5 @@
     <string name="hide_chip_descriptions">Minimalistlikud harjumuskaardid</string>
     <string name="hide_chip_descriptions_summary">Näitab harjumuste all ainult ikoone ja numbreid.</string>
     <string name="first_day_of_week">Nädala esimine päev</string>
+    <string name="out_of_range">Mittesobiv väärtus</string>
 </resources>
