@@ -1,3 +1,9 @@
+## What's Changed in 0.0.36
+
+- Fix sorts. by @dessalines in [#261](https://github.com/dessalines/habit-maker/pull/261)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.35...0.0.36
+
 ## What's Changed in 0.0.34
 
 - feat: circle today's date by @nyancow in [#237](https://github.com/dessalines/habit-maker/pull/237)
