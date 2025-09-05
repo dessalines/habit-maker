@@ -76,13 +76,8 @@ android {
         disable += "UseKtx"
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xjvm-default=all-compatibility", "-opt-in=kotlin.RequiresOptIn")
+    kotlin {
+        jvmToolchain(17)
     }
     buildFeatures {
         compose = true
