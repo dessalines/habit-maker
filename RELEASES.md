@@ -1,3 +1,10 @@
+## What's Changed in 0.0.37
+
+- Fixing streak updating on startup to only check last cycle. by @dessalines in [#269](https://github.com/dessalines/habit-maker/pull/269)
+- Fixing jv17 compile options. by @dessalines in [#270](https://github.com/dessalines/habit-maker/pull/270)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.36...0.0.37
+
 ## What's Changed in 0.0.36
 
 - Fix sorts. by @dessalines in [#261](https://github.com/dessalines/habit-maker/pull/261)
