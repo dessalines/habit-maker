@@ -194,16 +194,16 @@ fun calculateScore(
 fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
 
 fun isVirtualCompletedLastCycle(habit: Habit): Boolean {
-
     val frequency = HabitFrequency.entries[habit.frequency]
     val now = LocalDate.now()
 
-    val lastCycleCheck = when(frequency) {
-        HabitFrequency.Daily -> now.minusDays(1)
-        HabitFrequency.Weekly -> now.minusWeeks(1)
-        HabitFrequency.Monthly -> now.minusMonths(1)
-        HabitFrequency.Yearly -> now.minusYears(1)
-    }
+    val lastCycleCheck =
+        when (frequency) {
+            HabitFrequency.Daily -> now.minusDays(1)
+            HabitFrequency.Weekly -> now.minusWeeks(1)
+            HabitFrequency.Monthly -> now.minusMonths(1)
+            HabitFrequency.Yearly -> now.minusYears(1)
+        }
 
     // Use the last virtual completed time
     val lastDate = habit.lastStreakTime.epochMillisToLocalDate()
@@ -214,4 +214,3 @@ fun isVirtualCompletedLastCycle(habit: Habit): Boolean {
  * Determines whether a habit is completed today or not.
  */
 fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
-
