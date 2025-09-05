@@ -65,8 +65,8 @@ import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.isCompletedYesterday
 import com.dessalines.habitmaker.utils.isVirtualCompleted
+import com.dessalines.habitmaker.utils.isVirtualCompletedLastCycle
 import com.dessalines.habitmaker.utils.toEpochMillis
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -266,10 +266,8 @@ class MainActivity : AppCompatActivity() {
 
         // Unfortunately this requires looping over every habit.
         habitViewModel.getAllSync.forEach { habit ->
-            // Use not completed yesterday to update streaks, otherwise all streaks today will appear broken.
-            val isCompletedYesterday = isCompletedYesterday(habit.lastCompletedTime)
-            // Only check the habit if it hasn't been checked
-            if (!isCompletedYesterday) {
+            // Use virtual completed to check streaks, otherwise all streaks today will appear broken
+            if (!isVirtualCompletedLastCycle(habit)) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
                 updateStatsForHabit(habit, habitViewModel, checks, completedCount, firstDayOfWeek)

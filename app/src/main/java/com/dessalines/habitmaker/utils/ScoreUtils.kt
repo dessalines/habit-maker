@@ -1,6 +1,7 @@
 package com.dessalines.habitmaker.utils
 
 import android.util.Log
+import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
@@ -192,12 +193,25 @@ fun calculateScore(
  */
 fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
 
+fun isVirtualCompletedLastCycle(habit: Habit): Boolean {
+
+    val frequency = HabitFrequency.entries[habit.frequency]
+    val now = LocalDate.now()
+
+    val lastCycleCheck = when(frequency) {
+        HabitFrequency.Daily -> now.minusDays(1)
+        HabitFrequency.Weekly -> now.minusWeeks(1)
+        HabitFrequency.Monthly -> now.minusMonths(1)
+        HabitFrequency.Yearly -> now.minusYears(1)
+    }
+
+    // Use the last virtual completed time
+    val lastDate = habit.lastStreakTime.epochMillisToLocalDate()
+    return lastDate >= lastCycleCheck
+}
+
 /**
  * Determines whether a habit is completed today or not.
  */
 fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
 
-/**
- * Determines whether a habit is completed yesterday.
- */
-fun isCompletedYesterday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().minusDays(1).toEpochMillis()
