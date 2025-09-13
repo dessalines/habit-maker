@@ -1,3 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">ഹാബി‌‍‍‌‌‌റ്റ്-മേക്കർ</string>
+    <string name="settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="system">സിസ്റ്റം</string>
+    <string name="light">തെളിച്ചം</string>
+    <string name="dark">ഇരുണ്ടതു</string>
+    <string name="dynamic">മാറ്റമുള്ള</string>
+    <string name="green">പച്ച</string>
+    <string name="pink">ഇളം ചുവപ്പ്</string>
+    <string name="about">കുറിച്ച്</string>
+    <string name="version">പതിപ്പ്%1$s</string>
+    <string name="releases">റിലീസെസ്</string>
+    <string name="support">പിന്തുണ</string>
+    <string name="issue_tracker">ഇഷ്യൂ ട്രാക്കർ</string>
+    <string name="developer_matrix_chatroom">ഡെവെലൊപെർ മാട്രിക്സ് ചാറ്റ്റൂം</string>
+    <string name="donate_to_habit_maker">സംഭാവന</string>
+    <string name="social">സോഷ്യൽ</string>
+    <string name="join_c_habitmaker">ജോയിൻ lemmy.ml/c/habitmaker</string>
+    <string name="follow_me_mastodon">ഫോളോ</string>
+    <string name="open_source">ഓപൺസോഴ്സ്</string>
+    <string name="source_code">സോഴ്സ് കോഡ്</string>
+    <string name="source_code_subtitle">Habit-Maker ഒരു സ്വതന്ത്ര ഓപൺ-സോഴ്സ് സോഫ്റ്റ്‌വെയർ ആണ്.GNU Affero General Public License v3.0 നു കീഴിൽ ലെെസൻസ് ചെയ്തിരിക്കുന്നു</string>
+    <string name="look_and_feel">ലുക്ക് ആൻഡ് ഫീൽ</string>
+    <string name="behavior">ബിഹേവിയർ</string>
+    <string name="theme">തീം</string>
+    <string name="theme_color">തീം കളർ</string>
+    <string name="user_guide">യൂസർ ഗെെഡ്</string>
+    <string name="done">കഴിഞ്ഞു</string>
+    <string name="backup_database">ബാക്കപ്പ് ഡാറ്റാബേസ്</string>
+    <string name="restore_database">ഡാറ്റാബേസ് വീണ്ടെടുക്കുക</string>
 </resources>
