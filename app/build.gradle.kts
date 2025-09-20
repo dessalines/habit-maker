@@ -118,7 +118,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.11.0")
 
     // LiveData
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.9.4")
