@@ -88,22 +88,35 @@ fun buildVirtualDates(
     firstDayOfWeek: DayOfWeek,
 ): List<LocalDate> =
     when (frequency) {
-        HabitFrequency.Daily -> dates
+        HabitFrequency.Daily -> {
+            dates
+        }
+
         else -> {
             val virtualDates = mutableListOf<LocalDate>()
             val completedRanges = mutableListOf<LocalDate>()
 
             var rangeFirstDate =
                 when (frequency) {
-                    HabitFrequency.Weekly ->
+                    HabitFrequency.Weekly -> {
                         dates.firstOrNull()?.with(
                             TemporalAdjusters.previousOrSame(
                                 firstDayOfWeek,
                             ),
                         )
-                    HabitFrequency.Monthly -> dates.firstOrNull()?.withDayOfMonth(1)
-                    HabitFrequency.Yearly -> dates.firstOrNull()?.withDayOfYear(1)
-                    else -> null
+                    }
+
+                    HabitFrequency.Monthly -> {
+                        dates.firstOrNull()?.withDayOfMonth(1)
+                    }
+
+                    HabitFrequency.Yearly -> {
+                        dates.firstOrNull()?.withDayOfYear(1)
+                    }
+
+                    else -> {
+                        null
+                    }
                 }
 
             var count = 0
@@ -112,15 +125,25 @@ fun buildVirtualDates(
                 virtualDates.add(entry)
                 val entryRange =
                     when (frequency) {
-                        HabitFrequency.Weekly ->
+                        HabitFrequency.Weekly -> {
                             entry.with(
                                 TemporalAdjusters.previousOrSame(
                                     firstDayOfWeek,
                                 ),
                             )
-                        HabitFrequency.Monthly -> entry.withDayOfMonth(1)
-                        HabitFrequency.Yearly -> entry.withDayOfYear(1)
-                        else -> entry
+                        }
+
+                        HabitFrequency.Monthly -> {
+                            entry.withDayOfMonth(1)
+                        }
+
+                        HabitFrequency.Yearly -> {
+                            entry.withDayOfYear(1)
+                        }
+
+                        else -> {
+                            entry
+                        }
                     }
                 if (entryRange == rangeFirstDate && !completedRanges.contains(entryRange)) {
                     count++
