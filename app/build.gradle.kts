@@ -136,7 +136,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.8.4")
 
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.8.3")
+    implementation("androidx.room:room-ktx:2.8.4")
 
     // App compat
     implementation("androidx.appcompat:appcompat:1.7.1")
