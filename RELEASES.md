@@ -1,3 +1,12 @@
+## What's Changed in 0.0.39
+
+- Use jauderho prettier. by @dessalines in [#338](https://github.com/dessalines/habit-maker/pull/338)
+- Remove fastlane. by @dessalines in [#337](https://github.com/dessalines/habit-maker/pull/337)
+- Fix tooltips. by @dessalines in [#336](https://github.com/dessalines/habit-maker/pull/336)
+- Fixing fastlane changelogs by @dessalines in [#331](https://github.com/dessalines/habit-maker/pull/331)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.38...0.0.39
+
 ## What's Changed in 0.0.37
 
 - Fixing streak updating on startup to only check last cycle. by @dessalines in [#269](https://github.com/dessalines/habit-maker/pull/269)
