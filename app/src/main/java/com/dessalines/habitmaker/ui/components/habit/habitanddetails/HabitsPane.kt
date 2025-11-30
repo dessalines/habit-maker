@@ -33,6 +33,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -76,7 +77,7 @@ fun HabitsPane(
     onHideCompletedClick: (Boolean) -> Unit,
     selectionState: SelectionVisibilityState<Int>,
 ) {
-    val tooltipPosition = TooltipDefaults.rememberPlainTooltipPositionProvider()
+    val tooltipPosition = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above)
     val title = stringResource(R.string.habits)
 
     // Calculate the completed today before filtering (since hide completed would filter these out)
@@ -169,7 +170,7 @@ fun HabitsPane(
                         item {
                             Text(
                                 text = stringResource(R.string.no_habits),
-                                modifier = Modifier.Companion.padding(horizontal = LARGE_PADDING),
+                                modifier = Modifier.padding(horizontal = LARGE_PADDING),
                             )
                         }
                     }
@@ -178,7 +179,7 @@ fun HabitsPane(
                         item {
                             Text(
                                 text = stringResource(R.string.all_completed_for_today),
-                                modifier = Modifier.Companion.padding(horizontal = LARGE_PADDING),
+                                modifier = Modifier.padding(horizontal = LARGE_PADDING),
                             )
                         }
                     }
@@ -199,7 +200,7 @@ fun HabitsPane(
                 },
             ) {
                 FloatingActionButton(
-                    modifier = Modifier.Companion.imePadding(),
+                    modifier = Modifier.imePadding(),
                     onClick = onCreateHabitClick,
                     shape = CircleShape,
                 ) {
