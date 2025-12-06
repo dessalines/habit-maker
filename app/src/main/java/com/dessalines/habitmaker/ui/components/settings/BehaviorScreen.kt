@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.ui.components.settings
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -49,6 +50,7 @@ import me.zhanghai.compose.preference.SwitchPreference
 import java.time.DayOfWeek
 import java.util.Locale
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BehaviorScreen(
