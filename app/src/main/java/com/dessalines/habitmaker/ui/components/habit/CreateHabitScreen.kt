@@ -25,8 +25,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
@@ -60,6 +60,7 @@ fun CreateHabitScreen(
     val scrollState = rememberScrollState()
     val tooltipPosition = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above)
     val ctx = LocalContext.current
+    val resources = LocalResources.current
 
     var habit: Habit? = null
     var encouragements: List<Encouragement> = listOf()
@@ -160,7 +161,7 @@ fun CreateHabitScreen(
                                     Toast
                                         .makeText(
                                             ctx,
-                                            getString(ctx, R.string.habit_already_exists),
+                                            resources.getString(R.string.habit_already_exists),
                                             Toast.LENGTH_SHORT,
                                         ).show()
                                 }

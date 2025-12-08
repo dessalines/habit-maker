@@ -20,12 +20,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.ContextCompat.getString
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
@@ -44,7 +43,7 @@ fun HabitForm(
     habit: Habit? = null,
     onChange: (Habit) -> Unit,
 ) {
-    val ctx = LocalContext.current
+    val resources = LocalResources.current
 
     var name by rememberSaveable {
         mutableStateOf(habit?.name.orEmpty())
@@ -127,7 +126,7 @@ fun HabitForm(
                 },
                 values = HabitFrequency.entries,
                 valueToText = {
-                    AnnotatedString(getString(ctx, it.resId))
+                    AnnotatedString(resources.getString(it.resId))
                 },
                 title = {
                     Text(stringResource(frequency.resId))
