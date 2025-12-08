@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.ui.components.settings
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
@@ -152,7 +154,7 @@ fun BehaviorScreen(
                         },
                         values = HabitSort.entries,
                         valueToText = {
-                            AnnotatedString(ctx.getString(it.resId))
+                            AnnotatedString(getString(ctx, it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.sort))
@@ -177,7 +179,7 @@ fun BehaviorScreen(
                         },
                         values = HabitSortOrder.entries,
                         valueToText = {
-                            AnnotatedString(ctx.getString(it.resId))
+                            AnnotatedString(getString(ctx, it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.sort_order))

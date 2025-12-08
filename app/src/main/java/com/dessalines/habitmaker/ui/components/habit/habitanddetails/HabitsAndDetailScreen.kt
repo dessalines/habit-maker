@@ -347,6 +347,7 @@ fun updateStatsForHabit(
     return statsUpdate
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
 fun buildCongratsSnackMessage(
     ctx: Context,
     stats: HabitUpdateStats,
