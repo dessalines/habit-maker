@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
@@ -50,7 +51,6 @@ import me.zhanghai.compose.preference.SwitchPreference
 import java.time.DayOfWeek
 import java.util.Locale
 
-@SuppressLint("LocalContextGetResourceValueCall")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BehaviorScreen(
@@ -154,7 +154,7 @@ fun BehaviorScreen(
                         },
                         values = HabitSort.entries,
                         valueToText = {
-                            AnnotatedString(ctx.getString(it.resId))
+                            AnnotatedString(getString(ctx, it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.sort))
@@ -179,7 +179,7 @@ fun BehaviorScreen(
                         },
                         values = HabitSortOrder.entries,
                         valueToText = {
-                            AnnotatedString(ctx.getString(it.resId))
+                            AnnotatedString(getString(ctx, it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.sort_order))

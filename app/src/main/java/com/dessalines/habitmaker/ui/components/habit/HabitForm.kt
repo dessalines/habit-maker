@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat.getString
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
@@ -126,7 +127,7 @@ fun HabitForm(
                 },
                 values = HabitFrequency.entries,
                 valueToText = {
-                    AnnotatedString(ctx.getString(it.resId))
+                    AnnotatedString(getString(ctx, it.resId))
                 },
                 title = {
                     Text(stringResource(frequency.resId))

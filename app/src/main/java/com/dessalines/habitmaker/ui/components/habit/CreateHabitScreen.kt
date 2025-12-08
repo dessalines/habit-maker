@@ -26,6 +26,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
@@ -159,7 +160,7 @@ fun CreateHabitScreen(
                                     Toast
                                         .makeText(
                                             ctx,
-                                            ctx.getString(R.string.habit_already_exists),
+                                            getString(ctx, R.string.habit_already_exists),
                                             Toast.LENGTH_SHORT,
                                         ).show()
                                 }
