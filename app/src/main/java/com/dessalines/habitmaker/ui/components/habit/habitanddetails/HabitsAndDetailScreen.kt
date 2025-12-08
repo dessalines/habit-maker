@@ -1,7 +1,7 @@
 package com.dessalines.habitmaker.ui.components.habit.habitanddetails
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.res.Resources
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -28,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
@@ -81,6 +82,7 @@ fun HabitsAndDetailScreen(
     id: Int?,
 ) {
     val ctx = LocalContext.current
+    val resources = LocalResources.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val paneExpansionState = rememberPaneExpansionState()
@@ -162,7 +164,7 @@ fun HabitsAndDetailScreen(
                                         val frequency = HabitFrequency.entries[habit.frequency]
                                         val congratsMessage =
                                             buildCongratsSnackMessage(
-                                                ctx = ctx,
+                                                resources = resources,
                                                 stats = stats,
                                                 frequency = frequency,
                                                 encouragement = randomEncouragement,
@@ -347,9 +349,8 @@ fun updateStatsForHabit(
     return statsUpdate
 }
 
-@SuppressLint("LocalContextGetResourceValueCall")
 fun buildCongratsSnackMessage(
-    ctx: Context,
+    resources: Resources,
     stats: HabitUpdateStats,
     frequency: HabitFrequency,
     encouragement: Encouragement,
@@ -368,7 +369,7 @@ fun buildCongratsSnackMessage(
         }
     if (stats.streak > 0) {
         messages.add(
-            ctx.getString(
+            resources.getString(
                 resId,
                 prettyFormat(stats.streak),
                 prettyFormat(todayPoints),

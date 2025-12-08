@@ -17,10 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
@@ -40,7 +39,7 @@ fun LookAndFeelScreen(
     appSettingsViewModel: AppSettingsViewModel,
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
-    val ctx = LocalContext.current
+    val resources = LocalResources.current
 
     var themeState = ThemeMode.entries[settings?.theme ?: 0]
     var themeColorState = ThemeColor.entries[settings?.themeColor ?: 0]
@@ -85,7 +84,7 @@ fun LookAndFeelScreen(
                         },
                         values = ThemeMode.entries,
                         valueToText = {
-                            AnnotatedString(getString(ctx, it.resId))
+                            AnnotatedString(resources.getString(it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.theme))
@@ -110,7 +109,7 @@ fun LookAndFeelScreen(
                         },
                         values = ThemeColor.entries,
                         valueToText = {
-                            AnnotatedString(getString(ctx, it.resId))
+                            AnnotatedString(resources.getString(it.resId))
                         },
                         title = {
                             Text(stringResource(R.string.theme_color))
