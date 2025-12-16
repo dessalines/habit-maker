@@ -115,4 +115,5 @@
     <string name="all_completed_for_today">Bugünlük her şey tamam!</string>
     <string name="archived">Arşivlenmiş</string>
     <string name="remind_specific_days">Belirli günlerde hatırlat</string>
+    <string name="first_day_of_week">Haftanın ilk günü</string>
 </resources>
