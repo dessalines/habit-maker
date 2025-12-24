@@ -110,7 +110,6 @@
     <string name="score">Score</string>
     <string name="default_encouragement_1">Bravo ! Tout le mone n\'est pas aussi travailleur que vous.</string>
     <string name="monthly">Mensuel</string>
-    <string name="completed_count_alt">%1$s habitudes complétées aujourd\'hui</string>
     <string name="show_completed">Montrer les habitudes complétées</string>
     <string name="descending">Décroissant</string>
     <string name="hide_days_completed_on_home">Cacher le nombre de jours complétés sur la page d\'accueil</string>

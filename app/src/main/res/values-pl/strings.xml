@@ -52,7 +52,6 @@
     <string name="all_completed_for_today">Na dziś wszystko zrobione!</string>
     <string name="no_habits">Brak nawyków</string>
     <string name="completed_count">Ukończono: %1$s</string>
-    <string name="completed_count_alt">%1$s nawyków ukończonych dzisiaj</string>
     <string name="points">Punkty</string>
     <string name="score">Wynik</string>
     <string name="status">Status</string>

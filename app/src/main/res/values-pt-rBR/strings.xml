@@ -71,7 +71,6 @@
     <string name="weekly">Semanal</string>
     <string name="monthly">Mensal</string>
     <string name="completed_count">Contagem de concluídos: %1$s</string>
-    <string name="completed_count_alt">%1$s hábitos concluídos hoje</string>
     <string name="app_name">Habit-Maker</string>
     <string name="source_code_subtitle">Habit-Maker é um software livre e de código aberto, licenciado sob a GNU Affero General Public License v3.0</string>
     <string name="yes">Sim</string>

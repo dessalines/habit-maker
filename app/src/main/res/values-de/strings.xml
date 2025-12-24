@@ -72,7 +72,6 @@
     <string name="look_and_feel">Erscheinungsbild</string>
     <string name="streak">Serie</string>
     <string name="go_back">Zurück</string>
-    <string name="completed_count_alt">%1$s Gewohnheiten heute abgeschlossen</string>
     <string name="backup_database">Datenbank sichern</string>
     <string name="theme_color">Design Farbe</string>
     <string name="x_year_streak">%1$s-Jahre-Serie</string>

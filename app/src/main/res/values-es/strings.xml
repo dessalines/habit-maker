@@ -60,7 +60,6 @@
     <string name="all_completed_for_today">¡Todo listo por hoy!</string>
     <string name="daily">Todos los dias</string>
     <string name="completed_count">Total completados: %1$s</string>
-    <string name="completed_count_alt">%1$s hábitos completados hoy</string>
     <string name="completed_count_summary">El número de veces antes de que un hábito esté completamente aprendido. (66 en promedio)</string>
     <string name="sort">Ordenar por</string>
     <string name="sort_order">Orden</string>

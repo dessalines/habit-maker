@@ -82,7 +82,6 @@
     <string name="monthly">Ежемесячно</string>
     <string name="yearly">Ежегодно</string>
     <string name="completed_count">Количество повторений: %1$s</string>
-    <string name="completed_count_alt">%1$s привычек выполнено сегодня</string>
     <string name="completed_count_summary">Количество повторений до того, как привычка будет полностью усвоена. (обычно 66)</string>
     <string name="sort">Сортировка</string>
     <string name="sort_order">Порядок сортировки</string>
