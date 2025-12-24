@@ -2,6 +2,7 @@ package com.dessalines.habitmaker.ui.components.common
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,13 @@ import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,12 +46,29 @@ fun SectionTitle(title: String) =
     )
 
 @Composable
-fun TodayCompletedCount(todayCompletedCount: Int) =
-    Text(
-        text = stringResource(R.string.completed_count_alt, todayCompletedCount),
-        modifier = Modifier.padding(horizontal = LARGE_PADDING),
-        style = MaterialTheme.typography.bodyMedium,
-    )
+fun SectionProgress(
+    completed: Int,
+    total: Int,
+) {
+    val progress = completed.toFloat() / total.toFloat()
+
+    val textColor =
+        if (progress == 1.0f) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.outline
+        }
+
+    Box(
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator(progress = { progress })
+        Text(
+            text = completed.toString(),
+            color = textColor,
+        )
+    }
+}
 
 @Composable
 fun Modifier.textFieldBorder(): Modifier =
@@ -205,4 +225,10 @@ fun HabitChipsFlowRowNoDescriptionsPreview() {
         habit = sampleHabit,
         settings = sampleAppSettings.copy(hideChipDescriptions = 1),
     )
+}
+
+@Composable
+@Preview
+fun SectionProgressPreview() {
+    SectionProgress(3, 3)
 }

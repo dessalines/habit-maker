@@ -4,7 +4,10 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BasicTooltipBox
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +40,7 @@ import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -49,8 +53,8 @@ import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
 import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
+import com.dessalines.habitmaker.ui.components.common.SectionProgress
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
-import com.dessalines.habitmaker.ui.components.common.TodayCompletedCount
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
@@ -80,14 +84,8 @@ fun HabitsPane(
     val tooltipPosition = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above)
     val title = stringResource(R.string.habits)
 
-    // Calculate the completed today before filtering (since hide completed would filter these out)
-    val todayCompletedCount = habits.orEmpty().count { isCompletedToday(it.lastCompletedTime) }
-
-    // Filter and sort the habits
-    val filteredHabits = filterAndSortHabits(habits.orEmpty(), settings)
-
     // Group them by frequency
-    val habitsByFrequency = buildHabitsByFrequency(filteredHabits)
+    val habitsByFrequency = buildHabitsByFrequency(habits.orEmpty(), settings)
 
     val hideCompleted = (settings?.hideCompleted ?: 0).toBool()
     val (hideIcon, hideText) =
@@ -156,8 +154,7 @@ fun HabitsPane(
             ) {
                 habitsByFrequency.forEach {
                     habitFrequencySection(
-                        it.titleResId,
-                        it.list,
+                        data = it,
                         settings,
                         selectionState,
                         onHabitClick,
@@ -173,20 +170,6 @@ fun HabitsPane(
                                 modifier = Modifier.padding(horizontal = LARGE_PADDING),
                             )
                         }
-                    }
-                    // If there are habits, but they're filtered, then say all completed
-                    if (habits.isNotEmpty() && filteredHabits.isEmpty()) {
-                        item {
-                            Text(
-                                text = stringResource(R.string.all_completed_for_today),
-                                modifier = Modifier.padding(horizontal = LARGE_PADDING),
-                            )
-                        }
-                    }
-                }
-                if (todayCompletedCount > 0) {
-                    item {
-                        TodayCompletedCount(todayCompletedCount)
                     }
                 }
             }
@@ -215,19 +198,27 @@ fun HabitsPane(
 }
 
 fun LazyListScope.habitFrequencySection(
-    @StringRes sectionTitleResId: Int,
-    habits: List<Habit>,
+    data: HabitGroupData,
     settings: AppSettings?,
     selectionState: SelectionVisibilityState<Int>,
     onHabitClick: (Int) -> Unit,
     onHabitCheck: (Int) -> Unit,
 ) {
-    if (habits.isNotEmpty()) {
+    if (data.total > 0) {
         item {
-            SectionTitle(stringResource(sectionTitleResId))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                SectionTitle(stringResource(data.titleResId))
+                if (data.completed > 0) {
+                    SectionProgress(data.completed, data.total)
+                }
+            }
         }
         itemsIndexed(
-            items = habits,
+            items = data.filteredList,
             key = { _, item -> item.id },
         ) { index, habit ->
             val selected =
@@ -248,13 +239,13 @@ fun LazyListScope.habitFrequencySection(
                 )
 
                 // Dont show horizontal divider for last one
-                if (index.plus(1) != habits.size) {
+                if (index.plus(1) != data.filteredList.size) {
                     HorizontalDivider()
                 }
             }
         }
         item {
-            HorizontalDivider(modifier = Modifier.padding(bottom = MEDIUM_PADDING))
+            HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
         }
     }
 }
@@ -323,9 +314,11 @@ fun HabitRowPreview() {
     )
 }
 
-data class HabitListAndTitle(
+data class HabitGroupData(
     @param:StringRes val titleResId: Int,
-    val list: List<Habit>,
+    val filteredList: List<Habit>,
+    val completed: Int,
+    val total: Int,
 )
 
 fun filterAndSortHabits(
@@ -362,22 +355,39 @@ fun filterAndSortHabits(
     return tmp.toImmutableList()
 }
 
-fun buildHabitsByFrequency(habits: List<Habit>) =
-    listOf(
-        HabitListAndTitle(
-            titleResId = R.string.daily,
-            list = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily },
-        ),
-        HabitListAndTitle(
-            titleResId = R.string.weekly,
-            list = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Weekly },
-        ),
-        HabitListAndTitle(
-            titleResId = R.string.monthly,
-            list = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Monthly },
-        ),
-        HabitListAndTitle(
-            titleResId = R.string.yearly,
-            list = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Yearly },
-        ),
-    )
+fun buildHabitsByFrequency(
+    habits: List<Habit>,
+    settings: AppSettings?,
+) = listOf(
+    calculateHabitGroupData(
+        titleResId = R.string.daily,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily },
+        settings,
+    ),
+    calculateHabitGroupData(
+        titleResId = R.string.weekly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Weekly },
+        settings,
+    ),
+    calculateHabitGroupData(
+        titleResId = R.string.monthly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Monthly },
+        settings,
+    ),
+    calculateHabitGroupData(
+        titleResId = R.string.yearly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Yearly },
+        settings,
+    ),
+)
+
+fun calculateHabitGroupData(
+    @StringRes titleResId: Int,
+    habits: List<Habit>,
+    settings: AppSettings?,
+) = HabitGroupData(
+    titleResId = titleResId,
+    completed = habits.count { isVirtualCompleted(it.lastStreakTime) },
+    total = habits.size,
+    filteredList = filterAndSortHabits(habits, settings),
+)
