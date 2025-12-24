@@ -92,7 +92,6 @@
     <string name="monthly">شهري</string>
     <string name="yearly">سنوي</string>
     <string name="completed_count">عدد مرات الإكمال: %1$s</string>
-    <string name="completed_count_alt">%1$s عادة تم إكمالها اليوم</string>
     <string name="completed_count_summary">عدد المرات قبل أن يتم تعلم العادة بالكامل. (66 في المتوسط)</string>
     <string name="sort">فرز</string>
     <string name="sort_order">ترتيب الفرز</string>

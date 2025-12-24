@@ -85,7 +85,6 @@
     <string name="monthly">ماهانه</string>
     <string name="yearly">سالانه</string>
     <string name="completed_count">تعداد انجام‌شده: %1$s</string>
-    <string name="completed_count_alt">%1$sعادت امروز انجام شدن ( کامل شدن )</string>
     <string name="completed_count_summary">تعداد دفعاتی که باید انجام شود تا یک عادت به‌طور کامل شکل بگیرد. (میانگین ۶۶ بار)</string>
     <string name="sort">دسته بندی</string>
     <string name="sort_order">ترتیب مرتب‌سازی</string>

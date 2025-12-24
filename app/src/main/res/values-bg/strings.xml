@@ -90,7 +90,6 @@
     <string name="weekly">Всяка седмица</string>
     <string name="default_encouragement_2">Отлична работа! Отделете минута, за да помислите защо този навик е важен за вас.</string>
     <string name="default_encouragement_3">Изключително! Навлизате в ритъм.</string>
-    <string name="completed_count_alt">%1$s изпълнени навика за деня</string>
     <string name="sort">Сортиране</string>
     <string name="sort_order">Ред на сортиране</string>
     <string name="hide_archived">Скриване на архивираните</string>

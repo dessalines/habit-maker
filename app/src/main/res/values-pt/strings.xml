@@ -85,5 +85,4 @@
     <string name="monthly">Mensal</string>
     <string name="yearly">Anual</string>
     <string name="completed_count">Contagem de concluídos: %1$s</string>
-    <string name="completed_count_alt">%1$s hábitos concluídos hoje</string>
 </resources>

@@ -61,7 +61,6 @@
     <string name="daily">Günlük</string>
     <string name="weekly">Haftalık</string>
     <string name="monthly">Aylık</string>
-    <string name="completed_count_alt">Bugün %1$s alışkanlık tamamlandı</string>
     <string name="completed_count_summary">Bir alışkanlığın tam olarak öğrenilmesinden önceki tekrar sayısı. (Ortalama 66)</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="hide_archived">Arşivlenenleri gizle</string>

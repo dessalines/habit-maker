@@ -84,7 +84,6 @@
     <string name="monthly">Igakuised</string>
     <string name="yearly">Iga-aastased</string>
     <string name="completed_count">Tehtud: %1$s</string>
-    <string name="completed_count_alt">Täna ära tehtud %1$s</string>
     <string name="completed_count_summary">Mitme sooritusega harjumus tekib. (Keskmiselt 66)</string>
     <string name="sort">Järjestuse alus</string>
     <string name="sort_order">Järjestuse suund</string>

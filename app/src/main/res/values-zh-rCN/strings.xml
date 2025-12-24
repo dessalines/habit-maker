@@ -67,7 +67,6 @@
     <string name="monthly">每月</string>
     <string name="yearly">每年</string>
     <string name="completed_count">完成次数：%1$s</string>
-    <string name="completed_count_alt">今日已完成 %1$s 个习惯</string>
     <string name="completed_count_summary">习惯完全养成所需次数（平均66次）</string>
     <string name="sort">排序</string>
     <string name="sort_order">排序方式</string>
