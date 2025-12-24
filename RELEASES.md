@@ -1,3 +1,10 @@
+## What's Changed in 0.0.40
+
+- Adding circular progress indicator to each frequency section. by @dessalines in [#355](https://github.com/dessalines/habit-maker/pull/355)
+- Fixing use_resources_getstring by @dessalines in [#345](https://github.com/dessalines/habit-maker/pull/345)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.39...0.0.40
+
 ## What's Changed in 0.0.39
 
 - Use jauderho prettier. by @dessalines in [#338](https://github.com/dessalines/habit-maker/pull/338)
