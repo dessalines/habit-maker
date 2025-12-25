@@ -41,7 +41,6 @@ import com.dessalines.prettyFormat
 fun SectionTitle(title: String) =
     Text(
         text = title,
-        modifier = Modifier.padding(horizontal = LARGE_PADDING),
         style = MaterialTheme.typography.titleLarge,
     )
 
