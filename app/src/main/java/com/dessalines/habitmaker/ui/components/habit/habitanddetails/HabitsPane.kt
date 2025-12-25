@@ -388,6 +388,7 @@ fun calculateHabitGroupData(
 ) = HabitGroupData(
     titleResId = titleResId,
     completed = habits.count { isVirtualCompleted(it.lastStreakTime) },
-    total = habits.size,
+    // Don't count archived in the total for progress
+    total = habits.filter { !it.archived.toBool() }.size,
     filteredList = filterAndSortHabits(habits, settings),
 )
