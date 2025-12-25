@@ -61,7 +61,10 @@ fun SectionProgress(
     Box(
         contentAlignment = Alignment.Center,
     ) {
-        CircularProgressIndicator(progress = { progress })
+        CircularProgressIndicator(
+            progress = { progress },
+            color = textColor,
+        )
         Text(
             text = completed.toString(),
             color = textColor,
