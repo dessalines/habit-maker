@@ -209,7 +209,10 @@ fun LazyListScope.habitFrequencySection(
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LARGE_PADDING),
             ) {
                 SectionTitle(stringResource(data.titleResId))
                 if (data.completed > 0) {
