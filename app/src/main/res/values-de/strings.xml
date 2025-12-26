@@ -112,4 +112,7 @@
     <string name="score">Score</string>
     <string name="no_reminders">Keine Erinnerungen</string>
     <string name="request_notification_permission">Benachrichtigungsberechtigung anfordern</string>
+    <string name="x_days_completed">%1$s Tage abgeschlossen</string>
+    <string name="x_tasks_completed">%1$s Aufgaben abgeschlossen</string>
+    <string name="first_day_of_week">Erster Tag der Woche</string>
 </resources>
