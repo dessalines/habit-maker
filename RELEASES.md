@@ -1,3 +1,11 @@
+## What's Changed in 0.0.41
+
+- Add a total tasks completed line, and a setting to disable it. by @dessalines in [#361](https://github.com/dessalines/habit-maker/pull/361)
+- Don't count archived for total progress count. by @dessalines in [#360](https://github.com/dessalines/habit-maker/pull/360)
+- Fixing progress bar padding. by @dessalines in [#359](https://github.com/dessalines/habit-maker/pull/359)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.40...0.0.41
+
 ## What's Changed in 0.0.40
 
 - Adding circular progress indicator to each frequency section. by @dessalines in [#355](https://github.com/dessalines/habit-maker/pull/355)
