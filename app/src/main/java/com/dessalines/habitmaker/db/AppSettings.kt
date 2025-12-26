@@ -99,6 +99,11 @@ data class AppSettings(
         defaultValue = "6",
     )
     val firstDayOfWeek: DayOfWeek,
+    @ColumnInfo(
+        name = "hide_totals",
+        defaultValue = "0",
+    )
+    val hideTotals: Int,
 )
 
 data class SettingsUpdateHideCompleted(
@@ -181,6 +186,11 @@ data class SettingsUpdateBehavior(
         defaultValue = "6",
     )
     val firstDayOfWeek: DayOfWeek,
+    @ColumnInfo(
+        name = "hide_totals",
+        defaultValue = "0",
+    )
+    val hideTotals: Int,
 )
 
 @Dao
@@ -311,6 +321,7 @@ val sampleAppSettings =
         completedCount = 0,
         hideCompleted = 0,
         hideArchived = 0,
+        hideTotals = 0,
         hidePointsOnHome = 0,
         hideScoreOnHome = 0,
         hideStreakOnHome = 0,

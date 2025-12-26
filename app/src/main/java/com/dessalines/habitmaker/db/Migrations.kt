@@ -95,3 +95,15 @@ val MIGRATION_6_7 =
             db.execSQL("ALTER TABLE AppSettings ADD COLUMN first_day_of_week INTEGER NOT NULL DEFAULT 6")
         }
     }
+
+/**
+ * Add a setting to hide the totals
+ */
+val MIGRATION_7_8 =
+    object : Migration(7, 8) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE AppSettings ADD COLUMN hide_totals INTEGER NOT NULL DEFAULT 0",
+            )
+        }
+    }

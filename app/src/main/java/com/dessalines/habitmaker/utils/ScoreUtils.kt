@@ -113,10 +113,6 @@ fun buildVirtualDates(
                     HabitFrequency.Yearly -> {
                         dates.firstOrNull()?.withDayOfYear(1)
                     }
-
-                    else -> {
-                        null
-                    }
                 }
 
             var count = 0
@@ -139,10 +135,6 @@ fun buildVirtualDates(
 
                         HabitFrequency.Yearly -> {
                             entry.withDayOfYear(1)
-                        }
-
-                        else -> {
-                            entry
                         }
                     }
                 if (entryRange == rangeFirstDate && !completedRanges.contains(entryRange)) {
