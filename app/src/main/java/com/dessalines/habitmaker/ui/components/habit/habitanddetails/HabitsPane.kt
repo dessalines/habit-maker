@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -51,8 +52,11 @@ import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
+import com.dessalines.habitmaker.ui.components.common.HabitDaysCompletedInfoChip
+import com.dessalines.habitmaker.ui.components.common.HabitPointsInfoChip
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
 import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
+import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionProgress
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.ToolTip
@@ -88,6 +92,8 @@ fun HabitsPane(
     val habitsByFrequency = buildHabitsByFrequency(habits.orEmpty(), settings)
 
     val hideCompleted = (settings?.hideCompleted ?: 0).toBool()
+    val hideTotals = (settings?.hideTotals ?: 0).toBool()
+
     val (hideIcon, hideText) =
         if (hideCompleted) {
             Pair(Icons.Default.VisibilityOff, stringResource(R.string.hide_completed))
@@ -152,6 +158,11 @@ fun HabitsPane(
                         .padding(padding)
                         .imePadding(),
             ) {
+                if (!hideTotals && habits.orEmpty().isNotEmpty()) {
+                    item {
+                        HabitTotals(habits, settings)
+                    }
+                }
                 habitsByFrequency.forEach {
                     habitFrequencySection(
                         data = it,
@@ -241,7 +252,7 @@ fun LazyListScope.habitFrequencySection(
                     selected = selected,
                 )
 
-                // Dont show horizontal divider for last one
+                // Don't show horizontal divider for last one
                 if (index.plus(1) != data.filteredList.size) {
                     HorizontalDivider()
                 }
@@ -395,3 +406,31 @@ fun calculateHabitGroupData(
     total = habits.filter { !it.archived.toBool() }.size,
     filteredList = filterAndSortHabits(habits, settings),
 )
+
+@Composable
+fun HabitTotals(
+    habits: List<Habit>?,
+    settings: AppSettings?,
+) {
+    Column(
+        Modifier
+            .padding(horizontal = LARGE_PADDING),
+    ) {
+        SectionTitle(stringResource(R.string.totals))
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+        ) {
+            // Streak and score doesn't make sense for totals, but the others do.
+            HabitDaysCompletedInfoChip(
+                completed = habits.orEmpty().sumOf { it.completed },
+                useTasksInsteadOfDaysString = true,
+                settings = settings,
+            )
+            HabitPointsInfoChip(
+                points = habits.orEmpty().sumOf { it.points },
+                settings = settings,
+            )
+        }
+        HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
+    }
+}

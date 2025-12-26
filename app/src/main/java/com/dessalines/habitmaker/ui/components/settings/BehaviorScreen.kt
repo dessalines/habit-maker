@@ -64,6 +64,7 @@ fun BehaviorScreen(
 
     var hideCompletedState = (settings?.hideCompleted ?: 0).toBool()
     var hideArchivedState = (settings?.hideArchived ?: 0).toBool()
+    var hideTotalsState = (settings?.hideTotals ?: 0).toBool()
     var hidePointsOnHomeState = (settings?.hidePointsOnHome ?: 0).toBool()
     var hideScoreOnHomeState = (settings?.hideScoreOnHome ?: 0).toBool()
     var hideStreakOnHomeState = (settings?.hideStreakOnHome ?: 0).toBool()
@@ -85,6 +86,7 @@ fun BehaviorScreen(
                 sortOrder = sortOrderState.ordinal,
                 hideCompleted = hideCompletedState.toInt(),
                 hideArchived = hideArchivedState.toInt(),
+                hideTotals = hideTotalsState.toInt(),
                 hidePointsOnHome = hidePointsOnHomeState.toInt(),
                 hideScoreOnHome = hideScoreOnHomeState.toInt(),
                 hideStreakOnHome = hideStreakOnHomeState.toInt(),
@@ -240,6 +242,23 @@ fun BehaviorScreen(
                         },
                         title = {
                             Text(stringResource(R.string.hide_archived))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+
+                    SwitchPreference(
+                        value = hideTotalsState,
+                        onValueChange = {
+                            hideTotalsState = it
+                            updateSettings()
+                        },
+                        title = {
+                            Text(stringResource(R.string.hide_totals))
                         },
                         icon = {
                             Icon(
