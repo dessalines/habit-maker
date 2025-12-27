@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dessalines.habitmaker.R
@@ -52,6 +53,7 @@ import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.HabitInfoChip
 import com.dessalines.habitmaker.ui.components.common.LARGE_PADDING
+import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.ToolTip
@@ -102,7 +104,13 @@ fun HabitDetailPane(
     Scaffold(
         topBar = {
             MediumTopAppBar(
-                title = { Text(titleText) },
+                title = {
+                    Text(
+                        titleText,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     if (onBackClick !== null) {
@@ -174,7 +182,10 @@ fun HabitDetailPane(
                         .imePadding(),
             ) {
                 item {
-                    SectionTitle(stringResource(R.string.overview))
+                    SectionTitle(
+                        stringResource(R.string.overview),
+                        modifier = Modifier.padding(horizontal = LARGE_PADDING),
+                    )
                 }
                 item {
                     FlowRow(
@@ -194,10 +205,13 @@ fun HabitDetailPane(
                     )
                 }
                 item {
-                    HorizontalDivider()
+                    HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
                 }
                 item {
-                    SectionTitle(stringResource(R.string.history))
+                    SectionTitle(
+                        stringResource(R.string.history),
+                        modifier = Modifier.padding(horizontal = LARGE_PADDING),
+                    )
                 }
                 item {
                     // Force rerender wher first day of week changes
@@ -210,7 +224,7 @@ fun HabitDetailPane(
                     }
                 }
                 item {
-                    HorizontalDivider()
+                    HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
                 }
                 if (habit.notes?.isNotBlank() == true) {
                     item {
@@ -229,7 +243,7 @@ fun HabitDetailPane(
 @Composable
 fun HabitDetails(habit: Habit) {
     if (!habit.notes.isNullOrBlank()) {
-        HorizontalDivider()
+        HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
         MarkdownText(
             markdown = habit.notes,
             linkColor = MaterialTheme.colorScheme.primary,
