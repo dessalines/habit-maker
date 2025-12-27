@@ -37,11 +37,14 @@ import com.dessalines.habitmaker.utils.toBool
 import com.dessalines.prettyFormat
 
 @Composable
-fun SectionTitle(title: String) =
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleLarge,
-    )
+fun SectionTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+) = Text(
+    text = title,
+    style = MaterialTheme.typography.titleLarge,
+    modifier = modifier,
+)
 
 @Composable
 fun SectionProgress(
