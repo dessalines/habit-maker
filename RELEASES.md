@@ -1,3 +1,9 @@
+## What's Changed in 0.0.42
+
+- Fixing incorrect title offset on details page. by @dessalines in [#363](https://github.com/dessalines/habit-maker/pull/363)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.41...0.0.42
+
 ## What's Changed in 0.0.41
 
 - Add a total tasks completed line, and a setting to disable it. by @dessalines in [#361](https://github.com/dessalines/habit-maker/pull/361)
