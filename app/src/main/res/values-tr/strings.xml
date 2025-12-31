@@ -115,4 +115,7 @@
     <string name="archived">Arşivlenmiş</string>
     <string name="remind_specific_days">Belirli günlerde hatırlat</string>
     <string name="first_day_of_week">Haftanın ilk günü</string>
+    <string name="x_tasks_completed">%1$s görev tamamlandı</string>
+    <string name="totals">Toplam</string>
+    <string name="hide_totals">Toplamı gizle</string>
 </resources>
