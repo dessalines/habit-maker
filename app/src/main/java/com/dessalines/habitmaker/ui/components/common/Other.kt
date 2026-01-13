@@ -86,7 +86,7 @@ fun Modifier.textFieldBorder(): Modifier =
 @Composable
 fun HabitInfoChip(
     text: String,
-    icon: ImageVector,
+    icon: ImageVector?,
     habitStatus: HabitStatus = HabitStatus.Normal,
 ) {
     val (containerColor, labelColor) =
@@ -103,11 +103,13 @@ fun HabitInfoChip(
         onClick = {},
         label = { Text(text) },
         leadingIcon = {
-            Icon(
-                imageVector = icon,
-                modifier = Modifier.size(AssistChipDefaults.IconSize),
-                contentDescription = null,
-            )
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    modifier = Modifier.size(AssistChipDefaults.IconSize),
+                    contentDescription = null,
+                )
+            }
         },
     )
 }
@@ -231,7 +233,7 @@ fun HabitScoreInfoChip(
 
         HabitInfoChip(
             text = text,
-            icon = Icons.Default.Check,
+            icon = null,
         )
     }
 }
