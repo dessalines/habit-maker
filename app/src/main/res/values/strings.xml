@@ -46,6 +46,7 @@
     <string name="x_percent_complete">%1$s%% complete</string>
     <string name="x_days_completed">%1$s days completed</string>
     <string name="x_tasks_completed">%1$s tasks completed</string>
+    <string name="x_completed_today">%1$s completed today</string>
     <string name="create_habit">Create habit</string>
     <string name="save">Save</string>
     <string name="habit_already_exists">Habit already exists</string>
