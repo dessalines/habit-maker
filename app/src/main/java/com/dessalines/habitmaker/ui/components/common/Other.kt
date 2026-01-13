@@ -138,7 +138,7 @@ fun HabitChipsFlowRow(
         )
         HabitDaysCompletedInfoChip(
             completed = habit.completed,
-            useTasksInsteadOfDaysString = false,
+            taskType = TasksDaysOrToday.Days,
             settings = settings,
         )
         HabitPointsInfoChip(
@@ -161,7 +161,7 @@ fun HabitStreakInfoChip(
     if (!(settings?.hideStreakOnHome ?: 0).toBool()) {
         val freq = HabitFrequency.entries[frequency]
         // Streak has special colors
-        val habitStatus = habitStatusFromStreak(streak)
+        val habitStatus = habitStatusFromCount(streak)
         val text =
             if (!(settings?.hideChipDescriptions ?: 0).toBool()) {
                 stringResource(
@@ -184,17 +184,39 @@ fun HabitStreakInfoChip(
     }
 }
 
+enum class TasksDaysOrToday {
+    Tasks,
+    Days,
+    Today,
+}
+
 @Composable
 fun HabitDaysCompletedInfoChip(
     completed: Int,
-    useTasksInsteadOfDaysString: Boolean,
+    taskType: TasksDaysOrToday,
+    showHabitStatus: Boolean = false,
     settings: AppSettings?,
 ) {
-    val (countString, icon) =
-        if (useTasksInsteadOfDaysString) {
-            Pair(R.string.x_tasks_completed, Icons.Default.Check)
+    val habitStatus =
+        if (showHabitStatus) {
+            habitStatusFromCount(completed)
         } else {
-            Pair(R.string.x_days_completed, Icons.Default.Today)
+            HabitStatus.Normal
+        }
+
+    val (countString, icon) =
+        when (taskType) {
+            TasksDaysOrToday.Tasks -> {
+                Pair(R.string.x_tasks_completed, Icons.Default.Check)
+            }
+
+            TasksDaysOrToday.Days -> {
+                Pair(R.string.x_days_completed, Icons.Default.Check)
+            }
+
+            TasksDaysOrToday.Today -> {
+                Pair(R.string.x_completed_today, Icons.Default.Today)
+            }
         }
 
     if (!(settings?.hideDaysCompletedOnHome ?: 0).toBool()) {
@@ -211,6 +233,7 @@ fun HabitDaysCompletedInfoChip(
         HabitInfoChip(
             text = text,
             icon = icon,
+            habitStatus = habitStatus,
         )
     }
 }
@@ -238,8 +261,8 @@ fun HabitScoreInfoChip(
     }
 }
 
-fun habitStatusFromStreak(streak: Int) =
-    when (streak) {
+fun habitStatusFromCount(count: Int) =
+    when (count) {
         in 0..3 -> HabitStatus.Normal
         in 4..7 -> HabitStatus.Silver
         in 8..21 -> HabitStatus.Gold

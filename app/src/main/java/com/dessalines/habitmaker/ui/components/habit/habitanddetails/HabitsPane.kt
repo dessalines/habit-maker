@@ -59,6 +59,7 @@ import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionProgress
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
+import com.dessalines.habitmaker.ui.components.common.TasksDaysOrToday
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
@@ -420,12 +421,23 @@ fun HabitTotals(
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
         ) {
-            // Streak and score doesn't make sense for totals, but the others do.
+            // Show the # completed today, with a status color
             HabitDaysCompletedInfoChip(
-                completed = habits.orEmpty().sumOf { it.completed },
-                useTasksInsteadOfDaysString = true,
+                completed = habits.orEmpty().count { isCompletedToday(it.lastCompletedTime) },
+                taskType = TasksDaysOrToday.Today,
+                showHabitStatus = true,
                 settings = settings,
             )
+
+            // Streak and score doesn't make sense for totals, but the others do.
+            // Show total completed tasks
+            HabitDaysCompletedInfoChip(
+                completed = habits.orEmpty().sumOf { it.completed },
+                taskType = TasksDaysOrToday.Tasks,
+                settings = settings,
+            )
+
+            // Show the total points
             HabitPointsInfoChip(
                 points = habits.orEmpty().sumOf { it.points },
                 settings = settings,
