@@ -1,3 +1,9 @@
+## What's Changed in 0.0.43
+
+- Daily totals by @dessalines in [#373](https://github.com/dessalines/habit-maker/pull/373)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.42...0.0.43
+
 ## What's Changed in 0.0.42
 
 - Fixing incorrect title offset on details page. by @dessalines in [#363](https://github.com/dessalines/habit-maker/pull/363)
