@@ -104,7 +104,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("androidx.compose.material3:material3-window-size-class")
     implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.runtime:runtime-livedata:1.10.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.10.2")
 
     // Adaptive layouts
     implementation("androidx.compose.material3.adaptive:adaptive:1.2.0")
