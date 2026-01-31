@@ -113,7 +113,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
 
     // Activities
-    implementation("androidx.activity:activity-compose:1.12.2")
+    implementation("androidx.activity:activity-compose:1.12.3")
     implementation("androidx.activity:activity-ktx:1.12.2")
 
     // LiveData
