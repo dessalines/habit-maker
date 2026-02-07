@@ -1,3 +1,9 @@
+## What's Changed in 0.0.44
+
+- Use titleSmall for section headings. by @dessalines in [#395](https://github.com/dessalines/habit-maker/pull/395)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.43...0.0.44
+
 ## What's Changed in 0.0.43
 
 - Daily totals by @dessalines in [#373](https://github.com/dessalines/habit-maker/pull/373)
