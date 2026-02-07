@@ -42,7 +42,7 @@ fun SectionTitle(
     modifier: Modifier = Modifier,
 ) = Text(
     text = title,
-    style = MaterialTheme.typography.titleLarge,
+    style = MaterialTheme.typography.titleSmall,
     modifier = modifier,
 )
 
