@@ -2,7 +2,6 @@ package com.dessalines.habitmaker.utils
 
 import android.util.Log
 import com.dessalines.habitmaker.db.Habit
-import com.dessalines.habitmaker.db.HabitCheck
 import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
 import java.time.Duration
@@ -190,12 +189,28 @@ fun Long.nthTriangle() = (this * this + this) / 2
 /**
  * The percent complete score.
  *
- * Calculated using the # of times you've done it.
+ * Calculated using the # of times you've done it out of the past completed count.
  */
 fun calculateScore(
-    habitChecks: List<HabitCheck>,
+    frequency: HabitFrequency,
+    timesPerFrequency: Int,
+    dates: List<LocalDate>,
     completedCount: Int,
-): Int = (100 * habitChecks.size).div(completedCount)
+): Int {
+    // The firstCheckDate needs to be the completed count * frequency into the past from today.
+    val firstCheckDate = LocalDate.now().minusDays(completedCount.times(frequency.toDays().toLong()))
+
+    // Count the number of completed dates on or after that first check date
+    val completedDaysAfterFirstCheck = dates.filter { it.isAfter(firstCheckDate) }.size
+
+    // The number of checks should be times the frequency
+    val intendedCheckCount = completedCount.times(timesPerFrequency)
+
+    // Force a min of 100, because weekly / yearly can go way over that
+    val score = minOf(100, completedDaysAfterFirstCheck.times(100).div(intendedCheckCount))
+
+    return score
+}
 
 /**
  * Determines whether a habit is completed or not. Virtual means that entries
