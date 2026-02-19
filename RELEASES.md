@@ -1,5 +1,12 @@
+## What's Changed in 0.0.45
+
+- Calculate score out of the previous X days completed. by @dessalines in [#404](https://github.com/dessalines/habit-maker/pull/404)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.44...0.0.45
+
 ## What's Changed in 0.0.44
 
+- Fixing non-final res ids by @dessalines
 - Use titleSmall for section headings. by @dessalines in [#395](https://github.com/dessalines/habit-maker/pull/395)
 
 **Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.43...0.0.44
