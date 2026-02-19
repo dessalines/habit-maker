@@ -49,6 +49,7 @@ import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
+import com.dessalines.habitmaker.utils.buildVirtualDates
 import com.dessalines.habitmaker.utils.calculatePoints
 import com.dessalines.habitmaker.utils.calculateScore
 import com.dessalines.habitmaker.utils.calculateStreaks
@@ -324,7 +325,7 @@ fun updateStatsForHabit(
     // Calculating a few totals
     val streaks = calculateStreaks(frequency, habit.timesPerFrequency, dateChecks, firstDayOfWeek)
     val points = calculatePoints(frequency, streaks)
-    val score = calculateScore(checks, completedCount)
+    val score = calculateScore(frequency, habit.timesPerFrequency, dateChecks, completedCount)
 
     // The last streak time can be in the future for non-daily habits,
     // and is used for filtering / hiding.
