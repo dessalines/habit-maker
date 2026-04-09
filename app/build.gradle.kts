@@ -89,22 +89,22 @@ dependencies {
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
     // Workmanager
-    implementation("androidx.work:work-runtime-ktx:2.11.1")
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
 
     // Compose-Calendar
-    implementation("com.kizitonwose.calendar:compose:2.10.0")
+    implementation("com.kizitonwose.calendar:compose:2.10.1")
 
     // Exporting / importing DB helper
     implementation("com.github.dessalines:room-db-export-import:0.1.0")
 
     // Compose BOM
-    implementation(platform("androidx.compose:compose-bom:2026.02.00"))
+    implementation(platform("androidx.compose:compose-bom:2026.03.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("androidx.compose.material3:material3-window-size-class")
     implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.runtime:runtime-livedata:1.10.3")
+    implementation("androidx.compose.runtime:runtime-livedata:1.10.6")
 
     // Adaptive layouts
     implementation("androidx.compose.material3.adaptive:adaptive:1.2.0")
@@ -113,8 +113,8 @@ dependencies {
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
 
     // Activities
-    implementation("androidx.activity:activity-compose:1.12.4")
-    implementation("androidx.activity:activity-ktx:1.12.4")
+    implementation("androidx.activity:activity-compose:1.13.0")
+    implementation("androidx.activity:activity-ktx:1.13.0")
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
@@ -123,7 +123,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.7")
 
     // Markdown
-    implementation("com.github.jeziellago:compose-markdown:0.5.8")
+    implementation("com.github.jeziellago:compose-markdown:0.7.0")
 
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
