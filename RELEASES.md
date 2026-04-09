@@ -1,3 +1,9 @@
+## What's Changed in 0.0.46
+
+- Better daily updates by @dessalines in [#428](https://github.com/dessalines/habit-maker/pull/428)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.45...0.0.46
+
 ## What's Changed in 0.0.45
 
 - Calculate score out of the previous X days completed. by @dessalines in [#404](https://github.com/dessalines/habit-maker/pull/404)
