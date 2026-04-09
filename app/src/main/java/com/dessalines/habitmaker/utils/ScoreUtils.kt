@@ -221,9 +221,7 @@ fun calculateScore(
  *
  * Used for filtering out virtually completed habits.
  */
-fun isVirtualCompleted(lastStreakTime: Long) = lastStreakTime >= LocalDate.now().toEpochMillis()
-
-fun isVirtualCompletedLastCycle(habit: Habit): Boolean {
+fun isCompletedLastCycle(habit: Habit): Boolean {
     val frequency = HabitFrequency.entries[habit.frequency]
     val now = LocalDate.now()
 
@@ -236,8 +234,43 @@ fun isVirtualCompletedLastCycle(habit: Habit): Boolean {
         }
 
     // Use the last virtual completed time
-    val lastDate = habit.lastStreakTime.epochMillisToLocalDate()
+    val lastDate = habit.lastCompletedTime.epochMillisToLocalDate()
     return lastDate >= lastCycleCheck
+}
+
+fun isCompletedCurrentCycle(
+    habit: Habit,
+    firstDayOfWeek: DayOfWeek,
+): Boolean {
+    val frequency = HabitFrequency.entries[habit.frequency]
+    val now = LocalDate.now()
+
+    val check =
+        when (frequency) {
+            HabitFrequency.Daily -> {
+                now
+            }
+
+            HabitFrequency.Weekly -> {
+                now.with(
+                    TemporalAdjusters.previousOrSame(
+                        firstDayOfWeek,
+                    ),
+                )
+            }
+
+            HabitFrequency.Monthly -> {
+                now.withDayOfMonth(1)
+            }
+
+            HabitFrequency.Yearly -> {
+                now.withDayOfYear(1)
+            }
+        }
+
+    // Use the last virtual completed time
+    val lastDate = habit.lastCompletedTime.epochMillisToLocalDate()
+    return lastDate >= check
 }
 
 /**
