@@ -65,10 +65,11 @@ import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
+import com.dessalines.habitmaker.utils.isCompletedCurrentCycle
 import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.isVirtualCompleted
 import com.dessalines.habitmaker.utils.toBool
 import okhttp3.internal.toImmutableList
+import java.time.DayOfWeek
 import kotlin.collections.orEmpty
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -344,7 +345,7 @@ fun filterAndSortHabits(
 
     // Hide completed
     if ((settings?.hideCompleted ?: 0).toBool()) {
-        tmp.removeAll { isVirtualCompleted(it.lastStreakTime) }
+        tmp.removeAll { isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }
     }
 
     // Hide archived
@@ -355,12 +356,31 @@ fun filterAndSortHabits(
     // Sorting
     val sortSetting = HabitSort.entries[settings?.sort ?: 0]
     when (sortSetting) {
-        HabitSort.Name -> tmp.sortBy { it.name }
-        HabitSort.Points -> tmp.sortBy { it.points }
-        HabitSort.Score -> tmp.sortWith(compareBy({ it.score }, { it.points }))
-        HabitSort.Streak -> tmp.sortWith(compareBy({ it.streak }, { it.points }))
-        HabitSort.Status -> tmp.sortWith(compareBy({ isVirtualCompleted(it.lastStreakTime) }, { it.points }))
-        HabitSort.DateCreated -> tmp.sortBy { it.id }
+        HabitSort.Name -> {
+            tmp.sortBy { it.name }
+        }
+
+        HabitSort.Points -> {
+            tmp.sortBy { it.points }
+        }
+
+        HabitSort.Score -> {
+            tmp.sortWith(compareBy({ it.score }, { it.points }))
+        }
+
+        HabitSort.Streak -> {
+            tmp.sortWith(compareBy({ it.streak }, { it.points }))
+        }
+
+        HabitSort.Status -> {
+            tmp.sortWith(
+                compareBy({ isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }, { it.points }),
+            )
+        }
+
+        HabitSort.DateCreated -> {
+            tmp.sortBy { it.id }
+        }
     }
     val sortOrder = HabitSortOrder.entries[settings?.sortOrder ?: 0]
     if (sortOrder == HabitSortOrder.Descending) {
@@ -402,7 +422,7 @@ fun calculateHabitGroupData(
     settings: AppSettings?,
 ) = HabitGroupData(
     titleResId = titleResId,
-    completed = habits.count { isVirtualCompleted(it.lastStreakTime) },
+    completed = habits.count { isCompletedToday(it.lastCompletedTime) },
     // Don't count archived in the total for progress
     total = habits.filter { !it.archived.toBool() }.size,
     filteredList = filterAndSortHabits(habits, settings),
