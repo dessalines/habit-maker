@@ -85,6 +85,10 @@ android {
 }
 
 dependencies {
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
@@ -127,6 +131,7 @@ dependencies {
 
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
 
     // Room
     // To use Kotlin annotation processing tool

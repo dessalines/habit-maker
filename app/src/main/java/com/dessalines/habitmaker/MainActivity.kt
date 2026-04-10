@@ -3,6 +3,7 @@ package com.dessalines.habitmaker
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -20,7 +21,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -64,11 +67,19 @@ import com.dessalines.habitmaker.ui.components.settings.BehaviorScreen
 import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
+import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.isCompletedLastCycle
 import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.toEpochMillis
+import com.google.android.gms.wearable.DataClient
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.Wearable
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.time.DayOfWeek
 import java.time.LocalDate
+import kotlin.coroutines.cancellation.CancellationException
+import kotlin.getValue
 
 class HabitMakerApplication : Application() {
     private val database by lazy { AppDB.getDatabase(this) }
@@ -100,6 +111,8 @@ class MainActivity : AppCompatActivity() {
     private val reminderViewModel: HabitReminderViewModel by viewModels {
         HabitReminderViewModelFactory((application as HabitMakerApplication).habitReminderRepository)
     }
+    private val dataClient by lazy { Wearable.getDataClient(this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -124,6 +137,7 @@ class MainActivity : AppCompatActivity() {
 
             LaunchedEffect(Unit) {
                 updateHabitStatsOnStartup(ctx)
+                sendToHandheldDevice(lifecycleScope, dataClient, "u turd")
             }
 
             HabitMakerTheme(
@@ -284,6 +298,28 @@ class MainActivity : AppCompatActivity() {
                 habit.id,
                 isCompleted || isCompletedLastCycle,
             )
+        }
+    }
+}
+
+suspend fun sendToHandheldDevice(scope: LifecycleCoroutineScope, dataClient: DataClient, message: String) {
+    scope.launch {
+        try {
+            val result = dataClient
+                .putDataItem(
+                    PutDataMapRequest
+                        .create("/message")
+                        .apply { dataMap.putString("message", message) }
+                        .asPutDataRequest()
+
+                        .setUrgent())
+                .await()
+
+            Log.d(TAG, "DataItem saved: $result")
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException
+        } catch (exception: Exception) {
+            Log.d(TAG, "Saving DataItem failed: $exception")
         }
     }
 }
