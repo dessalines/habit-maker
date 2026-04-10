@@ -85,6 +85,9 @@ android {
 }
 
 dependencies {
+    // Freedroidwarn
+    implementation("com.github.woheller69:FreeDroidWarn:V1.11")
+
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
