@@ -1,3 +1,9 @@
+## What's Changed in 0.0.47
+
+- Adding freedroidwarn by @dessalines in [#429](https://github.com/dessalines/habit-maker/pull/429)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.46...0.0.47
+
 ## What's Changed in 0.0.46
 
 - Better daily updates by @dessalines in [#428](https://github.com/dessalines/habit-maker/pull/428)
