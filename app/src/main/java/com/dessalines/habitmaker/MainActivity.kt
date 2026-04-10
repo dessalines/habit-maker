@@ -64,9 +64,11 @@ import com.dessalines.habitmaker.ui.components.settings.BehaviorScreen
 import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
+import com.dessalines.habitmaker.utils.getVersionCode
 import com.dessalines.habitmaker.utils.isCompletedLastCycle
 import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.toEpochMillis
+import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -102,6 +104,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FreeDroidWarn.showWarningOnUpgrade(this, getVersionCode())
+
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
