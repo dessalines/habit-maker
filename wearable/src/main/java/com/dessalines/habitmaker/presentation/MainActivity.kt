@@ -1,8 +1,3 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter to find the
- * most up to date changes to the libraries and their usages.
- */
-
 package com.dessalines.habitmaker.presentation
 
 import android.os.Bundle
@@ -13,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.core.net.toUri
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
@@ -27,27 +21,22 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.dessalines.habitmaker.MainViewModel
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.presentation.theme.ComdessalineshabitmakerTheme
-import com.google.android.gms.wearable.CapabilityClient
+import com.dessalines.habitmaker.presentation.theme.Theme
 import com.google.android.gms.wearable.Wearable
 
 
 class MainActivity : ComponentActivity() {
     private val dataClient by lazy { Wearable.getDataClient(this) }
-    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
     private val mainViewModel by viewModels<MainViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-       val firstEventText = mainViewModel.events.firstOrNull()?.text ?: "Tyhou"
         setContent {
-            WearApp(firstEventText)
+            WearApp(mainViewModel)
         }
     }
     override fun onResume() {
@@ -78,8 +67,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WearApp(greetingName: String) {
-    ComdessalineshabitmakerTheme {
+fun WearApp(mainViewModel: MainViewModel) {
+    val firstEventText = mainViewModel.events.firstOrNull()?.text ?: "John"
+    val greetingName = firstEventText
+
+    val eventsSize = mainViewModel.events.size
+
+    Theme {
         AppScaffold {
             val listState = rememberTransformingLazyColumnState()
             val transformationSpec = rememberTransformationSpec()
@@ -110,6 +104,11 @@ fun WearApp(greetingName: String) {
                     }
                     item {
                         Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
+                            Text(eventsSize.toString())
+                        }
+                    }
+                    item {
+                        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
                             Text("Button A")
                         }
                     }
@@ -129,9 +128,9 @@ fun WearApp(greetingName: String) {
     }
 }
 
-@WearPreviewDevices
-@WearPreviewFontScales
-@Composable
-fun DefaultPreview() {
-    WearApp("Preview Android")
-}
+//@WearPreviewDevices
+//@WearPreviewFontScales
+//@Composable
+//fun DefaultPreview() {
+//    WearApp("Preview Android", 0)
+//}

@@ -18,6 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
@@ -72,6 +75,9 @@ import com.dessalines.habitmaker.utils.getVersionCode
 import com.dessalines.habitmaker.utils.isCompletedLastCycle
 import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.toEpochMillis
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
@@ -79,6 +85,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.getValue
@@ -115,6 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
     private val dataClient by lazy { Wearable.getDataClient(this) }
 
+    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         FreeDroidWarn.showWarningOnUpgrade(this, getVersionCode())
@@ -139,8 +147,11 @@ class MainActivity : AppCompatActivity() {
                 reminderViewModel,
             )
 
+            var apiAvailable by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 updateHabitStatsOnStartup(ctx)
+                apiAvailable = isAvailable(capabilityClient)
+                Log.d(TAG, "Api available: $apiAvailable")
                 sendToHandheldDevice(lifecycleScope, dataClient, "u turd")
             }
 
@@ -308,22 +319,25 @@ class MainActivity : AppCompatActivity() {
 
 suspend fun sendToHandheldDevice(scope: LifecycleCoroutineScope, dataClient: DataClient, message: String) {
     scope.launch {
-        try {
-            val result = dataClient
-                .putDataItem(
-                    PutDataMapRequest
-                        .create("/message")
-                        .apply { dataMap.putString("message", message) }
-                        .asPutDataRequest()
+            if (isAvailable(dataClient)) {
+                try {
+                val result = dataClient
+                    .putDataItem(
+                        PutDataMapRequest
+                            .create("/message")
+                            .apply { dataMap.putString("message", message)
+                                dataMap.putLong("time", Instant.now().epochSecond)
+                            }
+                            .asPutDataRequest()
+                            .setUrgent())
+                    .await()
 
-                        .setUrgent())
-                .await()
-
-            Log.d(TAG, "DataItem saved: $result")
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException
-        } catch (exception: Exception) {
-            Log.d(TAG, "Saving DataItem failed: $exception")
+                Log.d(TAG, "DataItem saved: $result")
+            } catch (cancellationException: CancellationException) {
+                throw cancellationException
+            } catch (exception: Exception) {
+                Log.d(TAG, "Saving DataItem failed: $exception")
+            }
         }
     }
 }
@@ -396,4 +410,18 @@ fun BroadcastReceivers(
             NotificationManagerCompat.from(ctx).cancel(habitId)
         }
     }
+}
+suspend fun isAvailable(api: GoogleApi<*>): Boolean = try {
+    GoogleApiAvailability
+        .getInstance()
+        .checkApiAvailability(api)
+        .await()
+
+    true
+} catch (e: AvailabilityException) {
+    Log.d(
+        TAG,
+        "${api.javaClass.simpleName} API is not available in this device."
+    )
+    false
 }

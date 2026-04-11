@@ -5,6 +5,7 @@ plugins {
 
 android {
     namespace = "com.dessalines.habitmaker"
+
     compileSdk {
         version = release(36)
     }
@@ -25,6 +26,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = " (DEBUG)"
         }
     }
     compileOptions {

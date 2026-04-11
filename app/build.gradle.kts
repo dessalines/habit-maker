@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "com.dessalines.habitmaker"
     buildToolsVersion = "36.0.0"
     compileSdk = 36
 
@@ -81,7 +82,6 @@ android {
     buildFeatures {
         compose = true
     }
-    namespace = "com.dessalines.habitmaker"
 }
 
 dependencies {
