@@ -12,8 +12,8 @@ android {
         applicationId = "com.dessalines.habitmaker"
         minSdk = 26
         targetSdk = 36
-        versionCode = 46
-        versionName = "0.0.46"
+        versionCode = 47
+        versionName = "0.0.47"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -88,6 +88,9 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
+    // Freedroidwarn
+    implementation("com.github.woheller69:FreeDroidWarn:V1.11")
 
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")

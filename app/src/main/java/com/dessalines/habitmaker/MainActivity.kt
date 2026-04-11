@@ -68,6 +68,7 @@ import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.TAG
+import com.dessalines.habitmaker.utils.getVersionCode
 import com.dessalines.habitmaker.utils.isCompletedLastCycle
 import com.dessalines.habitmaker.utils.isCompletedToday
 import com.dessalines.habitmaker.utils.toEpochMillis
@@ -76,6 +77,7 @@ import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.coroutines.cancellation.CancellationException
@@ -115,6 +117,8 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FreeDroidWarn.showWarningOnUpgrade(this, getVersionCode())
+
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
