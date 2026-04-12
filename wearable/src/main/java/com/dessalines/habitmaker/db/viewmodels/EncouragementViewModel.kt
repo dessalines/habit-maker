@@ -28,4 +28,3 @@ class EncouragementViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-

@@ -31,4 +31,3 @@ class HabitCheckViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-

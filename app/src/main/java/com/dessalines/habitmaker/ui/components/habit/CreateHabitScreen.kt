@@ -30,14 +30,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.Encouragement
 import com.dessalines.habitmaker.db.EncouragementInsert
-import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitReminder
 import com.dessalines.habitmaker.db.HabitReminderInsert
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit

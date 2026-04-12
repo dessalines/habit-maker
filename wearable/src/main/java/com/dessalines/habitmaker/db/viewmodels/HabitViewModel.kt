@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlin.jvm.java
 
 class HabitViewModel(
-private val repository: HabitRepository,
+    private val repository: HabitRepository,
 ) : ViewModel() {
     val getAll = repository.getAll
 

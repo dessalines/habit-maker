@@ -12,7 +12,6 @@ import java.util.Calendar
  * Skeleton for complication data source that returns short text.
  */
 class MainComplicationService : SuspendingComplicationDataSourceService() {
-
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
         if (type != ComplicationType.SHORT_TEXT) {
             return null
@@ -20,8 +19,8 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
         return createComplicationData("Mon", "Monday")
     }
 
-    override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+    override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData =
+        when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
             Calendar.SUNDAY -> createComplicationData("Sun", "Sunday")
             Calendar.MONDAY -> createComplicationData("Mon", "Monday")
             Calendar.TUESDAY -> createComplicationData("Tue", "Tuesday")
@@ -31,11 +30,13 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
             Calendar.SATURDAY -> createComplicationData("Sat", "Saturday")
             else -> throw IllegalArgumentException("too many days")
         }
-    }
 
-    private fun createComplicationData(text: String, contentDescription: String) =
-        ShortTextComplicationData.Builder(
+    private fun createComplicationData(
+        text: String,
+        contentDescription: String,
+    ) = ShortTextComplicationData
+        .Builder(
             text = PlainComplicationText.Builder(text).build(),
-            contentDescription = PlainComplicationText.Builder(contentDescription).build()
+            contentDescription = PlainComplicationText.Builder(contentDescription).build(),
         ).build()
 }

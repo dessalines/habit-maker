@@ -29,11 +29,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.DEFAULT_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MAX_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MIN_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.habit.toLocaleStr
 import com.dessalines.habitmaker.utils.HabitSort

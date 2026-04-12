@@ -15,11 +15,11 @@ import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 
-class MainViewModel(application: Application) :
-    AndroidViewModel(application),
+class MainViewModel(
+    application: Application,
+) : AndroidViewModel(application),
     DataClient.OnDataChangedListener,
     CapabilityClient.OnCapabilityChangedListener {
-
     private val _events = mutableStateListOf<Event>()
 //        private val _dataItems = mutableStateListOf<DataItem>()
 
@@ -34,25 +34,27 @@ class MainViewModel(application: Application) :
         // Add all events to the event log
         _events.addAll(
             dataEvents.map { dataEvent ->
-                val title = when (dataEvent.type) {
-                    DataEvent.TYPE_CHANGED -> "changed"
-                    DataEvent.TYPE_DELETED -> "deleted"
-                    else -> "unknown"
-                }
-               val msg =     when (dataEvent.dataItem.uri.path) {
+                val title =
+                    when (dataEvent.type) {
+                        DataEvent.TYPE_CHANGED -> "changed"
+                        DataEvent.TYPE_DELETED -> "deleted"
+                        else -> "unknown"
+                    }
+                val msg =
+                    when (dataEvent.dataItem.uri.path) {
                         DataLayerListenerService.MESSAGE_PATH -> {
-                            DataMapItem.fromDataItem(dataEvent.dataItem).dataMap.getString(
-                                DataLayerListenerService.MESSAGE_KEY)
+                            DataMapItem.fromDataItem(dataEvent.dataItem).dataMap.getString(DataLayerListenerService.MESSAGE_KEY)
                         }
 
-                   else -> {null}
-               }
+                        else -> {
+                            null
+                        }
+                    }
                 Event(
                     title = title,
-                    text = msg ?: dataEvent.dataItem.toString()
-
+                    text = msg ?: dataEvent.dataItem.toString(),
                 )
-            }
+            },
         )
     }
 
@@ -60,24 +62,28 @@ class MainViewModel(application: Application) :
         _events.add(
             Event(
                 title = "capability",
-                text = capabilityInfo.toString()
-            )
+                text = capabilityInfo.toString(),
+            ),
         )
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY]!!
-                MainViewModel(
-                    application
-                )
+        val Factory: ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    val application = this[APPLICATION_KEY]!!
+                    MainViewModel(
+                        application,
+                    )
+                }
             }
-        }
     }
 }
 
 /**
  * A data holder describing a client event.
  */
-data class Event(val title: String, val text: String)
+data class Event(
+    val title: String,
+    val text: String,
+)

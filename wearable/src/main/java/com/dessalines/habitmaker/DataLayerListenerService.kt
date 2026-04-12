@@ -2,6 +2,7 @@ package com.dessalines.habitmaker
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.dessalines.habitmaker.utils.TAG
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.WearableListenerService
@@ -9,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import com.dessalines.habitmaker.utils.TAG
 
 class DataLayerListenerService : WearableListenerService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -23,9 +23,8 @@ class DataLayerListenerService : WearableListenerService() {
             when (uri.path) {
                 MESSAGE_PATH -> {
                     val dataMapItem = DataMapItem.fromDataItem(dataEvent.dataItem)
-                    val msg = dataMapItem.dataMap.getString(MESSAGE_KEY )
+                    val msg = dataMapItem.dataMap.getString(MESSAGE_KEY)
                     Log.d(TAG, "msg: $msg")
-
                 }
             }
         }

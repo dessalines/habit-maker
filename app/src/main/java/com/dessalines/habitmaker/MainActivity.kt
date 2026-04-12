@@ -36,12 +36,12 @@ import androidx.navigation.navArgument
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.AppSettingsRepository
-import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
-import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModelFactory
+import com.dessalines.habitmaker.db.EncouragementRepository
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitReminderRepository
 import com.dessalines.habitmaker.db.HabitRepository
-import com.dessalines.habitmaker.db.EncouragementRepository
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
@@ -317,20 +317,25 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun sendToHandheldDevice(scope: LifecycleCoroutineScope, dataClient: DataClient, message: String) {
+fun sendToHandheldDevice(
+    scope: LifecycleCoroutineScope,
+    dataClient: DataClient,
+    message: String,
+) {
     scope.launch {
-            if (isAvailable(dataClient)) {
-                try {
-                val result = dataClient
-                    .putDataItem(
-                        PutDataMapRequest
-                            .create("/message")
-                            .apply { dataMap.putString("message", message)
-                                dataMap.putLong("time", Instant.now().epochSecond)
-                            }
-                            .asPutDataRequest()
-                            .setUrgent())
-                    .await()
+        if (isAvailable(dataClient)) {
+            try {
+                val result =
+                    dataClient
+                        .putDataItem(
+                            PutDataMapRequest
+                                .create("/message")
+                                .apply {
+                                    dataMap.putString("message", message)
+                                    dataMap.putLong("time", Instant.now().epochSecond)
+                                }.asPutDataRequest()
+                                .setUrgent(),
+                        ).await()
 
                 Log.d(TAG, "DataItem saved: $result")
             } catch (cancellationException: CancellationException) {
@@ -411,17 +416,19 @@ fun BroadcastReceivers(
         }
     }
 }
-suspend fun isAvailable(api: GoogleApi<*>): Boolean = try {
-    GoogleApiAvailability
-        .getInstance()
-        .checkApiAvailability(api)
-        .await()
 
-    true
-} catch (e: AvailabilityException) {
-    Log.d(
-        TAG,
-        "${api.javaClass.simpleName} API is not available in this device."
-    )
-    false
-}
+suspend fun isAvailable(api: GoogleApi<*>): Boolean =
+    try {
+        GoogleApiAvailability
+            .getInstance()
+            .checkApiAvailability(api)
+            .await()
+
+        true
+    } catch (e: AvailabilityException) {
+        Log.d(
+            TAG,
+            "${api.javaClass.simpleName} API is not available in this device.",
+        )
+        false
+    }

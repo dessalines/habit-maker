@@ -28,12 +28,10 @@ import com.dessalines.habitmaker.presentation.theme.Theme
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 
-
 class MainActivity : ComponentActivity() {
     private val dataClient by lazy { Wearable.getDataClient(this) }
     private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
     private val mainViewModel by viewModels<MainViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +40,7 @@ class MainActivity : ComponentActivity() {
             WearApp(mainViewModel)
         }
     }
+
     override fun onResume() {
         super.onResume()
         dataClient.addListener(mainViewModel)
@@ -49,7 +48,7 @@ class MainActivity : ComponentActivity() {
         capabilityClient.addListener(
             mainViewModel,
             "wear://".toUri(),
-            CapabilityClient.FILTER_REACHABLE
+            CapabilityClient.FILTER_REACHABLE,
         )
     }
 
@@ -85,7 +84,8 @@ fun WearApp(mainViewModel: MainViewModel) {
                         Text("More")
                     }
                 },
-            ) { contentPadding -> // ScreenScaffold provides default padding; adjust as needed
+            ) { contentPadding ->
+                // ScreenScaffold provides default padding; adjust as needed
                 TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
                     item {
                         ListHeader(
@@ -122,9 +122,9 @@ fun WearApp(mainViewModel: MainViewModel) {
     }
 }
 
-//@WearPreviewDevices
-//@WearPreviewFontScales
-//@Composable
-//fun DefaultPreview() {
+// @WearPreviewDevices
+// @WearPreviewFontScales
+// @Composable
+// fun DefaultPreview() {
 //    WearApp("Preview Android", 0)
-//}
+// }
