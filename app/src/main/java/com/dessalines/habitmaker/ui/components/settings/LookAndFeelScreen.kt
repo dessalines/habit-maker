@@ -23,7 +23,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateTheme
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.utils.ThemeColor

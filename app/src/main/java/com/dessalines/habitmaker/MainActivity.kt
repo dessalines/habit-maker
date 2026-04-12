@@ -36,20 +36,20 @@ import androidx.navigation.navArgument
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.AppSettingsRepository
-import com.dessalines.habitmaker.db.AppSettingsViewModel
-import com.dessalines.habitmaker.db.AppSettingsViewModelFactory
-import com.dessalines.habitmaker.db.EncouragementRepository
-import com.dessalines.habitmaker.db.EncouragementViewModel
-import com.dessalines.habitmaker.db.EncouragementViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModelFactory
 import com.dessalines.habitmaker.db.HabitCheckRepository
-import com.dessalines.habitmaker.db.HabitCheckViewModel
-import com.dessalines.habitmaker.db.HabitCheckViewModelFactory
 import com.dessalines.habitmaker.db.HabitReminderRepository
-import com.dessalines.habitmaker.db.HabitReminderViewModel
-import com.dessalines.habitmaker.db.HabitReminderViewModelFactory
 import com.dessalines.habitmaker.db.HabitRepository
-import com.dessalines.habitmaker.db.HabitViewModel
-import com.dessalines.habitmaker.db.HabitViewModelFactory
+import com.dessalines.habitmaker.db.EncouragementRepository
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModelFactory
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_ACTION
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_ACTION
@@ -317,7 +317,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-suspend fun sendToHandheldDevice(scope: LifecycleCoroutineScope, dataClient: DataClient, message: String) {
+fun sendToHandheldDevice(scope: LifecycleCoroutineScope, dataClient: DataClient, message: String) {
     scope.launch {
             if (isAvailable(dataClient)) {
                 try {

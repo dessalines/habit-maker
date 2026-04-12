@@ -85,6 +85,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":db"))
+
+    // Room
+    ksp("androidx.room:room-compiler:2.8.4")
+    // To use Kotlin annotation processing tool
+    implementation("androidx.room:room-runtime:2.8.4")
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
@@ -135,15 +142,6 @@ dependencies {
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
     implementation("com.google.android.gms:play-services-wearable:19.0.0")
-
-    // Room
-    // To use Kotlin annotation processing tool
-    ksp("androidx.room:room-compiler:2.8.4")
-    implementation("androidx.room:room-runtime:2.8.4")
-    annotationProcessor("androidx.room:room-compiler:2.8.4")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.8.4")
 
     // App compat
     implementation("androidx.appcompat:appcompat:1.7.1")

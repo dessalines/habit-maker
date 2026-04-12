@@ -2,7 +2,7 @@ package com.dessalines.habitmaker.db
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
+import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -67,7 +67,7 @@ abstract class AppDB : RoomDatabase() {
                                         db.insert(
                                             "AppSettings",
                                             // Ensures it won't overwrite the existing data
-                                            CONFLICT_IGNORE,
+                                            SQLiteDatabase.CONFLICT_IGNORE,
                                             ContentValues(2).apply {
                                                 put("id", 1)
                                             },

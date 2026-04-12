@@ -2,9 +2,6 @@ package com.dessalines.habitmaker.db
 
 import androidx.annotation.Keep
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Delete
@@ -247,47 +244,6 @@ class HabitRepository(
 
     @WorkerThread
     suspend fun delete(habit: Habit) = habitDao.delete(habit)
-}
-
-class HabitViewModel(
-    private val repository: HabitRepository,
-) : ViewModel() {
-    val getAll = repository.getAll
-
-    val getAllSync = repository.getAllSync
-
-    fun getById(id: Int) = repository.getById(id)
-
-    fun getByIdSync(id: Int) = repository.getByIdSync(id)
-
-    fun insert(habit: HabitInsert) = repository.insert(habit)
-
-    fun update(habit: HabitUpdate) =
-        viewModelScope.launch {
-            repository.update(habit)
-        }
-
-    fun updateStats(habit: HabitUpdateStats) =
-        viewModelScope.launch {
-            repository.updateStats(habit)
-        }
-
-    fun delete(habit: Habit) =
-        viewModelScope.launch {
-            repository.delete(habit)
-        }
-}
-
-class HabitViewModelFactory(
-    private val repository: HabitRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HabitViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HabitViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }
 
 val sampleHabit =

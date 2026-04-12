@@ -1,18 +1,12 @@
 package com.dessalines.habitmaker.db
 
-import android.content.Context
-import android.util.Log
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
-import com.dessalines.habitmaker.utils.TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -249,64 +243,21 @@ class AppSettingsRepository(
     }
 
     @WorkerThread
-    suspend fun updateChangelog(ctx: Context) {
+    // TODO
+    suspend fun updateChangelog(releasesStr: String) {
+//    suspend fun updateChangelog(ctx: Context) {
         withContext(Dispatchers.IO) {
-            try {
-                val releasesStr =
-                    ctx.assets
-                        .open("RELEASES.md")
-                        .bufferedReader()
-                        .use { it.readText() }
+//            try {
+//                val releasesStr =
+//                    ctx.assets
+//                        .open("RELEASES.md")
+//                        .bufferedReader()
+//                        .use { it.readText() }
                 _changelog.value = releasesStr
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to load changelog: $e")
-            }
+//            } catch (e: Exception) {
+//                Log.e(TAG, "Failed to load changelog: $e")
+//            }
         }
-    }
-}
-
-class AppSettingsViewModel(
-    private val repository: AppSettingsRepository,
-) : ViewModel() {
-    val appSettings = repository.appSettings
-    val appSettingsSync = repository.appSettingsSync
-    val changelog = repository.changelog
-
-    fun updateHideCompleted(settings: SettingsUpdateHideCompleted) =
-        viewModelScope.launch {
-            repository.updateHideCompleted(settings)
-        }
-
-    fun updateTheme(settings: SettingsUpdateTheme) =
-        viewModelScope.launch {
-            repository.updateTheme(settings)
-        }
-
-    fun updateBehavior(settings: SettingsUpdateBehavior) =
-        viewModelScope.launch {
-            repository.updateBehavior(settings)
-        }
-
-    fun updateLastVersionCodeViewed(versionCode: Int) =
-        viewModelScope.launch {
-            repository.updateLastVersionCodeViewed(versionCode)
-        }
-
-    fun updateChangelog(ctx: Context) =
-        viewModelScope.launch {
-            repository.updateChangelog(ctx)
-        }
-}
-
-class AppSettingsViewModelFactory(
-    private val repository: AppSettingsRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AppSettingsViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return AppSettingsViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 

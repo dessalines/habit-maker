@@ -1,7 +1,5 @@
 package com.dessalines.habitmaker.db
 import androidx.annotation.Keep
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
@@ -85,24 +83,3 @@ class HabitReminderRepository(
     fun delete(habitId: Int) = habitReminderDao.delete(habitId)
 }
 
-class HabitReminderViewModel(
-    private val repository: HabitReminderRepository,
-) : ViewModel() {
-    fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
-
-    fun insert(habitReminder: HabitReminderInsert) = repository.insert(habitReminder)
-
-    fun delete(habitId: Int) = repository.delete(habitId)
-}
-
-class HabitReminderViewModelFactory(
-    private val repository: HabitReminderRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HabitReminderViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HabitReminderViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

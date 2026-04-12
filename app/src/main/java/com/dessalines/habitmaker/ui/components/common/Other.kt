@@ -127,7 +127,7 @@ fun HabitChipsFlowRow(
     ) {
         if (habit.context?.isNotBlank() == true) {
             HabitInfoChip(
-                text = habit.context,
+                text = habit.context ?: "",
                 icon = Icons.Default.Schedule,
             )
         }

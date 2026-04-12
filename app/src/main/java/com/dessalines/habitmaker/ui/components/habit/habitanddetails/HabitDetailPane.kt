@@ -230,7 +230,7 @@ fun HabitDetailPane(
                     item {
                         SectionTitle(stringResource(R.string.notes))
                         MarkdownText(
-                            markdown = habit.notes,
+                            markdown = habit.notes ?: "",
                             modifier = Modifier.padding(horizontal = LARGE_PADDING),
                         )
                     }
@@ -245,7 +245,7 @@ fun HabitDetails(habit: Habit) {
     if (!habit.notes.isNullOrBlank()) {
         HorizontalDivider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
         MarkdownText(
-            markdown = habit.notes,
+            markdown = habit.notes ?: "",
             linkColor = MaterialTheme.colorScheme.primary,
             modifier =
                 Modifier
