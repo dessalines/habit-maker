@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -17,6 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        ksp { arg("room.schemaLocation", "$projectDir/schemas") }
     }
 
     buildTypes {
@@ -43,6 +45,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":db"))
+
+    // Room
+    ksp("androidx.room:room-compiler:2.8.4")
+    // To use Kotlin annotation processing tool
+
+    implementation("androidx.room:room-runtime:2.8.4")
     implementation("com.google.android.gms:play-services-wearable:18.0.0")
     implementation(platform("androidx.compose:compose-bom:2025.12.00"))
     implementation("androidx.compose.ui:ui")
