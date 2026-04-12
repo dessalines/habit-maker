@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.net.toUri
-import com.dessalines.habitmaker.isAvailable
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.PutDataMapRequest
 import kotlinx.coroutines.tasks.await
@@ -61,8 +63,24 @@ fun Int.toBool() = this == 1
 
 fun Boolean.toInt() = this.compareTo(false)
 
-suspend fun sendDataToOtherDevices(data: String, className: String, dataClient: DataClient) {
-    if (isAvailable(dataClient)) {
+suspend fun isAvailable(api: GoogleApi<*>): Boolean =
+    try {
+        GoogleApiAvailability
+            .getInstance()
+            .checkApiAvailability(api)
+            .await()
+
+        true
+    } catch (_: AvailabilityException) {
+        Log.d(
+            TAG,
+            "${api.javaClass.simpleName} API is not available in this device.",
+        )
+        false
+    }
+
+suspend fun DataClient.sendDataToOtherDevices(data: String, className: String) {
+    if (isAvailable(this)) {
         try {
             val request =
                 PutDataMapRequest
@@ -74,7 +92,7 @@ suspend fun sendDataToOtherDevices(data: String, className: String, dataClient: 
                     }.asPutDataRequest()
                     .setUrgent()
             val result =
-                dataClient
+                this
                     .putDataItem( request ).await()
 
             Log.d(TAG, "DataItem saved: $result")

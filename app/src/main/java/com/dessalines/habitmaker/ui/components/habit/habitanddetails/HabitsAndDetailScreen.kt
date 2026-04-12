@@ -37,8 +37,10 @@ import com.dessalines.habitmaker.db.Encouragement
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.HabitCheckInsert
+import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
+import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
@@ -46,18 +48,17 @@ import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.deleteRemindersForHabit
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
-import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.utils.calculatePoints
-import com.dessalines.habitmaker.utils.calculateScore
-import com.dessalines.habitmaker.utils.calculateStreaks
-import com.dessalines.habitmaker.utils.epochMillisToLocalDate
-import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.nthTriangle
-import com.dessalines.habitmaker.utils.toEpochMillis
+import com.dessalines.habitmaker.db.utils.calculatePoints
+import com.dessalines.habitmaker.db.utils.calculateScore
+import com.dessalines.habitmaker.db.utils.calculateStreaks
+import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.nthTriangle
+import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.toInt
-import com.dessalines.habitmaker.utils.todayStreak
+import com.dessalines.habitmaker.db.utils.todayStreak
 import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
@@ -146,7 +147,7 @@ fun HabitsAndDetailScreen(
                                 val habit = habits?.find { it.id == habitId }
                                 habit?.let { habit ->
                                     val checkTime = LocalDate.now().toEpochMillis()
-                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
                                     val stats =
                                         updateStatsForHabit(
@@ -254,6 +255,7 @@ fun HabitsAndDetailScreen(
                                                 habit.id,
                                                 checkTime,
                                                 habitCheckViewModel,
+                                                dataClient,
                                             )
                                             val checks =
                                                 habitCheckViewModel.listForHabitSync(habitId)
@@ -299,18 +301,19 @@ fun checkHabitForDay(
     habitId: Int,
     checkTime: Long,
     habitCheckViewModel: HabitCheckViewModel,
+    dataClient: DataClient,
 ) {
-    val insert =
+    val data =
         HabitCheckInsert(
             habitId = habitId,
             checkTime = checkTime,
         )
-    val success = habitCheckViewModel.insert(insert)
+    val success = habitCheckViewModel.insert(data, dataClient)
 
     // If its -1, that means that its already been checked for today,
     // and you actually need to delete it to toggle
     if (success == -1L) {
-        habitCheckViewModel.deleteForDay(habitId, checkTime)
+        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId = habitId, checkTime = checkTime), dataClient)
     }
 }
 

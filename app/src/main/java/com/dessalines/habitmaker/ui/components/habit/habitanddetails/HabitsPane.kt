@@ -61,12 +61,12 @@ import com.dessalines.habitmaker.ui.components.common.SectionProgress
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.TasksDaysOrToday
 import com.dessalines.habitmaker.ui.components.common.ToolTip
-import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.utils.isCompletedCurrentCycle
-import com.dessalines.habitmaker.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.isCompletedCurrentCycle
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.toBool
 import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek

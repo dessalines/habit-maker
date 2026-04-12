@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.db.viewmodels
 
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,7 +11,9 @@ import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.utils.sendDataToOtherDevices
 import com.google.android.gms.wearable.DataClient
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import kotlinx.serialization.json.Json
 import kotlin.jvm.java
 
@@ -25,30 +28,30 @@ class HabitViewModel(
 
     fun getByIdSync(id: Int) = repository.getByIdSync(id)
 
-    fun insert(habit: HabitInsert, dataClient: DataClient): Long {
+    fun insert(habit: HabitInsert, dataClient: DataClient?): Long {
         val insertedId = repository.insert(habit)
         val inserted = habit.copy(id = insertedId.toInt())
         viewModelScope.launch {
-            sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert", dataClient)
+            dataClient?.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert", )
         }
         return insertedId
     }
 
-    fun update(habit: HabitUpdate, dataClient: DataClient) =
+    fun update(habit: HabitUpdate, dataClient: DataClient?) =
         viewModelScope.launch {
-            sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate", dataClient)
             repository.update(habit)
+            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate", )
         }
 
-    fun updateStats(habit: HabitUpdateStats, dataClient: DataClient) =
+    fun updateStats(habit: HabitUpdateStats, dataClient: DataClient?) =
         viewModelScope.launch {
-            sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats", dataClient)
             repository.updateStats(habit)
+            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats", )
         }
 
-    fun delete(habit: Habit, dataClient: DataClient) = viewModelScope.launch {
-            sendDataToOtherDevices(Json.encodeToString(habit), "HabitDelete", dataClient)
+    fun delete(habit: Habit, dataClient: DataClient?) = viewModelScope.launch {
             repository.delete(habit)
+            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitDelete", )
         }
 }
 

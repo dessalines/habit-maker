@@ -48,6 +48,7 @@ import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.db.sampleHabit2
+import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.ui.components.common.AreYouSureDialog
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
@@ -58,8 +59,8 @@ import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.calendars.HabitCalendar
-import com.dessalines.habitmaker.utils.HabitFrequency
-import com.dessalines.habitmaker.utils.epochMillisToLocalDate
+import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
+import com.dessalines.habitmaker.ui.components.common.toResId
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -280,7 +281,7 @@ fun HabitTypeInfo(habit: Habit) {
                 HabitFrequency.Yearly -> stringResource(R.string.x_times_per_year, times)
             }
         } else {
-            stringResource(frequency.resId)
+            stringResource(frequency.toResId())
         }
 
     HabitInfoChip(

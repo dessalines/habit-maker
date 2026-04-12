@@ -72,9 +72,10 @@ import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
-import com.dessalines.habitmaker.utils.isCompletedLastCycle
-import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.toEpochMillis
+import com.dessalines.habitmaker.db.utils.isCompletedLastCycle
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.toEpochMillis
+import com.dessalines.habitmaker.utils.isAvailable
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.AvailabilityException
 import com.google.android.gms.common.api.GoogleApi
@@ -391,7 +392,7 @@ fun BroadcastReceivers(
                 val isCompleted = isCompletedToday(habit.lastCompletedTime)
                 // Only check the habit if it hasn't been checked
                 if (!isCompleted) {
-                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                    checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
                     updateStatsForHabit(habit, habitViewModel, dataClient,checks, completedCount, firstDayOfWeek)
                 }
@@ -422,18 +423,3 @@ fun BroadcastReceivers(
     }
 }
 
-suspend fun isAvailable(api: GoogleApi<*>): Boolean =
-    try {
-        GoogleApiAvailability
-            .getInstance()
-            .checkApiAvailability(api)
-            .await()
-
-        true
-    } catch (e: AvailabilityException) {
-        Log.d(
-            TAG,
-            "${api.javaClass.simpleName} API is not available in this device.",
-        )
-        false
-    }

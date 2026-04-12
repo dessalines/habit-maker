@@ -31,7 +31,7 @@ import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleAppSettings
 import com.dessalines.habitmaker.db.sampleHabit
-import com.dessalines.habitmaker.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.HabitStatus
 import com.dessalines.habitmaker.utils.toBool
 import com.dessalines.prettyFormat
@@ -291,6 +291,15 @@ fun HabitPointsInfoChip(
         )
     }
 }
+
+fun HabitFrequency.toResId() =
+    when (this) {
+        HabitFrequency.Daily -> R.string.daily
+        HabitFrequency.Weekly -> R.string.weekly
+        HabitFrequency.Monthly -> R.string.monthly
+        HabitFrequency.Yearly -> R.string.yearly
+    }
+
 
 @Composable
 @Preview

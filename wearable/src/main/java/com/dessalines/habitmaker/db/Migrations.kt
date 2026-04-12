@@ -2,6 +2,7 @@ package com.dessalines.habitmaker.db
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.dessalines.habitmaker.db.utils.toEpochMillis
 import java.time.LocalDate
 
 /**

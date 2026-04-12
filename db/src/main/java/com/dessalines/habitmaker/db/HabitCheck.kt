@@ -3,6 +3,7 @@ package com.dessalines.habitmaker.db
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -11,7 +12,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Entity(
     foreignKeys = [
@@ -25,6 +26,7 @@ import java.io.Serializable
     indices = [Index(value = ["habit_id", "check_time"], unique = true)],
 )
 @Keep
+@Serializable
 data class HabitCheck(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(
@@ -35,10 +37,13 @@ data class HabitCheck(
         name = "check_time",
     )
     val checkTime: Long,
-) : Serializable
+)
 
 @Entity
+@Serializable
 data class HabitCheckInsert(
+    // Necessary for DB sync
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(
         name = "habit_id",
     )
@@ -48,6 +53,20 @@ data class HabitCheckInsert(
     )
     val checkTime: Long,
 )
+
+@Entity
+@Serializable
+data class HabitCheckDelete(
+    @ColumnInfo(
+        name = "habit_id",
+    )
+    val habitId: Int,
+    @ColumnInfo(
+        name = "check_time",
+    )
+    val checkTime: Long,
+)
+
 
 private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitCheck where habit_id = :habitId order by check_time"
 
@@ -62,10 +81,11 @@ interface HabitCheckDao {
     @Insert(entity = HabitCheck::class, onConflict = OnConflictStrategy.IGNORE)
     fun insert(habitCheck: HabitCheckInsert): Long
 
-    @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
+    // TODO
+//    @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
+    @Delete(entity = HabitCheck::class)
     fun deleteForDay(
-        habitId: Int,
-        checkTime: Long,
+        habitCheck: HabitCheckDelete
     )
 }
 
@@ -83,9 +103,8 @@ class HabitCheckRepository(
     fun insert(habitCheck: HabitCheckInsert) = habitCheckDao.insert(habitCheck)
 
     fun deleteForDay(
-        habitId: Int,
-        checkTime: Long,
-    ) = habitCheckDao.deleteForDay(habitId, checkTime)
+        habitCheck: HabitCheckDelete
+    ) = habitCheckDao.deleteForDay(habitCheck)
 }
 
 val sampleHabitChecks =

@@ -1,8 +1,6 @@
-package com.dessalines.habitmaker.utils
+package com.dessalines.habitmaker.db.utils
 
-import android.util.Log
 import com.dessalines.habitmaker.db.Habit
-import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
@@ -71,9 +69,9 @@ fun calculateStreaks(
     }
     streaks.add(Streak(begin, end))
     streaks.reverse()
-    Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
+//    Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
 
-    return streaks.toImmutableList()
+    return streaks
 }
 
 /**
@@ -161,7 +159,7 @@ fun buildVirtualDates(
                     }
                 }
             }
-            virtualDates.toImmutableList()
+            virtualDates
         }
     }
 

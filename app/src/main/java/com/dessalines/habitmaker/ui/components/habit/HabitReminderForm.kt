@@ -37,13 +37,13 @@ import com.dessalines.habitmaker.ui.components.common.ReminderTimePickerDialog
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.textFieldBorder
 import com.dessalines.habitmaker.utils.HabitReminderFrequency
-import com.dessalines.habitmaker.utils.toLocalTime
 import com.kizitonwose.calendar.core.daysOfWeek
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
 import me.zhanghai.compose.preference.MultiSelectListPreference
 import me.zhanghai.compose.preference.ProvidePreferenceTheme
 import java.time.DayOfWeek
+import java.time.LocalTime
 import java.time.format.TextStyle
 import java.util.Calendar
 import java.util.Locale
@@ -254,3 +254,6 @@ fun daysToReminders(
 }
 
 fun DayOfWeek.toLocaleStr(locale: Locale): String = this.getDisplayName(TextStyle.SHORT, locale)
+
+@OptIn(ExperimentalMaterial3Api::class)
+fun TimePickerState.toLocalTime(): LocalTime = LocalTime.of(this.hour, this.minute)
