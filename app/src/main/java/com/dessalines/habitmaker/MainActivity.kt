@@ -145,6 +145,7 @@ class MainActivity : AppCompatActivity() {
                 habitViewModel,
                 habitCheckViewModel,
                 reminderViewModel,
+                dataClient,
             )
 
             var apiAvailable by remember { mutableStateOf(false) }
@@ -187,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                                 encouragementViewModel = encouragementViewModel,
                                 habitCheckViewModel = habitCheckViewModel,
                                 reminderViewModel = reminderViewModel,
+                                dataClient = dataClient,
                                 id = id,
                             )
                         }
@@ -203,6 +205,7 @@ class MainActivity : AppCompatActivity() {
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 reminderViewModel = reminderViewModel,
+                                dataClient = dataClient
                             )
                         }
                         composable(
@@ -220,6 +223,7 @@ class MainActivity : AppCompatActivity() {
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 reminderViewModel = reminderViewModel,
+                                dataClient = dataClient,
                                 id = id,
                             )
                         }
@@ -301,7 +305,7 @@ class MainActivity : AppCompatActivity() {
             if (!isCompletedLastCycle) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel, checks, completedCount, firstDayOfWeek)
+                updateStatsForHabit(habit, habitViewModel,dataClient, checks, completedCount, firstDayOfWeek)
             }
             // Reschedule the reminders, to skip today, or if its already virtual completed
             val reminders = reminderViewModel.listForHabitSync(habit.id)
@@ -370,6 +374,7 @@ fun BroadcastReceivers(
     habitViewModel: HabitViewModel,
     habitCheckViewModel: HabitCheckViewModel,
     reminderViewModel: HabitReminderViewModel,
+    dataClient: DataClient,
 ) {
     val ctx = LocalContext.current
 
@@ -388,7 +393,7 @@ fun BroadcastReceivers(
                 if (!isCompleted) {
                     checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                    updateStatsForHabit(habit, habitViewModel, checks, completedCount, firstDayOfWeek)
+                    updateStatsForHabit(habit, habitViewModel, dataClient,checks, completedCount, firstDayOfWeek)
                 }
 
                 // Reschedule the reminders, to skip today

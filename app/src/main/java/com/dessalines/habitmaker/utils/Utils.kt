@@ -5,7 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.net.toUri
+import com.dessalines.habitmaker.isAvailable
+import com.google.android.gms.wearable.DataClient
+import com.google.android.gms.wearable.PutDataMapRequest
+import kotlinx.coroutines.tasks.await
+import java.time.Instant
+import kotlin.coroutines.cancellation.CancellationException
 
 const val TAG = "com.habitmaker"
 
@@ -53,3 +60,28 @@ sealed interface SelectionVisibilityState<out Item> {
 fun Int.toBool() = this == 1
 
 fun Boolean.toInt() = this.compareTo(false)
+
+suspend fun sendDataToOtherDevices(data: String, className: String, dataClient: DataClient) {
+    if (isAvailable(dataClient)) {
+        try {
+            val request =
+                PutDataMapRequest
+                    .create("/message")
+                    .apply {
+                        dataMap.putLong("time", Instant.now().epochSecond)
+                        dataMap.putString("class", className)
+                        dataMap.putString("message", data)
+                    }.asPutDataRequest()
+                    .setUrgent()
+            val result =
+                dataClient
+                    .putDataItem( request ).await()
+
+            Log.d(TAG, "DataItem saved: $result")
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException
+        } catch (exception: Exception) {
+            Log.d(TAG, "Saving DataItem failed: $exception")
+        }
+    }
+}

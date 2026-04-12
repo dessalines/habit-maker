@@ -42,6 +42,7 @@ import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.isCompletedToday
+import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -52,6 +53,7 @@ fun EditHabitScreen(
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     reminderViewModel: HabitReminderViewModel,
+    dataClient: DataClient,
     id: Int,
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
@@ -135,7 +137,7 @@ fun EditHabitScreen(
                                         context = editedHabit.context,
                                         archived = editedHabit.archived,
                                     )
-                                habitViewModel.update(update)
+                                habitViewModel.update(update, dataClient)
 
                                 // Delete then add all the reminders
                                 reminderViewModel.delete(editedHabit.id)

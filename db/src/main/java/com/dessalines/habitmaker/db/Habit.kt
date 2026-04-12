@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.db
 
+
 import androidx.annotation.Keep
 import androidx.annotation.WorkerThread
 import androidx.room.ColumnInfo
@@ -13,8 +14,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Entity(
     indices = [
@@ -28,6 +28,7 @@ import java.io.Serializable
     ],
 )
 @Keep
+@Serializable
 data class Habit(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(
@@ -90,10 +91,13 @@ data class Habit(
         defaultValue = "0",
     )
     val lastCompletedTime: Long,
-) : Serializable
+)
 
 @Entity
+@Serializable
 data class HabitInsert(
+    // Necessary for using on other devices
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(
         name = "name",
     )
@@ -124,6 +128,7 @@ data class HabitInsert(
 )
 
 @Entity
+@Serializable
 data class HabitUpdate(
     val id: Int,
     @ColumnInfo(
@@ -156,6 +161,7 @@ data class HabitUpdate(
 )
 
 @Entity
+@Serializable
 data class HabitUpdateStats(
     val id: Int,
     @ColumnInfo(

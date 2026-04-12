@@ -38,5 +38,7 @@ class DataLayerListenerService : WearableListenerService() {
     companion object {
         const val MESSAGE_PATH = "/message"
         const val MESSAGE_KEY = "message"
+        const val TIME_KEY = "time"
+        const val CLASS_KEY = "class"
     }
 }

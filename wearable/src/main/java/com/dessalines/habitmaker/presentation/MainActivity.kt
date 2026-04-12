@@ -6,9 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
@@ -24,6 +28,24 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dessalines.habitmaker.MainViewModel
 import com.dessalines.habitmaker.R
+import com.dessalines.habitmaker.SampleApplication
+import com.dessalines.habitmaker.db.AppDB
+import com.dessalines.habitmaker.db.AppSettingsRepository
+import com.dessalines.habitmaker.db.EncouragementRepository
+import com.dessalines.habitmaker.db.HabitCheckRepository
+import com.dessalines.habitmaker.db.HabitReminderRepository
+import com.dessalines.habitmaker.db.HabitRepository
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModelFactory
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModelFactory
+import com.dessalines.habitmaker.listenForOtherDeviceDbChanges
 import com.dessalines.habitmaker.presentation.theme.Theme
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
@@ -33,11 +55,37 @@ class MainActivity : ComponentActivity() {
     private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
     private val mainViewModel by viewModels<MainViewModel>()
 
+    private val appSettingsViewModel: AppSettingsViewModel by viewModels {
+        AppSettingsViewModelFactory((application as SampleApplication).appSettingsRepository)
+    }
+
+    private val habitViewModel: HabitViewModel by viewModels {
+        HabitViewModelFactory((application as SampleApplication).habitRepository)
+    }
+
+    private val encouragementViewModel: EncouragementViewModel by viewModels {
+        EncouragementViewModelFactory((application as SampleApplication).encouragementRepository)
+    }
+
+    private val habitCheckViewModel: HabitCheckViewModel by viewModels {
+        HabitCheckViewModelFactory((application as SampleApplication).habitCheckRepository)
+    }
+
+    private val reminderViewModel: HabitReminderViewModel by viewModels {
+        HabitReminderViewModelFactory((application as SampleApplication).habitReminderRepository)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        listenForOtherDeviceDbChanges(lifecycleScope, mainViewModel, habitViewModel)
+
         setContent {
-            WearApp(mainViewModel)
+            WearApp(
+                mainViewModel = mainViewModel,
+                habitViewModel = habitViewModel,
+            )
         }
     }
 
@@ -60,11 +108,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WearApp(mainViewModel: MainViewModel) {
+fun WearApp(
+    mainViewModel: MainViewModel,
+    habitViewModel: HabitViewModel,
+) {
     val firstEventText = mainViewModel.events.firstOrNull()?.text ?: "John"
     val greetingName = firstEventText
 
     val eventsSize = mainViewModel.events.size
+
+    val habits by habitViewModel.getAll.asLiveData().observeAsState()
 
     Theme {
         AppScaffold {
@@ -101,20 +154,13 @@ fun WearApp(mainViewModel: MainViewModel) {
                             Text(eventsSize.toString())
                         }
                     }
-                    item {
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Button A")
+                    habits?.forEach { habit ->
+                        item(key = habit.id) {
+                            Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
+                                Text(habit.name)
+                            }
                         }
-                    }
-                    item {
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Button B")
-                        }
-                    }
-                    item {
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Button C")
-                        }
+
                     }
                 }
             }

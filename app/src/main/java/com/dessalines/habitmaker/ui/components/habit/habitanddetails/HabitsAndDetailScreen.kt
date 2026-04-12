@@ -59,6 +59,7 @@ import com.dessalines.habitmaker.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.toInt
 import com.dessalines.habitmaker.utils.todayStreak
 import com.dessalines.prettyFormat
+import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -79,6 +80,7 @@ fun HabitsAndDetailScreen(
     encouragementViewModel: EncouragementViewModel,
     habitCheckViewModel: HabitCheckViewModel,
     reminderViewModel: HabitReminderViewModel,
+    dataClient: DataClient,
     id: Int?,
 ) {
     val ctx = LocalContext.current
@@ -150,6 +152,7 @@ fun HabitsAndDetailScreen(
                                         updateStatsForHabit(
                                             habit,
                                             habitViewModel,
+                                            dataClient,
                                             checks,
                                             completedCount,
                                             firstDayOfWeek,
@@ -235,7 +238,7 @@ fun HabitsAndDetailScreen(
                                     onDelete = {
                                         scope.launch {
                                             deleteRemindersForHabit(ctx, habitId)
-                                            habitViewModel.delete(habit)
+                                            habitViewModel.delete(habit, dataClient)
                                             navigator.navigateBack()
                                         }
                                     },
@@ -258,6 +261,7 @@ fun HabitsAndDetailScreen(
                                                 updateStatsForHabit(
                                                     habit,
                                                     habitViewModel,
+                                                    dataClient,
                                                     checks,
                                                     completedCount,
                                                     firstDayOfWeek,
@@ -313,6 +317,7 @@ fun checkHabitForDay(
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
+    dataClient: DataClient,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,
@@ -344,7 +349,7 @@ fun updateStatsForHabit(
             lastCompletedTime = lastCompletedTime,
             completed = checks.size,
         )
-    habitViewModel.updateStats(statsUpdate)
+    habitViewModel.updateStats(statsUpdate, dataClient)
 
     return statsUpdate
 }
