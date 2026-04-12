@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 
@@ -243,20 +242,9 @@ class AppSettingsRepository(
     }
 
     @WorkerThread
-    // TODO
     suspend fun updateChangelog(releasesStr: String) {
-//    suspend fun updateChangelog(ctx: Context) {
         withContext(Dispatchers.IO) {
-//            try {
-//                val releasesStr =
-//                    ctx.assets
-//                        .open("RELEASES.md")
-//                        .bufferedReader()
-//                        .use { it.readText() }
-                _changelog.value = releasesStr
-//            } catch (e: Exception) {
-//                Log.e(TAG, "Failed to load changelog: $e")
-//            }
+            _changelog.value = releasesStr
         }
     }
 }
