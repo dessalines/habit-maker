@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
@@ -24,11 +25,13 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dessalines.habitmaker.MainViewModel
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.presentation.theme.Theme
+import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 
 
 class MainActivity : ComponentActivity() {
     private val dataClient by lazy { Wearable.getDataClient(this) }
+    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
     private val mainViewModel by viewModels<MainViewModel>()
 
 
@@ -53,16 +56,7 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         dataClient.removeListener(mainViewModel)
-//        messageClient.removeListener(mainViewModel)
         capabilityClient.removeListener(mainViewModel)
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
-
-        const val CAMERA_CAPABILITY = "camera"
-        const val WEAR_CAPABILITY = "wear"
-        const val MOBILE_CAPABILITY = "mobile"
     }
 }
 
