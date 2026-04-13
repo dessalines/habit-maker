@@ -26,15 +26,19 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.json.Json
+import java.io.ByteArrayOutputStream
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.getValue
+import kotlin.text.Charsets.UTF_8
 
 /**
  * A data holder describing a client event.
  */
 data class Event(
     val className: String,
-    val data: String,
+    val data: ByteArray,
 )
 
 class DataLayerListenerService : WearableListenerService() {
@@ -53,15 +57,15 @@ class DataLayerListenerService : WearableListenerService() {
             when (uri.path) {
                 MESSAGE_PATH -> {
                     val dataMapItem = DataMapItem.fromDataItem(dataEvent.dataItem)
-                    val data = dataMapItem.dataMap.getString(DATA_KEY)
+                    val data = dataMapItem.dataMap.getByteArray(DATA_KEY)
                     val className = dataMapItem.dataMap.getString(CLASS_KEY)
 
                     val event =
                         Event(
-                            data = data.orEmpty(),
+                            data = data ?: byteArrayOf(),
                             className = className.orEmpty(),
                         )
-                    Log.d(TAG, "event received: $event")
+                    Log.d(TAG, "event received: $className")
 
                     writeEventToDb(event)
                 }
@@ -74,37 +78,37 @@ class DataLayerListenerService : WearableListenerService() {
             // Data client is null for all these, because its not a send
             when (event.className) {
                 "HabitInsert" -> {
-                    val habit = Json.decodeFromString<HabitInsert>(event.data)
+                    val habit = Json.decodeFromString<HabitInsert>(ungzip(event.data))
                     habitRepository.insert(habit)
                 }
 
                 "HabitUpdate" -> {
-                    val habit = Json.decodeFromString<HabitUpdate>(event.data)
+                    val habit = Json.decodeFromString<HabitUpdate>(ungzip(event.data))
                     habitRepository.update(habit)
                 }
 
                 "HabitUpdateStats" -> {
-                    val habit = Json.decodeFromString<HabitUpdateStats>(event.data)
+                    val habit = Json.decodeFromString<HabitUpdateStats>(ungzip(event.data))
                     habitRepository.updateStats(habit)
                 }
 
                 "HabitDelete" -> {
-                    val habit = Json.decodeFromString<Habit>(event.data)
+                    val habit = Json.decodeFromString<Habit>(ungzip(event.data))
                     habitRepository.delete(habit)
                 }
 
                 "HabitCheckInsert" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckInsert>(event.data)
+                    val habitCheck = Json.decodeFromString<HabitCheckInsert>(ungzip(event.data))
                     habitCheckRepository.insert(habitCheck)
                 }
 
                 "HabitCheckDelete" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckDelete>(event.data)
+                    val habitCheck = Json.decodeFromString<HabitCheckDelete>(ungzip(event.data))
                     habitCheckRepository.deleteForDay(habitCheck)
                 }
 
                 "BulkInsert" -> {
-                    val bulkInsert = Json.decodeFromString<BulkInsert>(event.data)
+                    val bulkInsert = Json.decodeFromString<BulkInsert>(ungzip(event.data))
 
                     bulkInsert.habitInserts.forEach { (habitInsert, statsUpdate) ->
                         habitRepository.insert(habitInsert)
@@ -143,15 +147,14 @@ suspend fun DataClient.sendDataToOtherDevices(
                     .create(DataLayerListenerService.MESSAGE_PATH)
                     .apply {
                         dataMap.putString(DataLayerListenerService.CLASS_KEY, className)
-                        dataMap.putString(DataLayerListenerService.DATA_KEY, data)
+                        dataMap.putByteArray(DataLayerListenerService.DATA_KEY, gzip(data))
                     }.asPutDataRequest()
 //                    .setUrgent()
-            val result =
                 this
                     .putDataItem(request)
                     .await()
 
-            Log.d(TAG, "DataItem saved: $result")
+            Log.d(TAG, "DataItem saved: $className")
         } catch (cancellationException: CancellationException) {
             throw cancellationException
         } catch (exception: Exception) {
@@ -159,3 +162,12 @@ suspend fun DataClient.sendDataToOtherDevices(
         }
     }
 }
+
+fun gzip(content: String): ByteArray {
+    val bos = ByteArrayOutputStream()
+    GZIPOutputStream(bos).bufferedWriter(UTF_8).use { it.write(content) }
+    return bos.toByteArray()
+}
+
+fun ungzip(content: ByteArray): String =
+    GZIPInputStream(content.inputStream()).bufferedReader(UTF_8).use { it.readText() }
