@@ -27,7 +27,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.getValue
@@ -126,10 +125,9 @@ suspend fun DataClient.sendDataToOtherDevices(
                         dataMap.putString(DataLayerListenerService.DATA_KEY, data)
                     }.asPutDataRequest()
 //                    .setUrgent()
-            val result =
-                this
-                    .putDataItem(request)
-                    .await()
+            this
+                .putDataItem(request)
+                .await()
 
             Log.d(TAG, "DataItem saved: class: $className, $data")
         } catch (cancellationException: CancellationException) {

@@ -5,7 +5,6 @@ import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettingsRepository
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitRepository
-import com.google.android.gms.wearable.Wearable
 
 // TODO rename this
 class SampleApplication : Application() {

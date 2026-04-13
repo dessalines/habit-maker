@@ -1,10 +1,7 @@
 package com.dessalines.habitmaker.utils
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.utils.HabitFrequency
 
 enum class ThemeMode(
     @param:StringRes val resId: Int,

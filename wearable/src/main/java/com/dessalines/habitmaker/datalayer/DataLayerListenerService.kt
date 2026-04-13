@@ -131,6 +131,7 @@ class DataLayerListenerService : WearableListenerService() {
     }
 }
 
+@SuppressLint("VisibleForTests")
 suspend fun DataClient.sendDataToOtherDevices(
     data: String,
     className: String,
