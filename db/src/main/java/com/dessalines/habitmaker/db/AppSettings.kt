@@ -186,6 +186,25 @@ data class SettingsUpdateBehavior(
     val hideTotals: Int,
 )
 
+data class SettingsUpdateWearable(
+    val id: Int,
+    @ColumnInfo(
+        name = "sort",
+        defaultValue = "0",
+    )
+    val sort: Int,
+    @ColumnInfo(
+        name = "sort_order",
+        defaultValue = "0",
+    )
+    val sortOrder: Int,
+    @ColumnInfo(
+        name = "hide_completed",
+        defaultValue = "0",
+    )
+    val hideCompleted: Int,
+)
+
 @Dao
 interface AppSettingsDao {
     @Query("SELECT * FROM AppSettings limit 1")
@@ -202,6 +221,9 @@ interface AppSettingsDao {
 
     @Update(entity = AppSettings::class)
     suspend fun updateBehavior(settings: SettingsUpdateBehavior)
+
+    @Update(entity = AppSettings::class)
+    suspend fun updateSettingsWearable(settings: SettingsUpdateWearable)
 
     @Query("UPDATE AppSettings SET last_version_code_viewed = :versionCode")
     suspend fun updateLastVersionCode(versionCode: Int)
@@ -234,6 +256,11 @@ class AppSettingsRepository(
     @WorkerThread
     suspend fun updateBehavior(settings: SettingsUpdateBehavior) {
         appSettingsDao.updateBehavior(settings)
+    }
+
+    @WorkerThread
+    suspend fun updateSettingsWearable(settings: SettingsUpdateWearable) {
+        appSettingsDao.updateSettingsWearable(settings)
     }
 
     @WorkerThread

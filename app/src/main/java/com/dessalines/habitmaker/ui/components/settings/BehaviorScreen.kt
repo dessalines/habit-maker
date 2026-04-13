@@ -33,13 +33,13 @@ import com.dessalines.habitmaker.db.DEFAULT_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MAX_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MIN_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
+import com.dessalines.habitmaker.db.utils.HabitSort
+import com.dessalines.habitmaker.db.utils.HabitSortOrder
+import com.dessalines.habitmaker.db.utils.toBool
+import com.dessalines.habitmaker.db.utils.toInt
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.habit.toLocaleStr
-import com.dessalines.habitmaker.utils.HabitSort
-import com.dessalines.habitmaker.utils.HabitSortOrder
-import com.dessalines.habitmaker.utils.toBool
-import com.dessalines.habitmaker.utils.toInt
 import com.kizitonwose.calendar.core.daysOfWeek
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType

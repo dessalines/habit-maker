@@ -9,4 +9,15 @@
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
+    <string name="hide_completed">Hide completed</string>
+    <string name="ascending">Ascending</string>
+    <string name="sort_order">Sort order</string>
+    <string name="descending">Descending</string>
+    <string name="sort">Sort</string>
+    <string name="streak">Streak</string>
+    <string name="points">Points</string>
+    <string name="score">Score</string>
+    <string name="status">Status</string>
+    <string name="date_created">Date created</string>
+    <string name="name">Name</string>
 </resources>

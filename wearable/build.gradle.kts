@@ -60,6 +60,7 @@ dependencies {
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
+    implementation("androidx.wear.compose:compose-navigation:1.6.1")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("androidx.compose.runtime:runtime-livedata:1.10.6")
     implementation("com.google.android.gms:play-services-wearable:19.0.0")

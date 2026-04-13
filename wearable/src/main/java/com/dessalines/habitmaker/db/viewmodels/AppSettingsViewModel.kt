@@ -9,6 +9,7 @@ import com.dessalines.habitmaker.db.AppSettingsRepository
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
 import com.dessalines.habitmaker.db.SettingsUpdateTheme
+import com.dessalines.habitmaker.db.SettingsUpdateWearable
 import com.dessalines.habitmaker.utils.TAG
 import kotlinx.coroutines.launch
 
@@ -32,6 +33,11 @@ class AppSettingsViewModel(
     fun updateBehavior(settings: SettingsUpdateBehavior) =
         viewModelScope.launch {
             repository.updateBehavior(settings)
+        }
+
+    fun updateSettingsWearable(settings: SettingsUpdateWearable) =
+        viewModelScope.launch {
+            repository.updateSettingsWearable(settings)
         }
 
     fun updateLastVersionCodeViewed(versionCode: Int) =
