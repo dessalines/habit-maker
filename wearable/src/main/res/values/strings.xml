@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Habit-Maker</string>
+    <string name="habits">Habits</string>
+    <string name="complication_label">Remaining habits</string>
+    <string name="settings">Settings</string>
+    <string name="no_habits">No habits</string>
+    <string name="create_habit">Create habit</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="hide_completed">Hide completed</string>
+    <string name="ascending">Ascending</string>
+    <string name="sort_order">Sort order</string>
+    <string name="descending">Descending</string>
+    <string name="sort">Sort</string>
+    <string name="streak">Streak</string>
+    <string name="points">Points</string>
+    <string name="score">Score</string>
+    <string name="status">Status</string>
+    <string name="date_created">Date created</string>
+    <string name="name">Name</string>
+    <string name="remaining_habits">Remaining habits</string>
+    <string name="hide_archived">Hide archived</string>
+    <string name="hide_points">Hide points</string>
+    <string name="hide_score">Hide score</string>
+    <string name="hide_streak">Hide streak</string>
+</resources>

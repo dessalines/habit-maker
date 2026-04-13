@@ -12,6 +12,7 @@
 local.properties
 app/release
 app/schemas
+wearable/schemas
 .project
 .settings
 .classpath

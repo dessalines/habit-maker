@@ -1,23 +1,16 @@
 package com.dessalines.habitmaker.db
 
-import android.content.Context
-import android.util.Log
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
-import com.dessalines.habitmaker.utils.TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.DayOfWeek
 
@@ -193,6 +186,45 @@ data class SettingsUpdateBehavior(
     val hideTotals: Int,
 )
 
+data class SettingsUpdateWearable(
+    val id: Int,
+    @ColumnInfo(
+        name = "sort",
+        defaultValue = "0",
+    )
+    val sort: Int,
+    @ColumnInfo(
+        name = "sort_order",
+        defaultValue = "0",
+    )
+    val sortOrder: Int,
+    @ColumnInfo(
+        name = "hide_completed",
+        defaultValue = "0",
+    )
+    val hideCompleted: Int,
+    @ColumnInfo(
+        name = "hide_archived",
+        defaultValue = "0",
+    )
+    val hideArchived: Int,
+    @ColumnInfo(
+        name = "hide_points_on_home",
+        defaultValue = "0",
+    )
+    val hidePointsOnHome: Int,
+    @ColumnInfo(
+        name = "hide_score_on_home",
+        defaultValue = "0",
+    )
+    val hideScoreOnHome: Int,
+    @ColumnInfo(
+        name = "hide_streak_on_home",
+        defaultValue = "0",
+    )
+    val hideStreakOnHome: Int,
+)
+
 @Dao
 interface AppSettingsDao {
     @Query("SELECT * FROM AppSettings limit 1")
@@ -209,6 +241,9 @@ interface AppSettingsDao {
 
     @Update(entity = AppSettings::class)
     suspend fun updateBehavior(settings: SettingsUpdateBehavior)
+
+    @Update(entity = AppSettings::class)
+    suspend fun updateSettingsWearable(settings: SettingsUpdateWearable)
 
     @Query("UPDATE AppSettings SET last_version_code_viewed = :versionCode")
     suspend fun updateLastVersionCode(versionCode: Int)
@@ -244,69 +279,20 @@ class AppSettingsRepository(
     }
 
     @WorkerThread
+    suspend fun updateSettingsWearable(settings: SettingsUpdateWearable) {
+        appSettingsDao.updateSettingsWearable(settings)
+    }
+
+    @WorkerThread
     suspend fun updateLastVersionCodeViewed(versionCode: Int) {
         appSettingsDao.updateLastVersionCode(versionCode)
     }
 
     @WorkerThread
-    suspend fun updateChangelog(ctx: Context) {
+    suspend fun updateChangelog(releasesStr: String) {
         withContext(Dispatchers.IO) {
-            try {
-                val releasesStr =
-                    ctx.assets
-                        .open("RELEASES.md")
-                        .bufferedReader()
-                        .use { it.readText() }
-                _changelog.value = releasesStr
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to load changelog: $e")
-            }
+            _changelog.value = releasesStr
         }
-    }
-}
-
-class AppSettingsViewModel(
-    private val repository: AppSettingsRepository,
-) : ViewModel() {
-    val appSettings = repository.appSettings
-    val appSettingsSync = repository.appSettingsSync
-    val changelog = repository.changelog
-
-    fun updateHideCompleted(settings: SettingsUpdateHideCompleted) =
-        viewModelScope.launch {
-            repository.updateHideCompleted(settings)
-        }
-
-    fun updateTheme(settings: SettingsUpdateTheme) =
-        viewModelScope.launch {
-            repository.updateTheme(settings)
-        }
-
-    fun updateBehavior(settings: SettingsUpdateBehavior) =
-        viewModelScope.launch {
-            repository.updateBehavior(settings)
-        }
-
-    fun updateLastVersionCodeViewed(versionCode: Int) =
-        viewModelScope.launch {
-            repository.updateLastVersionCodeViewed(versionCode)
-        }
-
-    fun updateChangelog(ctx: Context) =
-        viewModelScope.launch {
-            repository.updateChangelog(ctx)
-        }
-}
-
-class AppSettingsViewModelFactory(
-    private val repository: AppSettingsRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AppSettingsViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return AppSettingsViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 

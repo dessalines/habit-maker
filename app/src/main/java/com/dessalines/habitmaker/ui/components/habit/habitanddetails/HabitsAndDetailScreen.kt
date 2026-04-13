@@ -33,33 +33,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.Encouragement
-import com.dessalines.habitmaker.db.EncouragementViewModel
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
+import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
-import com.dessalines.habitmaker.db.HabitCheckViewModel
-import com.dessalines.habitmaker.db.HabitReminderViewModel
 import com.dessalines.habitmaker.db.HabitUpdateStats
-import com.dessalines.habitmaker.db.HabitViewModel
 import com.dessalines.habitmaker.db.SettingsUpdateHideCompleted
+import com.dessalines.habitmaker.db.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.calculatePoints
+import com.dessalines.habitmaker.db.utils.calculateScore
+import com.dessalines.habitmaker.db.utils.calculateStreaks
+import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.nthTriangle
+import com.dessalines.habitmaker.db.utils.toEpochMillis
+import com.dessalines.habitmaker.db.utils.toInt
+import com.dessalines.habitmaker.db.utils.todayStreak
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.deleteRemindersForHabit
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
-import com.dessalines.habitmaker.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.utils.buildVirtualDates
-import com.dessalines.habitmaker.utils.calculatePoints
-import com.dessalines.habitmaker.utils.calculateScore
-import com.dessalines.habitmaker.utils.calculateStreaks
-import com.dessalines.habitmaker.utils.epochMillisToLocalDate
-import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.nthTriangle
-import com.dessalines.habitmaker.utils.toEpochMillis
-import com.dessalines.habitmaker.utils.toInt
-import com.dessalines.habitmaker.utils.todayStreak
 import com.dessalines.prettyFormat
+import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -80,6 +81,7 @@ fun HabitsAndDetailScreen(
     encouragementViewModel: EncouragementViewModel,
     habitCheckViewModel: HabitCheckViewModel,
     reminderViewModel: HabitReminderViewModel,
+    dataClient: DataClient,
     id: Int?,
 ) {
     val ctx = LocalContext.current
@@ -145,12 +147,13 @@ fun HabitsAndDetailScreen(
                                 val habit = habits?.find { it.id == habitId }
                                 habit?.let { habit ->
                                     val checkTime = LocalDate.now().toEpochMillis()
-                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
                                     val stats =
                                         updateStatsForHabit(
                                             habit,
                                             habitViewModel,
+                                            dataClient,
                                             checks,
                                             completedCount,
                                             firstDayOfWeek,
@@ -236,7 +239,7 @@ fun HabitsAndDetailScreen(
                                     onDelete = {
                                         scope.launch {
                                             deleteRemindersForHabit(ctx, habitId)
-                                            habitViewModel.delete(habit)
+                                            habitViewModel.delete(habit, dataClient)
                                             navigator.navigateBack()
                                         }
                                     },
@@ -252,6 +255,7 @@ fun HabitsAndDetailScreen(
                                                 habit.id,
                                                 checkTime,
                                                 habitCheckViewModel,
+                                                dataClient,
                                             )
                                             val checks =
                                                 habitCheckViewModel.listForHabitSync(habitId)
@@ -259,6 +263,7 @@ fun HabitsAndDetailScreen(
                                                 updateStatsForHabit(
                                                     habit,
                                                     habitViewModel,
+                                                    dataClient,
                                                     checks,
                                                     completedCount,
                                                     firstDayOfWeek,
@@ -296,24 +301,26 @@ fun checkHabitForDay(
     habitId: Int,
     checkTime: Long,
     habitCheckViewModel: HabitCheckViewModel,
+    dataClient: DataClient,
 ) {
-    val insert =
+    val data =
         HabitCheckInsert(
             habitId = habitId,
             checkTime = checkTime,
         )
-    val success = habitCheckViewModel.insert(insert)
+    val success = habitCheckViewModel.insert(data, dataClient)
 
     // If its -1, that means that its already been checked for today,
     // and you actually need to delete it to toggle
     if (success == -1L) {
-        habitCheckViewModel.deleteForDay(habitId, checkTime)
+        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId = habitId, checkTime = checkTime), dataClient)
     }
 }
 
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
+    dataClient: DataClient?,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,
@@ -345,7 +352,7 @@ fun updateStatsForHabit(
             lastCompletedTime = lastCompletedTime,
             completed = checks.size,
         )
-    habitViewModel.updateStats(statsUpdate)
+    habitViewModel.updateStats(statsUpdate, dataClient)
 
     return statsUpdate
 }

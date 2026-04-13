@@ -29,17 +29,18 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.DEFAULT_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MAX_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.MIN_COMPLETED_COUNT
 import com.dessalines.habitmaker.db.SettingsUpdateBehavior
+import com.dessalines.habitmaker.db.utils.HabitSort
+import com.dessalines.habitmaker.db.utils.HabitSortOrder
+import com.dessalines.habitmaker.db.utils.toBool
+import com.dessalines.habitmaker.db.utils.toInt
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.ui.components.common.BackButton
+import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.ui.components.habit.toLocaleStr
-import com.dessalines.habitmaker.utils.HabitSort
-import com.dessalines.habitmaker.utils.HabitSortOrder
-import com.dessalines.habitmaker.utils.toBool
-import com.dessalines.habitmaker.utils.toInt
 import com.kizitonwose.calendar.core.daysOfWeek
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
@@ -154,13 +155,13 @@ fun BehaviorScreen(
                         },
                         values = HabitSort.entries,
                         valueToText = {
-                            AnnotatedString(resources.getString(it.resId))
+                            AnnotatedString(resources.getString(it.toResId()))
                         },
                         title = {
                             Text(stringResource(R.string.sort))
                         },
                         summary = {
-                            Text(stringResource(sortState.resId))
+                            Text(stringResource(sortState.toResId()))
                         },
                         icon = {
                             Icon(
@@ -179,13 +180,13 @@ fun BehaviorScreen(
                         },
                         values = HabitSortOrder.entries,
                         valueToText = {
-                            AnnotatedString(resources.getString(it.resId))
+                            AnnotatedString(resources.getString(it.toResId()))
                         },
                         title = {
                             Text(stringResource(R.string.sort_order))
                         },
                         summary = {
-                            Text(stringResource(sortOrderState.resId))
+                            Text(stringResource(sortOrderState.toResId()))
                         },
                         icon = {
                             Icon(

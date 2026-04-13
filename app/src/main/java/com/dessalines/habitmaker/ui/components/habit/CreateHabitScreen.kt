@@ -30,19 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.db.AppSettingsViewModel
 import com.dessalines.habitmaker.db.Encouragement
 import com.dessalines.habitmaker.db.EncouragementInsert
-import com.dessalines.habitmaker.db.EncouragementViewModel
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitReminder
 import com.dessalines.habitmaker.db.HabitReminderInsert
-import com.dessalines.habitmaker.db.HabitReminderViewModel
-import com.dessalines.habitmaker.db.HabitViewModel
+import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
+import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
+import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
+import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -53,6 +54,7 @@ fun CreateHabitScreen(
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     reminderViewModel: HabitReminderViewModel,
+    dataClient: DataClient,
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
     val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
@@ -121,7 +123,7 @@ fun CreateHabitScreen(
                                         context = habit.context,
                                         archived = habit.archived,
                                     )
-                                val insertedHabitId = habitViewModel.insert(insert)
+                                val insertedHabitId = habitViewModel.insert(insert, dataClient)
 
                                 // The id is -1 if its a failed insert
                                 if (insertedHabitId != -1L) {

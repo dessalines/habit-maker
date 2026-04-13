@@ -1,10 +1,9 @@
 package com.dessalines.habitmaker.db
 
 import androidx.annotation.Keep
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.ColumnInfo
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -13,7 +12,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Entity(
     foreignKeys = [
@@ -27,6 +26,7 @@ import java.io.Serializable
     indices = [Index(value = ["habit_id", "check_time"], unique = true)],
 )
 @Keep
+@Serializable
 data class HabitCheck(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(
@@ -37,10 +37,26 @@ data class HabitCheck(
         name = "check_time",
     )
     val checkTime: Long,
-) : Serializable
+)
 
 @Entity
+@Serializable
 data class HabitCheckInsert(
+    // Necessary for DB sync
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @ColumnInfo(
+        name = "habit_id",
+    )
+    val habitId: Int,
+    @ColumnInfo(
+        name = "check_time",
+    )
+    val checkTime: Long,
+)
+
+@Entity
+@Serializable
+data class HabitCheckDelete(
     @ColumnInfo(
         name = "habit_id",
     )
@@ -55,6 +71,9 @@ private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitCheck where habit_id =
 
 @Dao
 interface HabitCheckDao {
+    @Query("SELECT * FROM HabitCheck")
+    fun getAllSync(): List<HabitCheck>
+
     @Query(BY_HABIT_ID_QUERY)
     fun listForHabit(habitId: Int): Flow<List<HabitCheck>>
 
@@ -64,11 +83,10 @@ interface HabitCheckDao {
     @Insert(entity = HabitCheck::class, onConflict = OnConflictStrategy.IGNORE)
     fun insert(habitCheck: HabitCheckInsert): Long
 
-    @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
-    fun deleteForDay(
-        habitId: Int,
-        checkTime: Long,
-    )
+    // TODO
+//    @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
+    @Delete(entity = HabitCheck::class)
+    fun deleteForDay(habitCheck: HabitCheckDelete)
 }
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -76,6 +94,8 @@ interface HabitCheckDao {
 class HabitCheckRepository(
     private val habitCheckDao: HabitCheckDao,
 ) {
+    val getAllSync = habitCheckDao.getAllSync()
+
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
     fun listForHabit(habitId: Int) = habitCheckDao.listForHabit(habitId)
@@ -84,37 +104,7 @@ class HabitCheckRepository(
 
     fun insert(habitCheck: HabitCheckInsert) = habitCheckDao.insert(habitCheck)
 
-    fun deleteForDay(
-        habitId: Int,
-        checkTime: Long,
-    ) = habitCheckDao.deleteForDay(habitId, checkTime)
-}
-
-class HabitCheckViewModel(
-    private val repository: HabitCheckRepository,
-) : ViewModel() {
-    fun listForHabit(habitId: Int) = repository.listForHabit(habitId)
-
-    fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
-
-    fun insert(habitCheck: HabitCheckInsert) = repository.insert(habitCheck)
-
-    fun deleteForDay(
-        habitId: Int,
-        checkTime: Long,
-    ) = repository.deleteForDay(habitId, checkTime)
-}
-
-class HabitCheckViewModelFactory(
-    private val repository: HabitCheckRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HabitCheckViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HabitCheckViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
+    fun deleteForDay(habitCheck: HabitCheckDelete) = habitCheckDao.deleteForDay(habitCheck)
 }
 
 val sampleHabitChecks =

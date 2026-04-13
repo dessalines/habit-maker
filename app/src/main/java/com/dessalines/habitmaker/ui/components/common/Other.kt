@@ -31,9 +31,11 @@ import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleAppSettings
 import com.dessalines.habitmaker.db.sampleHabit
-import com.dessalines.habitmaker.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.HabitSort
+import com.dessalines.habitmaker.db.utils.HabitSortOrder
+import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.utils.HabitStatus
-import com.dessalines.habitmaker.utils.toBool
 import com.dessalines.prettyFormat
 
 @Composable
@@ -127,7 +129,7 @@ fun HabitChipsFlowRow(
     ) {
         if (habit.context?.isNotBlank() == true) {
             HabitInfoChip(
-                text = habit.context,
+                text = habit.context ?: "",
                 icon = Icons.Default.Schedule,
             )
         }
@@ -291,6 +293,30 @@ fun HabitPointsInfoChip(
         )
     }
 }
+
+fun HabitFrequency.toResId() =
+    when (this) {
+        HabitFrequency.Daily -> R.string.daily
+        HabitFrequency.Weekly -> R.string.weekly
+        HabitFrequency.Monthly -> R.string.monthly
+        HabitFrequency.Yearly -> R.string.yearly
+    }
+
+fun HabitSort.toResId() =
+    when (this) {
+        HabitSort.Streak -> R.string.streak
+        HabitSort.Points -> R.string.points
+        HabitSort.Score -> R.string.score
+        HabitSort.Status -> R.string.status
+        HabitSort.DateCreated -> R.string.date_created
+        HabitSort.Name -> R.string.name
+    }
+
+fun HabitSortOrder.toResId() =
+    when (this) {
+        HabitSortOrder.Descending -> R.string.descending
+        HabitSortOrder.Ascending -> R.string.ascending
+    }
 
 @Composable
 @Preview

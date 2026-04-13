@@ -8,6 +8,7 @@ pluginManagement {
         id 'com.android.application' version '9.1.0'
         id 'com.android.library' version '9.1.1'
         id 'org.jetbrains.kotlin.android' version '2.3.20'
+        id 'org.jetbrains.kotlin.jvm' version '2.3.20'
     }
 }
 dependencyResolutionManagement {
@@ -20,3 +21,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "com.dessalines.habitmaker"
 include ':app'
+include ':wearable'
+include ':db'

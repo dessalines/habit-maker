@@ -2,9 +2,6 @@ package com.dessalines.habitmaker.db
 
 import androidx.annotation.Keep
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Delete
@@ -16,8 +13,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 @Entity(
     indices = [
@@ -31,6 +27,7 @@ import java.io.Serializable
     ],
 )
 @Keep
+@Serializable
 data class Habit(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(
@@ -93,10 +90,13 @@ data class Habit(
         defaultValue = "0",
     )
     val lastCompletedTime: Long,
-) : Serializable
+)
 
 @Entity
+@Serializable
 data class HabitInsert(
+    // Necessary for using on other devices
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     @ColumnInfo(
         name = "name",
     )
@@ -127,6 +127,18 @@ data class HabitInsert(
 )
 
 @Entity
+@Serializable
+data class HabitInsertWearable(
+    // Necessary for using on other devices
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @ColumnInfo(
+        name = "name",
+    )
+    val name: String,
+)
+
+@Entity
+@Serializable
 data class HabitUpdate(
     val id: Int,
     @ColumnInfo(
@@ -159,6 +171,7 @@ data class HabitUpdate(
 )
 
 @Entity
+@Serializable
 data class HabitUpdateStats(
     val id: Int,
     @ColumnInfo(
@@ -212,6 +225,9 @@ interface HabitDao {
     @Insert(entity = Habit::class, onConflict = OnConflictStrategy.IGNORE)
     fun insert(habit: HabitInsert): Long
 
+    @Insert(entity = Habit::class, onConflict = OnConflictStrategy.IGNORE)
+    fun insertWearable(habit: HabitInsertWearable): Long
+
     @Update(entity = Habit::class)
     suspend fun update(habit: HabitUpdate)
 
@@ -239,6 +255,8 @@ class HabitRepository(
 
     fun insert(habit: HabitInsert) = habitDao.insert(habit)
 
+    fun insertWearable(habit: HabitInsertWearable) = habitDao.insertWearable(habit)
+
     @WorkerThread
     suspend fun update(habit: HabitUpdate) = habitDao.update(habit)
 
@@ -247,47 +265,6 @@ class HabitRepository(
 
     @WorkerThread
     suspend fun delete(habit: Habit) = habitDao.delete(habit)
-}
-
-class HabitViewModel(
-    private val repository: HabitRepository,
-) : ViewModel() {
-    val getAll = repository.getAll
-
-    val getAllSync = repository.getAllSync
-
-    fun getById(id: Int) = repository.getById(id)
-
-    fun getByIdSync(id: Int) = repository.getByIdSync(id)
-
-    fun insert(habit: HabitInsert) = repository.insert(habit)
-
-    fun update(habit: HabitUpdate) =
-        viewModelScope.launch {
-            repository.update(habit)
-        }
-
-    fun updateStats(habit: HabitUpdateStats) =
-        viewModelScope.launch {
-            repository.updateStats(habit)
-        }
-
-    fun delete(habit: Habit) =
-        viewModelScope.launch {
-            repository.delete(habit)
-        }
-}
-
-class HabitViewModelFactory(
-    private val repository: HabitRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HabitViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HabitViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }
 
 val sampleHabit =

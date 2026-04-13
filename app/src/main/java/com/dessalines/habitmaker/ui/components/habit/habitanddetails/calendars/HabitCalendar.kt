@@ -24,10 +24,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.sampleHabitChecks
+import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
 import com.dessalines.habitmaker.ui.components.common.CIRCLE_INDICATOR_FRACTION
 import com.dessalines.habitmaker.ui.components.common.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.components.common.THIN_BORDER
-import com.dessalines.habitmaker.utils.epochMillisToLocalDate
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay

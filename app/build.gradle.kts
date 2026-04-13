@@ -2,9 +2,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "2.3.20"
 }
 
 android {
+    namespace = "com.dessalines.habitmaker"
     buildToolsVersion = "36.0.0"
     compileSdk = 36
 
@@ -81,10 +83,26 @@ android {
     buildFeatures {
         compose = true
     }
-    namespace = "com.dessalines.habitmaker"
 }
 
 dependencies {
+    implementation(project(":db"))
+
+    // Room
+    ksp("androidx.room:room-compiler:2.8.4")
+    // To use Kotlin annotation processing tool
+    implementation("androidx.room:room-runtime:2.8.4")
+
+    // Wearable
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
     // Freedroidwarn
     implementation("com.github.woheller69:FreeDroidWarn:V1.11")
 
@@ -131,14 +149,6 @@ dependencies {
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
 
-    // Room
-    // To use Kotlin annotation processing tool
-    ksp("androidx.room:room-compiler:2.8.4")
-    implementation("androidx.room:room-runtime:2.8.4")
-    annotationProcessor("androidx.room:room-compiler:2.8.4")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.8.4")
 
     // App compat
     implementation("androidx.appcompat:appcompat:1.7.1")

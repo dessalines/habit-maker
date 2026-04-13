@@ -1,8 +1,8 @@
-package com.dessalines.habitmaker.utils
+package com.dessalines.habitmaker.db.utils
 
-import android.util.Log
+import androidx.annotation.StringRes
+import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
-import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
@@ -71,9 +71,9 @@ fun calculateStreaks(
     }
     streaks.add(Streak(begin, end))
     streaks.reverse()
-    Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
+//    Log.d(TAG, streaks.joinToString { "${it.begin} - ${it.end}" })
 
-    return streaks.toImmutableList()
+    return streaks
 }
 
 /**
@@ -161,7 +161,7 @@ fun buildVirtualDates(
                     }
                 }
             }
-            virtualDates.toImmutableList()
+            virtualDates
         }
     }
 
@@ -277,3 +277,101 @@ fun isCompletedCurrentCycle(
  * Determines whether a habit is completed today or not.
  */
 fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
+
+data class HabitGroupData(
+    val frequency: HabitFrequency,
+    val filteredList: List<Habit>,
+    val completed: Int,
+    val total: Int,
+)
+
+fun filterAndSortHabits(
+    habits: List<Habit>,
+    settings: AppSettings?,
+): List<Habit> {
+    val tmp = habits.toMutableList()
+
+    // Hide completed
+    if ((settings?.hideCompleted ?: 0).toBool()) {
+        tmp.removeAll { isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }
+    }
+
+    // Hide archived
+    if ((settings?.hideArchived ?: 0).toBool()) {
+        tmp.removeAll { it.archived.toBool() }
+    }
+
+    // Sorting
+    val sortSetting = HabitSort.entries[settings?.sort ?: 0]
+    when (sortSetting) {
+        HabitSort.Name -> {
+            tmp.sortBy { it.name }
+        }
+
+        HabitSort.Points -> {
+            tmp.sortBy { it.points }
+        }
+
+        HabitSort.Score -> {
+            tmp.sortWith(compareBy({ it.score }, { it.points }))
+        }
+
+        HabitSort.Streak -> {
+            tmp.sortWith(compareBy({ it.streak }, { it.points }))
+        }
+
+        HabitSort.Status -> {
+            tmp.sortWith(
+                compareBy({ isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }, { it.points }),
+            )
+        }
+
+        HabitSort.DateCreated -> {
+            tmp.sortBy { it.id }
+        }
+    }
+    val sortOrder = HabitSortOrder.entries[settings?.sortOrder ?: 0]
+    if (sortOrder == HabitSortOrder.Descending) {
+        tmp.reverse()
+    }
+
+    return tmp
+}
+
+fun buildHabitsByFrequency(
+    habits: List<Habit>,
+    settings: AppSettings?,
+) = listOf(
+    calculateHabitGroupData(
+        frequency = HabitFrequency.Daily,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily },
+        settings,
+    ),
+    calculateHabitGroupData(
+        frequency = HabitFrequency.Weekly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Weekly },
+        settings,
+    ),
+    calculateHabitGroupData(
+        frequency = HabitFrequency.Monthly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Monthly },
+        settings,
+    ),
+    calculateHabitGroupData(
+        frequency = HabitFrequency.Yearly,
+        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Yearly },
+        settings,
+    ),
+)
+
+fun calculateHabitGroupData(
+    frequency: HabitFrequency,
+    habits: List<Habit>,
+    settings: AppSettings?,
+) = HabitGroupData(
+    frequency = frequency,
+    completed = habits.count { isCompletedToday(it.lastCompletedTime) },
+    // Don't count archived in the total for progress
+    total = habits.filter { !it.archived.toBool() }.size,
+    filteredList = filterAndSortHabits(habits, settings),
+)

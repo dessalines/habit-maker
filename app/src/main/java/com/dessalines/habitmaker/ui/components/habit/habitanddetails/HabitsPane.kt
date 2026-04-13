@@ -1,6 +1,5 @@
 package com.dessalines.habitmaker.ui.components.habit.habitanddetails
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.BasicTooltipBox
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -51,6 +50,10 @@ import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleHabit
+import com.dessalines.habitmaker.db.utils.HabitGroupData
+import com.dessalines.habitmaker.db.utils.buildHabitsByFrequency
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.HabitDaysCompletedInfoChip
 import com.dessalines.habitmaker.ui.components.common.HabitPointsInfoChip
@@ -61,15 +64,8 @@ import com.dessalines.habitmaker.ui.components.common.SectionProgress
 import com.dessalines.habitmaker.ui.components.common.SectionTitle
 import com.dessalines.habitmaker.ui.components.common.TasksDaysOrToday
 import com.dessalines.habitmaker.ui.components.common.ToolTip
-import com.dessalines.habitmaker.utils.HabitFrequency
-import com.dessalines.habitmaker.utils.HabitSort
-import com.dessalines.habitmaker.utils.HabitSortOrder
+import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.utils.isCompletedCurrentCycle
-import com.dessalines.habitmaker.utils.isCompletedToday
-import com.dessalines.habitmaker.utils.toBool
-import okhttp3.internal.toImmutableList
-import java.time.DayOfWeek
 import kotlin.collections.orEmpty
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -227,7 +223,7 @@ fun LazyListScope.habitFrequencySection(
                         .fillMaxWidth()
                         .padding(horizontal = LARGE_PADDING),
             ) {
-                SectionTitle(stringResource(data.titleResId))
+                SectionTitle(stringResource(data.frequency.toResId()))
                 if (data.completed > 0) {
                     SectionProgress(data.completed, data.total)
                 }
@@ -329,104 +325,6 @@ fun HabitRowPreview() {
         onClick = {},
     )
 }
-
-data class HabitGroupData(
-    @param:StringRes val titleResId: Int,
-    val filteredList: List<Habit>,
-    val completed: Int,
-    val total: Int,
-)
-
-fun filterAndSortHabits(
-    habits: List<Habit>,
-    settings: AppSettings?,
-): List<Habit> {
-    val tmp = habits.toMutableList()
-
-    // Hide completed
-    if ((settings?.hideCompleted ?: 0).toBool()) {
-        tmp.removeAll { isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }
-    }
-
-    // Hide archived
-    if ((settings?.hideArchived ?: 0).toBool()) {
-        tmp.removeAll { it.archived.toBool() }
-    }
-
-    // Sorting
-    val sortSetting = HabitSort.entries[settings?.sort ?: 0]
-    when (sortSetting) {
-        HabitSort.Name -> {
-            tmp.sortBy { it.name }
-        }
-
-        HabitSort.Points -> {
-            tmp.sortBy { it.points }
-        }
-
-        HabitSort.Score -> {
-            tmp.sortWith(compareBy({ it.score }, { it.points }))
-        }
-
-        HabitSort.Streak -> {
-            tmp.sortWith(compareBy({ it.streak }, { it.points }))
-        }
-
-        HabitSort.Status -> {
-            tmp.sortWith(
-                compareBy({ isCompletedCurrentCycle(it, settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY) }, { it.points }),
-            )
-        }
-
-        HabitSort.DateCreated -> {
-            tmp.sortBy { it.id }
-        }
-    }
-    val sortOrder = HabitSortOrder.entries[settings?.sortOrder ?: 0]
-    if (sortOrder == HabitSortOrder.Descending) {
-        tmp.reverse()
-    }
-
-    return tmp.toImmutableList()
-}
-
-fun buildHabitsByFrequency(
-    habits: List<Habit>,
-    settings: AppSettings?,
-) = listOf(
-    calculateHabitGroupData(
-        titleResId = R.string.daily,
-        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily },
-        settings,
-    ),
-    calculateHabitGroupData(
-        titleResId = R.string.weekly,
-        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Weekly },
-        settings,
-    ),
-    calculateHabitGroupData(
-        titleResId = R.string.monthly,
-        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Monthly },
-        settings,
-    ),
-    calculateHabitGroupData(
-        titleResId = R.string.yearly,
-        habits = habits.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Yearly },
-        settings,
-    ),
-)
-
-fun calculateHabitGroupData(
-    @StringRes titleResId: Int,
-    habits: List<Habit>,
-    settings: AppSettings?,
-) = HabitGroupData(
-    titleResId = titleResId,
-    completed = habits.count { isCompletedToday(it.lastCompletedTime) },
-    // Don't count archived in the total for progress
-    total = habits.filter { !it.archived.toBool() }.size,
-    filteredList = filterAndSortHabits(habits, settings),
-)
 
 @Composable
 fun HabitTotals(
