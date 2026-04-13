@@ -55,10 +55,6 @@ sealed interface SelectionVisibilityState<out Item> {
     ) : SelectionVisibilityState<Item>
 }
 
-fun Int.toBool() = this == 1
-
-fun Boolean.toInt() = this.compareTo(false)
-
 suspend fun isAvailable(api: GoogleApi<*>): Boolean =
     try {
         GoogleApiAvailability

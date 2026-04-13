@@ -32,8 +32,8 @@ import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleAppSettings
 import com.dessalines.habitmaker.db.sampleHabit
 import com.dessalines.habitmaker.db.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.utils.HabitStatus
-import com.dessalines.habitmaker.utils.toBool
 import com.dessalines.prettyFormat
 
 @Composable

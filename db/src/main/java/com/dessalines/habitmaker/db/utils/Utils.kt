@@ -5,6 +5,10 @@ import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import kotlinx.serialization.Serializable
 
+fun Int.toBool() = this == 1
+
+fun Boolean.toInt() = this.compareTo(false)
+
 const val TAG = "com.habitmaker.db"
 
 enum class HabitFrequency {
@@ -12,6 +16,24 @@ enum class HabitFrequency {
     Weekly,
     Monthly,
     Yearly,
+}
+
+enum class HabitSort {
+    Streak,
+    Points,
+    Score,
+
+    /**
+     * Whether its completed or not.
+     */
+    Status,
+    DateCreated,
+    Name,
+}
+
+enum class HabitSortOrder {
+    Descending,
+    Ascending,
 }
 
 fun HabitFrequency.toDays() =

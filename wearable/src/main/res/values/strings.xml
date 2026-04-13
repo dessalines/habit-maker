@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">Habit maker WearOS</string>
+    <string name="app_name">Habit-Maker</string>
     <string name="habits">Habits</string>
-    <string name="tile_label">Example tile</string>
-    <string name="complication_label">Example complication</string>
+    <string name="complication_label">TODO Example complication</string>
     <string name="settings">Settings</string>
+    <string name="no_habits">No habits</string>
+    <string name="create_habit">Create habit</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
 </resources>

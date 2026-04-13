@@ -1,4 +1,4 @@
-package com.dessalines.habitmaker.presentation.theme
+package com.dessalines.habitmaker.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.MaterialTheme

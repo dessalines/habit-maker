@@ -1,10 +1,11 @@
-package com.dessalines.habitmaker.presentation
+package com.dessalines.habitmaker.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,8 +24,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material.Checkbox
+import androidx.wear.compose.material.OutlinedButton
+import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.ToggleChip
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ButtonDefaults
@@ -35,11 +40,14 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.SampleApplication
 import com.dessalines.habitmaker.db.Habit
+import com.dessalines.habitmaker.db.utils.HabitGroupData
+import com.dessalines.habitmaker.db.utils.buildHabitsByFrequency
 import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
@@ -50,9 +58,10 @@ import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.checkHabitForDay
 import com.dessalines.habitmaker.db.viewmodels.updateStatsForHabit
-import com.dessalines.habitmaker.presentation.theme.EXTRA_SMALL_PADDING
-import com.dessalines.habitmaker.presentation.theme.SMALL_PADDING
-import com.dessalines.habitmaker.presentation.theme.Theme
+import com.dessalines.habitmaker.ui.components.common.toResId
+import com.dessalines.habitmaker.ui.theme.EXTRA_SMALL_PADDING
+import com.dessalines.habitmaker.ui.theme.SMALL_PADDING
+import com.dessalines.habitmaker.ui.theme.Theme
 import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.Wearable
@@ -98,6 +107,9 @@ fun WearApp(
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
     val habits by habitViewModel.getAll.asLiveData().observeAsState()
 
+    // Group them by frequency
+    val habitsByFrequency = buildHabitsByFrequency(habits.orEmpty(), settings)
+
     val completedCount = settings?.completedCount ?: 0
     val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
 
@@ -122,39 +134,52 @@ fun WearApp(
             ) { contentPadding ->
                 // ScreenScaffold provides default padding; adjust as needed
                 TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
-                    item {
-                        ListHeader(
-                            modifier =
-                                Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
-                            transformation = SurfaceTransformation(transformationSpec),
-                        ) {
-                            Text(text = stringResource(R.string.habits, "title"))
+                    // Only show the empties if they're loaded from the DB
+                    habits?.let { habits ->
+                        if (habits.isEmpty()) {
+                            item {
+                                OutlinedChip(
+                                    label = {
+                                        Text(
+                                            stringResource(R.string.no_habits),
+                                        )
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onClick = {},
+                                )
+                            }
                         }
                     }
-                    habits?.sortedBy { it.streak }?.sortedBy { it.score }?.forEach { habit ->
-                        item(key = habit.id) {
-                            HabitRow(
-                                habit = habit,
-                                onCheck = {
-                                    val checkTime = LocalDate.now().toEpochMillis()
-                                    checkHabitForDay(
-                                        habit.id,
-                                        checkTime,
-                                        habitCheckViewModel,
-                                        dataClient,
-                                    )
-                                    val checks = habitCheckViewModel.listForHabitSync(habit.id)
-                                    updateStatsForHabit(
-                                        habit,
-                                        habitViewModel,
-                                        dataClient,
-                                        checks,
-                                        completedCount,
-                                        firstDayOfWeek,
-                                    )
-                                },
-                            )
-                        }
+                    habitsByFrequency.forEach {
+                        habitFrequencySection(
+                            data = it,
+                            transformationSpec = transformationSpec,
+                            onCheck = { habit ->
+                                val checkTime = LocalDate.now().toEpochMillis()
+                                checkHabitForDay(
+                                    habit.id,
+                                    checkTime,
+                                    habitCheckViewModel,
+                                    dataClient,
+                                )
+                                val checks = habitCheckViewModel.listForHabitSync(habit.id)
+                                updateStatsForHabit(
+                                    habit,
+                                    habitViewModel,
+                                    dataClient,
+                                    checks,
+                                    completedCount,
+                                    firstDayOfWeek,
+                                )
+                            },
+                        )
+                    }
+                    item {
+                        OutlinedButton(
+                            onClick = {},
+                            content = {Text(stringResource(R.string.create_habit))},
+                            modifier = Modifier.fillMaxWidth(),
+                        )
                     }
                 }
             }
@@ -162,6 +187,51 @@ fun WearApp(
     }
 }
 
+@Composable
+fun TransformingLazyColumnItemScope.FrequencyListHeader(
+    title: String,
+    transformationSpec: TransformationSpec
+) {
+    ListHeader(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .transformedHeight(this, transformationSpec),
+        transformation = SurfaceTransformation(transformationSpec),
+    ) {
+        Text(title)
+    }
+}
+
+fun TransformingLazyColumnScope.habitFrequencySection(
+    data: HabitGroupData,
+    transformationSpec: TransformationSpec,
+    onCheck: (Habit) -> Unit,
+) {
+    if (data.total > 0) {
+            item {
+                FrequencyListHeader(
+                    stringResource(data.frequency.toResId()),
+                    transformationSpec,
+                )
+            }
+
+            data.filteredList.forEach { habit ->
+                item(key = habit.id) {
+                    Column(Modifier.animateItem()) {
+                        HabitRow(
+                            habit = habit,
+                            onCheck = {
+                                onCheck(habit)
+                            },
+                        )
+                    }
+                }
+            }
+        item {
+        }
+        }
+    }
 @Composable
 fun HabitRow(
     habit: Habit,
