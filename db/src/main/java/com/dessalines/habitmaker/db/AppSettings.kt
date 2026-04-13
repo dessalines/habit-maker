@@ -203,6 +203,11 @@ data class SettingsUpdateWearable(
         defaultValue = "0",
     )
     val hideCompleted: Int,
+    @ColumnInfo(
+        name = "hide_archived",
+        defaultValue = "0",
+    )
+    val hideArchived: Int,
 )
 
 @Dao

@@ -32,6 +32,7 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
     var sortState = HabitSort.entries[settings?.sort ?: 0]
     var sortOrderState = HabitSortOrder.entries[settings?.sortOrder ?: 0]
     var hideCompletedState = (settings?.hideCompleted ?: 0).toBool()
+    var hideArchivedState = (settings?.hideArchived ?: 0).toBool()
 
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
@@ -43,6 +44,7 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 sort = sortState.ordinal,
                 sortOrder = sortOrderState.ordinal,
                 hideCompleted = hideCompletedState.toInt(),
+                hideArchived = hideArchivedState.toInt(),
             ),
         )
 
@@ -70,6 +72,25 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     toggleControl = { Switch(checked = hideCompletedState, enabled = true) },
                     onCheckedChange = {
                         hideCompletedState = it
+                        updateSettings()
+                    },
+                    enabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            item {
+                ToggleChip(
+                    label = {
+                        Text(
+                            stringResource(R.string.hide_archived),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    checked = hideArchivedState,
+                    toggleControl = { Switch(checked = hideArchivedState, enabled = true) },
+                    onCheckedChange = {
+                        hideArchivedState = it
                         updateSettings()
                     },
                     enabled = true,

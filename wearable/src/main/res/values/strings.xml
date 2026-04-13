@@ -21,4 +21,5 @@
     <string name="date_created">Date created</string>
     <string name="name">Name</string>
     <string name="remaining_habits">Remaining habits</string>
+    <string name="hide_archived">Hide archived</string>
 </resources>
