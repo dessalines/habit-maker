@@ -17,7 +17,7 @@ android {
         minSdk = 30
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
 
         ksp { arg("room.schemaLocation", "$projectDir/schemas") }
     }
@@ -51,7 +51,9 @@ android {
             if (project.hasProperty("RELEASE_STORE_FILE")) {
                 signingConfig = signingConfigs.getByName("release")
             }
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
