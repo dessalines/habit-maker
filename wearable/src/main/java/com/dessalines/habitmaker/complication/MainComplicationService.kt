@@ -33,20 +33,18 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
                 )
             }
 
-            //            ComplicationType.LONG_TEXT -> TODO()
-//            ComplicationType.MONOCHROMATIC_IMAGE -> TODO()
-//            ComplicationType.SMALL_IMAGE -> TODO()
             else -> {
                 null
             }
         }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        val habits = habitRepository.getAllSync
-            // Filter the habits by today
-            .filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily }
-            // Don't count archived in the total for progress
-            .filter { !it.archived.toBool() }
+        val habits =
+            habitRepository.getAllSync
+                // Filter the habits by today
+                .filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily }
+                // Don't count archived in the total for progress
+                .filter { !it.archived.toBool() }
 
         // Check the completed count
         val completed = habits.count { isCompletedToday(it.lastCompletedTime) }

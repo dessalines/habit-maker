@@ -263,7 +263,6 @@ fun HabitRow(
                     }
                 }
 
-
                 // Score
                 if (!(settings?.hideScoreOnHome ?: 0).toBool()) {
                     Text(
