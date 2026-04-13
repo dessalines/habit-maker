@@ -57,6 +57,10 @@ dependencies {
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
+    // PrettyNum
+    implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("androidx.compose.runtime:runtime-livedata:1.10.6")
     implementation("com.google.android.gms:play-services-wearable:18.0.0")
     implementation(platform("androidx.compose:compose-bom:2025.12.00"))

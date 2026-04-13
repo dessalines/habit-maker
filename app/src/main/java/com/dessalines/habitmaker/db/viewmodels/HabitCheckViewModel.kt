@@ -18,22 +18,22 @@ class HabitCheckViewModel(
 
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
-    fun insert(habitCheck: HabitCheckInsert, dataClient: DataClient?): Long {
+    fun insert(habitCheck: HabitCheckInsert, dataClient: DataClient): Long {
         val insertedId = repository.insert(habitCheck)
         val inserted = habitCheck.copy(id = insertedId.toInt())
         viewModelScope.launch {
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert", )
         }
         return insertedId
     }
 
     fun deleteForDay(
         habitCheck: HabitCheckDelete,
-        dataClient: DataClient?,
+        dataClient: DataClient,
     ) {
         repository.deleteForDay(habitCheck)
         viewModelScope.launch {
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete", )
         }
     }
 }

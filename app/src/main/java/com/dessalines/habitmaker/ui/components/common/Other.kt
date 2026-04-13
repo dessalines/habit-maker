@@ -108,6 +108,7 @@ fun HabitInfoChip(
                     imageVector = it,
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
                     contentDescription = null,
+
                 )
             }
         },

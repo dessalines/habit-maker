@@ -29,5 +29,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".datalayer.DataLayerListenerService"
+            android:exported="true">
+            <intent-filter>
+                <!-- listeners receive events that match the action and data filters -->
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/message"
+                    android:scheme="wear" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

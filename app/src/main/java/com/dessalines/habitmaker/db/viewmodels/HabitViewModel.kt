@@ -28,30 +28,30 @@ class HabitViewModel(
 
     fun getByIdSync(id: Int) = repository.getByIdSync(id)
 
-    fun insert(habit: HabitInsert, dataClient: DataClient?): Long {
+    fun insert(habit: HabitInsert, dataClient: DataClient): Long {
         val insertedId = repository.insert(habit)
         val inserted = habit.copy(id = insertedId.toInt())
         viewModelScope.launch {
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert", )
         }
         return insertedId
     }
 
-    fun update(habit: HabitUpdate, dataClient: DataClient?) =
+    fun update(habit: HabitUpdate, dataClient: DataClient) =
         viewModelScope.launch {
             repository.update(habit)
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate", )
         }
 
-    fun updateStats(habit: HabitUpdateStats, dataClient: DataClient?) =
+    fun updateStats(habit: HabitUpdateStats, dataClient: DataClient) =
         viewModelScope.launch {
             repository.updateStats(habit)
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats", )
         }
 
-    fun delete(habit: Habit, dataClient: DataClient?) = viewModelScope.launch {
+    fun delete(habit: Habit, dataClient: DataClient) = viewModelScope.launch {
             repository.delete(habit)
-            dataClient?.sendDataToOtherDevices(Json.encodeToString(habit), "HabitDelete", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitDelete", )
         }
 }
 

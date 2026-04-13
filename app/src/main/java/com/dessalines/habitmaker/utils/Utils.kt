@@ -95,7 +95,7 @@ suspend fun DataClient.sendDataToOtherDevices(data: String, className: String) {
                 this
                     .putDataItem( request ).await()
 
-            Log.d(TAG, "DataItem saved: $result")
+            Log.d(TAG, "DataItem saved: class: $className, $data")
         } catch (cancellationException: CancellationException) {
             throw cancellationException
         } catch (exception: Exception) {

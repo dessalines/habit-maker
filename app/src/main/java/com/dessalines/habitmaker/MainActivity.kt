@@ -24,9 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -76,19 +74,11 @@ import com.dessalines.habitmaker.db.utils.isCompletedLastCycle
 import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.isAvailable
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.api.AvailabilityException
-import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.wearable.DataClient
-import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
-import java.time.Instant
 import java.time.LocalDate
-import kotlin.coroutines.cancellation.CancellationException
 import kotlin.getValue
 
 class HabitMakerApplication : Application() {
@@ -154,7 +144,6 @@ class MainActivity : AppCompatActivity() {
                 updateHabitStatsOnStartup(ctx)
                 apiAvailable = isAvailable(capabilityClient)
                 Log.d(TAG, "Api available: $apiAvailable")
-                sendToHandheldDevice(lifecycleScope, dataClient, "u turd")
             }
 
             HabitMakerTheme(
@@ -318,36 +307,6 @@ class MainActivity : AppCompatActivity() {
                 habit.id,
                 isCompleted || isCompletedLastCycle,
             )
-        }
-    }
-}
-
-fun sendToHandheldDevice(
-    scope: LifecycleCoroutineScope,
-    dataClient: DataClient,
-    message: String,
-) {
-    scope.launch {
-        if (isAvailable(dataClient)) {
-            try {
-                val result =
-                    dataClient
-                        .putDataItem(
-                            PutDataMapRequest
-                                .create("/message")
-                                .apply {
-                                    dataMap.putString("message", message)
-                                    dataMap.putLong("time", Instant.now().epochSecond)
-                                }.asPutDataRequest()
-                                .setUrgent(),
-                        ).await()
-
-                Log.d(TAG, "DataItem saved: $result")
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException
-            } catch (exception: Exception) {
-                Log.d(TAG, "Saving DataItem failed: $exception")
-            }
         }
     }
 }
