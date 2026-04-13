@@ -150,9 +150,9 @@ suspend fun DataClient.sendDataToOtherDevices(
                         dataMap.putByteArray(DataLayerListenerService.DATA_KEY, gzip(data))
                     }.asPutDataRequest()
 //                    .setUrgent()
-                this
-                    .putDataItem(request)
-                    .await()
+            this
+                .putDataItem(request)
+                .await()
 
             Log.d(TAG, "DataItem saved: $className")
         } catch (cancellationException: CancellationException) {
@@ -169,5 +169,4 @@ fun gzip(content: String): ByteArray {
     return bos.toByteArray()
 }
 
-fun ungzip(content: ByteArray): String =
-    GZIPInputStream(content.inputStream()).bufferedReader(UTF_8).use { it.readText() }
+fun ungzip(content: ByteArray): String = GZIPInputStream(content.inputStream()).bufferedReader(UTF_8).use { it.readText() }
