@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.CheckBox
+import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -276,9 +278,9 @@ fun HabitRow(
 
     val (icon, tint) =
         if (isCompletedToday(habit.lastCompletedTime)) {
-            Pair(Icons.Outlined.Check, MaterialTheme.colorScheme.primary)
+            Pair(Icons.Outlined.CheckBox, MaterialTheme.colorScheme.primary)
         } else {
-            Pair(Icons.Outlined.Close, MaterialTheme.colorScheme.outline)
+            Pair(Icons.Outlined.CheckBoxOutlineBlank, MaterialTheme.colorScheme.outline)
         }
 
     ListItem(
