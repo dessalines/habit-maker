@@ -320,7 +320,7 @@ fun checkHabitForDay(
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
-    dataClient: DataClient,
+    dataClient: DataClient?,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,

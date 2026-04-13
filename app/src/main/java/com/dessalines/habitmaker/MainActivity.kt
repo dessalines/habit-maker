@@ -298,7 +298,7 @@ class MainActivity : AppCompatActivity() {
             if (!isCompletedLastCycle) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel, dataClient, checks, completedCount, firstDayOfWeek)
+                updateStatsForHabit(habit, habitViewModel, null, checks, completedCount, firstDayOfWeek)
             }
             // Reschedule the reminders, to skip today, or if its already virtual completed
             val reminders = reminderViewModel.listForHabitSync(habit.id)

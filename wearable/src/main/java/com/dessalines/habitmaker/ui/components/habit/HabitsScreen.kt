@@ -187,8 +187,6 @@ fun TransformingLazyColumnScope.habitFrequencySection(
                 }
             }
         }
-        item {
-        }
     }
 }
 
