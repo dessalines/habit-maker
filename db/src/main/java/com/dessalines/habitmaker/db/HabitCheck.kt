@@ -67,7 +67,6 @@ data class HabitCheckDelete(
     val checkTime: Long,
 )
 
-
 private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitCheck where habit_id = :habitId order by check_time"
 
 @Dao
@@ -84,9 +83,7 @@ interface HabitCheckDao {
     // TODO
 //    @Query("DELETE FROM HabitCheck where habit_id = :habitId and check_time = :checkTime")
     @Delete(entity = HabitCheck::class)
-    fun deleteForDay(
-        habitCheck: HabitCheckDelete
-    )
+    fun deleteForDay(habitCheck: HabitCheckDelete)
 }
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -102,9 +99,7 @@ class HabitCheckRepository(
 
     fun insert(habitCheck: HabitCheckInsert) = habitCheckDao.insert(habitCheck)
 
-    fun deleteForDay(
-        habitCheck: HabitCheckDelete
-    ) = habitCheckDao.deleteForDay(habitCheck)
+    fun deleteForDay(habitCheck: HabitCheckDelete) = habitCheckDao.deleteForDay(habitCheck)
 }
 
 val sampleHabitChecks =

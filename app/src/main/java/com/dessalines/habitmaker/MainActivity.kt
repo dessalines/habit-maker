@@ -38,6 +38,9 @@ import com.dessalines.habitmaker.db.EncouragementRepository
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitReminderRepository
 import com.dessalines.habitmaker.db.HabitRepository
+import com.dessalines.habitmaker.db.utils.isCompletedLastCycle
+import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
@@ -70,9 +73,6 @@ import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
-import com.dessalines.habitmaker.db.utils.isCompletedLastCycle
-import com.dessalines.habitmaker.db.utils.isCompletedToday
-import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.utils.isAvailable
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.Wearable
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                                 habitViewModel = habitViewModel,
                                 encouragementViewModel = encouragementViewModel,
                                 reminderViewModel = reminderViewModel,
-                                dataClient = dataClient
+                                dataClient = dataClient,
                             )
                         }
                         composable(
@@ -295,7 +295,7 @@ class MainActivity : AppCompatActivity() {
             if (!isCompletedLastCycle) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel,dataClient, checks, completedCount, firstDayOfWeek)
+                updateStatsForHabit(habit, habitViewModel, dataClient, checks, completedCount, firstDayOfWeek)
             }
             // Reschedule the reminders, to skip today, or if its already virtual completed
             val reminders = reminderViewModel.listForHabitSync(habit.id)
@@ -353,7 +353,7 @@ fun BroadcastReceivers(
                 if (!isCompleted) {
                     checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                    updateStatsForHabit(habit, habitViewModel, dataClient,checks, completedCount, firstDayOfWeek)
+                    updateStatsForHabit(habit, habitViewModel, dataClient, checks, completedCount, firstDayOfWeek)
                 }
 
                 // Reschedule the reminders, to skip today
@@ -381,4 +381,3 @@ fun BroadcastReceivers(
         }
     }
 }
-

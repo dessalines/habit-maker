@@ -6,7 +6,6 @@ import java.time.ZoneId
 
 const val TAG = "com.habitmaker.db"
 
-
 enum class HabitFrequency {
     Daily,
     Weekly,

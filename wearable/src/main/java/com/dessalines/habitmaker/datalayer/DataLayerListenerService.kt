@@ -32,7 +32,6 @@ data class Event(
 )
 
 class DataLayerListenerService : WearableListenerService() {
-
     private val database by lazy { AppDB.getDatabase(this) }
     val habitRepository by lazy { HabitRepository(database.habitDao()) }
     val habitCheckRepository by lazy { HabitCheckRepository(database.habitCheckDao()) }
@@ -51,18 +50,17 @@ class DataLayerListenerService : WearableListenerService() {
                     val data = dataMapItem.dataMap.getString(MESSAGE_KEY)
                     val className = dataMapItem.dataMap.getString(CLASS_KEY)
 
-
-                    val event = Event(
-                        data = data.orEmpty(),
-                        className = className.orEmpty(),
-                    )
+                    val event =
+                        Event(
+                            data = data.orEmpty(),
+                            className = className.orEmpty(),
+                        )
                     Log.d(TAG, "event received: $event")
 
                     writeEventToDb(event)
                 }
             }
         }
-
     }
 
     fun writeEventToDb(event: Event) {
@@ -77,13 +75,11 @@ class DataLayerListenerService : WearableListenerService() {
                 "HabitUpdate" -> {
                     val habit = Json.decodeFromString<HabitUpdate>(event.data)
                     habitRepository.update(habit)
-
                 }
 
                 "HabitUpdateStats" -> {
                     val habit = Json.decodeFromString<HabitUpdateStats>(event.data)
                     habitRepository.updateStats(habit)
-
                 }
 
                 "HabitDelete" -> {
@@ -111,10 +107,10 @@ class DataLayerListenerService : WearableListenerService() {
 
     companion object {
         const val MESSAGE_PATH = "/message"
+
         // TODO change to data
         const val MESSAGE_KEY = "message"
         const val TIME_KEY = "time"
         const val CLASS_KEY = "class"
     }
 }
-

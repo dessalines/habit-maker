@@ -34,6 +34,7 @@ import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.EncouragementInsert
 import com.dessalines.habitmaker.db.HabitReminderInsert
 import com.dessalines.habitmaker.db.HabitUpdate
+import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
@@ -41,7 +42,6 @@ import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
-import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
 

@@ -29,7 +29,10 @@ suspend fun isAvailable(api: GoogleApi<*>): Boolean =
         false
     }
 
-suspend fun DataClient.sendDataToOtherDevices(data: String, className: String) {
+suspend fun DataClient.sendDataToOtherDevices(
+    data: String,
+    className: String,
+) {
     if (isAvailable(this)) {
         try {
             val request =
@@ -43,7 +46,8 @@ suspend fun DataClient.sendDataToOtherDevices(data: String, className: String) {
                     .setUrgent()
             val result =
                 this
-                    .putDataItem( request ).await()
+                    .putDataItem(request)
+                    .await()
 
             Log.d(TAG, "DataItem saved: $result")
         } catch (cancellationException: CancellationException) {

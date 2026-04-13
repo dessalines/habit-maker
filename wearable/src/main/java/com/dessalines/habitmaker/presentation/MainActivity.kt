@@ -137,28 +137,26 @@ fun WearApp(
                         item(key = habit.id) {
                             HabitRow(
                                 habit = habit,
-                            onCheck = {
-                                val checkTime = LocalDate.now().toEpochMillis()
-                                checkHabitForDay(
-                                    habit.id,
-                                    checkTime,
-                                    habitCheckViewModel,
-                                    dataClient,
-                                )
-                                val checks = habitCheckViewModel.listForHabitSync(habit.id)
-                                updateStatsForHabit(
-                                    habit,
-                                    habitViewModel,
-                                    dataClient,
-                                    checks,
-                                    completedCount,
-                                    firstDayOfWeek,
-                                )
-                            }
+                                onCheck = {
+                                    val checkTime = LocalDate.now().toEpochMillis()
+                                    checkHabitForDay(
+                                        habit.id,
+                                        checkTime,
+                                        habitCheckViewModel,
+                                        dataClient,
+                                    )
+                                    val checks = habitCheckViewModel.listForHabitSync(habit.id)
+                                    updateStatsForHabit(
+                                        habit,
+                                        habitViewModel,
+                                        dataClient,
+                                        checks,
+                                        completedCount,
+                                        firstDayOfWeek,
+                                    )
+                                },
                             )
-
                         }
-
                     }
                 }
             }
@@ -174,9 +172,15 @@ fun HabitRow(
     val checked = isCompletedToday(habit.lastCompletedTime)
 
     ToggleChip(
-        label = { Text(text = habit.name, style = MaterialTheme.typography.titleMedium, maxLines = 3, overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(bottom = SMALL_PADDING)
-            ) },
+        label = {
+            Text(
+                text = habit.name,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(bottom = SMALL_PADDING),
+            )
+        },
         secondaryLabel = {
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
@@ -187,7 +191,7 @@ fun HabitRow(
                 // Streak
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
-                verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically,
                 )
                 {
                     Icon(
@@ -211,7 +215,7 @@ fun HabitRow(
                 // Points
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 )
                 {
                     Icon(
@@ -223,28 +227,28 @@ fun HabitRow(
                     Text(
                         prettyFormat(habit.points),
                         style = style,
-                                color = tint,
+                        color = tint,
                     )
                 }
                 Text(
                     "•",
                     style = style,
-                            color = tint,
+                    color = tint,
                 )
 
                 // Score
                 Text(
                     "${habit.score}%",
                     style = style,
-                            color = tint,
+                    color = tint,
                 )
             }
-                         },
+        },
         checked = checked,
         toggleControl = { Checkbox(checked = checked, enabled = true) },
-        onCheckedChange = {onCheck()},
+        onCheckedChange = { onCheck() },
         enabled = true,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 

@@ -108,7 +108,6 @@ fun HabitInfoChip(
                     imageVector = it,
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
                     contentDescription = null,
-
                 )
             }
         },
@@ -300,7 +299,6 @@ fun HabitFrequency.toResId() =
         HabitFrequency.Monthly -> R.string.monthly
         HabitFrequency.Yearly -> R.string.yearly
     }
-
 
 @Composable
 @Preview

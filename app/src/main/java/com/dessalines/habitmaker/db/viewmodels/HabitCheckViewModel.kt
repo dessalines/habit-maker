@@ -3,8 +3,8 @@ package com.dessalines.habitmaker.db.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckDelete
+import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.utils.sendDataToOtherDevices
 import com.google.android.gms.wearable.DataClient
@@ -18,11 +18,14 @@ class HabitCheckViewModel(
 
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
-    fun insert(habitCheck: HabitCheckInsert, dataClient: DataClient): Long {
+    fun insert(
+        habitCheck: HabitCheckInsert,
+        dataClient: DataClient,
+    ): Long {
         val insertedId = repository.insert(habitCheck)
         val inserted = habitCheck.copy(id = insertedId.toInt())
         viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert")
         }
         return insertedId
     }
@@ -33,7 +36,7 @@ class HabitCheckViewModel(
     ) {
         repository.deleteForDay(habitCheck)
         viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete", )
+            dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete")
         }
     }
 }

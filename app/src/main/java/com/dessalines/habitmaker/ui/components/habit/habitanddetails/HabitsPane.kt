@@ -51,6 +51,9 @@ import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.sampleHabit
+import com.dessalines.habitmaker.db.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.isCompletedCurrentCycle
+import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.dessalines.habitmaker.ui.components.common.HabitChipsFlowRow
 import com.dessalines.habitmaker.ui.components.common.HabitDaysCompletedInfoChip
 import com.dessalines.habitmaker.ui.components.common.HabitPointsInfoChip
@@ -64,9 +67,6 @@ import com.dessalines.habitmaker.ui.components.common.ToolTip
 import com.dessalines.habitmaker.utils.HabitSort
 import com.dessalines.habitmaker.utils.HabitSortOrder
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.db.utils.isCompletedCurrentCycle
-import com.dessalines.habitmaker.db.utils.isCompletedToday
-import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.utils.toBool
 import okhttp3.internal.toImmutableList
 import java.time.DayOfWeek

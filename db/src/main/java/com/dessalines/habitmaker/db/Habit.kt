@@ -1,6 +1,5 @@
 package com.dessalines.habitmaker.db
 
-
 import androidx.annotation.Keep
 import androidx.annotation.WorkerThread
 import androidx.room.ColumnInfo
