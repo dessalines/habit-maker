@@ -26,15 +26,12 @@ import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.ui.components.common.ListHeaderHabits
 
 @Composable
-fun SettingsScreen(
-    appSettingsViewModel: AppSettingsViewModel,
-) {
+fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
 
     var sortState = HabitSort.entries[settings?.sort ?: 0]
     var sortOrderState = HabitSortOrder.entries[settings?.sortOrder ?: 0]
     var hideCompletedState = (settings?.hideCompleted ?: 0).toBool()
-
 
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
@@ -54,31 +51,31 @@ fun SettingsScreen(
     ) { contentPadding ->
         // ScreenScaffold provides default padding; adjust as needed
         TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
-                item {
-                    ListHeaderHabits(
-                        stringResource(R.string.settings),
-                        transformationSpec,
-                    )
-                }
-                    item {
-                        ToggleChip(
-                            label = {
-                                Text(
-                                    stringResource(R.string.hide_completed),
-                                    maxLines = 3,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            },
-                            checked = hideCompletedState,
-                            toggleControl = { Switch(checked = hideCompletedState, enabled = true) },
-                            onCheckedChange = {
-                                hideCompletedState = it
-                                updateSettings()
-                                              },
-                            enabled = true,
-                            modifier = Modifier.fillMaxWidth()
+            item {
+                ListHeaderHabits(
+                    stringResource(R.string.settings),
+                    transformationSpec,
+                )
+            }
+            item {
+                ToggleChip(
+                    label = {
+                        Text(
+                            stringResource(R.string.hide_completed),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
                         )
-                    }
+                    },
+                    checked = hideCompletedState,
+                    toggleControl = { Switch(checked = hideCompletedState, enabled = true) },
+                    onCheckedChange = {
+                        hideCompletedState = it
+                        updateSettings()
+                    },
+                    enabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             item {
                 ListHeaderHabits(
                     title = stringResource(R.string.sort),
@@ -187,29 +184,26 @@ fun SettingsScreen(
                         Text(
                             stringResource(R.string.ascending),
                             maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                     },
                     enabled = true,
                 )
             }
             item {
-                    SelectableChip(
-                        modifier = Modifier.fillMaxWidth(),
-                        selected = sortOrderState == HabitSortOrder.Descending,
-                        onClick = {
-                            sortOrderState = HabitSortOrder.Descending
-                            updateSettings()
-                        },
-                        label = {
-                            Text(stringResource(R.string.descending), maxLines = 3, overflow = TextOverflow.Ellipsis)
-                        },
-                        enabled = true,
-                    )
+                SelectableChip(
+                    modifier = Modifier.fillMaxWidth(),
+                    selected = sortOrderState == HabitSortOrder.Descending,
+                    onClick = {
+                        sortOrderState = HabitSortOrder.Descending
+                        updateSettings()
+                    },
+                    label = {
+                        Text(stringResource(R.string.descending), maxLines = 3, overflow = TextOverflow.Ellipsis)
+                    },
+                    enabled = true,
+                )
             }
-
         }
-
-        }
-
+    }
 }

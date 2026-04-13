@@ -100,7 +100,6 @@ fun HabitsScreen(
     ) { contentPadding ->
         // ScreenScaffold provides default padding; adjust as needed
         TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
-
             // If it's loading, show a progress indicator
             if (habits == null) {
                 item {
@@ -156,13 +155,12 @@ fun HabitsScreen(
                                 name = name,
                             )
                         habitViewModel.insertWearable(insert, dataClient)
-                    }
+                    },
                 )
             }
         }
     }
 }
-
 
 fun TransformingLazyColumnScope.habitFrequencySection(
     data: HabitGroupData,
@@ -193,6 +191,7 @@ fun TransformingLazyColumnScope.habitFrequencySection(
         }
     }
 }
+
 @Composable
 fun HabitRow(
     habit: Habit,
@@ -282,9 +281,7 @@ fun HabitRow(
 }
 
 @Composable
-fun CreateHabitButton(
-    onCreate: (value: String) -> Unit,
-) {
+fun CreateHabitButton(onCreate: (value: String) -> Unit) {
     val placeholder = stringResource(R.string.create_habit)
 
     val launcher =
@@ -295,24 +292,28 @@ fun CreateHabitButton(
                 onCreate(newValue as String)
             }
         }
-        OutlinedButton(
-            content = { Text(placeholder) },
-            onClick = {
-                val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
-                val remoteInputs: List<RemoteInput> = listOf(
-                    RemoteInput.Builder(placeholder)
+    OutlinedButton(
+        content = { Text(placeholder) },
+        onClick = {
+            val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+            val remoteInputs: List<RemoteInput> =
+                listOf(
+                    RemoteInput
+                        .Builder(placeholder)
                         .setLabel(placeholder)
                         .wearableExtender {
                             setEmojisAllowed(false)
                             setInputActionType(EditorInfo.IME_ACTION_DONE)
-                        }.build()
+                        }.build(),
                 )
 
-                RemoteInputIntentHelper.putRemoteInputsExtra(intent, remoteInputs)
+            RemoteInputIntentHelper.putRemoteInputsExtra(intent, remoteInputs)
 
-                launcher.launch(intent)
-            },
-            modifier = Modifier.fillMaxWidth()
+            launcher.launch(intent)
+        },
+        modifier =
+            Modifier
+                .fillMaxWidth()
                 .padding(vertical = LARGE_PADDING),
-        )
+    )
 }

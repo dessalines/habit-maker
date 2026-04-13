@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 
                     SwipeDismissableNavHost(
                         navController = navController,
-                        startDestination = "habits"
+                        startDestination = "habits",
                     ) {
                         composable("habits") {
                             HabitsScreen(
@@ -56,10 +56,9 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                             )
                         }
-                composable("settings") {
-                    SettingsScreen(
-                        appSettingsViewModel = appSettingsViewModel)
-                }
+                        composable("settings") {
+                            SettingsScreen(appSettingsViewModel = appSettingsViewModel)
+                        }
                     }
                 }
             }

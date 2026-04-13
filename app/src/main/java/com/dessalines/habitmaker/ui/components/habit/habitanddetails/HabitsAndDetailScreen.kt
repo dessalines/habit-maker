@@ -2,7 +2,6 @@ package com.dessalines.habitmaker.ui.components.habit.habitanddetails
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
-import com.dessalines.habitmaker.db.utils.toInt
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -49,6 +48,7 @@ import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
 import com.dessalines.habitmaker.db.utils.isCompletedToday
 import com.dessalines.habitmaker.db.utils.nthTriangle
 import com.dessalines.habitmaker.db.utils.toEpochMillis
+import com.dessalines.habitmaker.db.utils.toInt
 import com.dessalines.habitmaker.db.utils.todayStreak
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.viewmodels.EncouragementViewModel

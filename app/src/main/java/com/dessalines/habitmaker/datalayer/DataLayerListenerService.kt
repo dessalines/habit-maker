@@ -79,8 +79,8 @@ class DataLayerListenerService : WearableListenerService() {
                 "HabitInsertWearable" -> {
                     val habit = Json.decodeFromString<HabitInsertWearable>(event.data)
                     habitRepository.insertWearable(habit)
-
                 }
+
                 "HabitUpdateStats" -> {
                     val habit = Json.decodeFromString<HabitUpdateStats>(event.data)
                     habitRepository.updateStats(habit)

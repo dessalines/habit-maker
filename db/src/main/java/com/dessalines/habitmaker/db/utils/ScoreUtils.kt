@@ -278,7 +278,6 @@ fun isCompletedCurrentCycle(
  */
 fun isCompletedToday(lastCompletedTime: Long) = lastCompletedTime == LocalDate.now().toEpochMillis()
 
-
 data class HabitGroupData(
     val frequency: HabitFrequency,
     val filteredList: List<Habit>,

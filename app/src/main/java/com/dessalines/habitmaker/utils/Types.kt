@@ -19,7 +19,6 @@ enum class ThemeColor(
     Pink(R.string.pink),
 }
 
-
 /**
  * A habit status used for coloring the streak chips
  */

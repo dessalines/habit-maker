@@ -34,7 +34,7 @@ fun SectionTitle(
 @Composable
 fun TransformingLazyColumnItemScope.ListHeaderHabits(
     title: String,
-    transformationSpec: TransformationSpec
+    transformationSpec: TransformationSpec,
 ) {
     ListHeader(
         modifier =
