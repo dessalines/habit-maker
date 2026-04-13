@@ -28,12 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.utils.HabitFrequency
+import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.db.utils.toDays
+import com.dessalines.habitmaker.db.utils.toInt
 import com.dessalines.habitmaker.ui.components.common.SMALL_PADDING
 import com.dessalines.habitmaker.ui.components.common.textFieldBorder
 import com.dessalines.habitmaker.ui.components.common.toResId
-import com.dessalines.habitmaker.utils.toBool
-import com.dessalines.habitmaker.utils.toInt
 import me.zhanghai.compose.preference.ListPreference
 import me.zhanghai.compose.preference.ListPreferenceType
 import me.zhanghai.compose.preference.ProvidePreferenceTheme

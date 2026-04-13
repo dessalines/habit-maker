@@ -2,6 +2,7 @@ package com.dessalines.habitmaker.ui.components.habit.habitanddetails
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
+import com.dessalines.habitmaker.db.utils.toInt
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -58,7 +59,6 @@ import com.dessalines.habitmaker.notifications.deleteRemindersForHabit
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
-import com.dessalines.habitmaker.utils.toInt
 import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch

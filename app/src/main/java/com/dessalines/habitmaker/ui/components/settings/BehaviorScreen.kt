@@ -39,6 +39,7 @@ import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.db.utils.toInt
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.ui.components.common.BackButton
+import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.ui.components.habit.toLocaleStr
 import com.kizitonwose.calendar.core.daysOfWeek
 import me.zhanghai.compose.preference.ListPreference
@@ -154,13 +155,13 @@ fun BehaviorScreen(
                         },
                         values = HabitSort.entries,
                         valueToText = {
-                            AnnotatedString(resources.getString(it.resId))
+                            AnnotatedString(resources.getString(it.toResId()))
                         },
                         title = {
                             Text(stringResource(R.string.sort))
                         },
                         summary = {
-                            Text(stringResource(sortState.resId))
+                            Text(stringResource(sortState.toResId()))
                         },
                         icon = {
                             Icon(
@@ -179,13 +180,13 @@ fun BehaviorScreen(
                         },
                         values = HabitSortOrder.entries,
                         valueToText = {
-                            AnnotatedString(resources.getString(it.resId))
+                            AnnotatedString(resources.getString(it.toResId()))
                         },
                         title = {
                             Text(stringResource(R.string.sort_order))
                         },
                         summary = {
-                            Text(stringResource(sortOrderState.resId))
+                            Text(stringResource(sortOrderState.toResId()))
                         },
                         icon = {
                             Icon(

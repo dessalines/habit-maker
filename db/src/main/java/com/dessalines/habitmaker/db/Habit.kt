@@ -128,6 +128,17 @@ data class HabitInsert(
 
 @Entity
 @Serializable
+data class HabitInsertWearable(
+    // Necessary for using on other devices
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @ColumnInfo(
+        name = "name",
+    )
+    val name: String,
+)
+
+@Entity
+@Serializable
 data class HabitUpdate(
     val id: Int,
     @ColumnInfo(
@@ -214,6 +225,9 @@ interface HabitDao {
     @Insert(entity = Habit::class, onConflict = OnConflictStrategy.IGNORE)
     fun insert(habit: HabitInsert): Long
 
+    @Insert(entity = Habit::class, onConflict = OnConflictStrategy.IGNORE)
+    fun insertWearable(habit: HabitInsertWearable): Long
+
     @Update(entity = Habit::class)
     suspend fun update(habit: HabitUpdate)
 
@@ -240,6 +254,8 @@ class HabitRepository(
     fun getByIdSync(id: Int) = habitDao.getByIdSync(id)
 
     fun insert(habit: HabitInsert) = habitDao.insert(habit)
+
+    fun insertWearable(habit: HabitInsertWearable) = habitDao.insertWearable(habit)
 
     @WorkerThread
     suspend fun update(habit: HabitUpdate) = habitDao.update(habit)

@@ -48,6 +48,7 @@ android {
 dependencies {
     implementation(project(":db"))
     implementation("androidx.wear.compose:compose-material:1.6.1")
+    implementation("androidx.wear:wear-input:1.2.0")
 
     // Room
     ksp("androidx.room:room-compiler:2.8.4")

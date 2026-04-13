@@ -9,6 +9,7 @@ import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitInsert
+import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
@@ -75,6 +76,11 @@ class DataLayerListenerService : WearableListenerService() {
         scope.launch {
             // Data client is null for all these, because its not a send
             when (event.className) {
+                "HabitInsertWearable" -> {
+                    val habit = Json.decodeFromString<HabitInsertWearable>(event.data)
+                    habitRepository.insertWearable(habit)
+
+                }
                 "HabitUpdateStats" -> {
                     val habit = Json.decodeFromString<HabitUpdateStats>(event.data)
                     habitRepository.updateStats(habit)

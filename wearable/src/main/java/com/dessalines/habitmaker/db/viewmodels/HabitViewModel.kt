@@ -7,6 +7,7 @@ import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.HabitInsert
+import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
@@ -42,6 +43,18 @@ class HabitViewModel(
         val inserted = habit.copy(id = insertedId.toInt())
         viewModelScope.launch {
             dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert")
+        }
+        return insertedId
+    }
+
+    fun insertWearable(
+        habit: HabitInsertWearable,
+        dataClient: DataClient,
+    ): Long {
+        val insertedId = repository.insertWearable(habit)
+        val inserted = habit.copy(id = insertedId.toInt())
+        viewModelScope.launch {
+            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsertWearable")
         }
         return insertedId
     }

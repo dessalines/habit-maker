@@ -1,5 +1,11 @@
 package com.dessalines.habitmaker.ui.components.habit
 
+import android.app.RemoteInput
+import android.content.Intent
+import android.os.Bundle
+import android.view.inputmethod.EditorInfo
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -35,8 +41,11 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.input.RemoteInputIntentHelper
+import androidx.wear.input.wearableExtender
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.Habit
+import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.utils.HabitGroupData
 import com.dessalines.habitmaker.db.utils.buildHabitsByFrequency
 import com.dessalines.habitmaker.db.utils.isCompletedToday
@@ -140,11 +149,14 @@ fun HabitsScreen(
                 )
             }
             item {
-                OutlinedButton(
-                    onClick = {},
-                    content = { Text(stringResource(R.string.create_habit)) },
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(vertical = LARGE_PADDING),
+                CreateHabitButton(
+                    onCreate = { name ->
+                        val insert =
+                            HabitInsertWearable(
+                                name = name,
+                            )
+                        habitViewModel.insertWearable(insert, dataClient)
+                    }
                 )
             }
         }
@@ -269,3 +281,38 @@ fun HabitRow(
     )
 }
 
+@Composable
+fun CreateHabitButton(
+    onCreate: (value: String) -> Unit,
+) {
+    val placeholder = stringResource(R.string.create_habit)
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            it.data?.let { data ->
+                val results: Bundle = RemoteInput.getResultsFromIntent(data)
+                val newValue: CharSequence? = results.getCharSequence(placeholder)
+                onCreate(newValue as String)
+            }
+        }
+        OutlinedButton(
+            content = { Text(placeholder) },
+            onClick = {
+                val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
+                val remoteInputs: List<RemoteInput> = listOf(
+                    RemoteInput.Builder(placeholder)
+                        .setLabel(placeholder)
+                        .wearableExtender {
+                            setEmojisAllowed(false)
+                            setInputActionType(EditorInfo.IME_ACTION_DONE)
+                        }.build()
+                )
+
+                RemoteInputIntentHelper.putRemoteInputsExtra(intent, remoteInputs)
+
+                launcher.launch(intent)
+            },
+            modifier = Modifier.fillMaxWidth()
+                .padding(vertical = LARGE_PADDING),
+        )
+}
