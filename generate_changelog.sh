@@ -7,8 +7,11 @@ new_version_code="$2"
 
 # Replacing the versions in the app/build.gradle.kts
 app_build_gradle="app/build.gradle.kts"
+wearos_build_gradle="wearable/build.gradle.kts"
 sed -i "s/versionCode = .*/versionCode = $new_version_code/" $app_build_gradle
 sed -i "s/versionName = .*/versionName = \"$new_tag\"/" $app_build_gradle
+sed -i "s/versionCode = .*/versionCode = $new_version_code/" $wearos_build_gradle
+sed -i "s/versionName = .*/versionName = \"$new_tag\"/" $wearos_build_gradle
 
 # Writing to the Releases.md asset that's loaded inside the app
 tmp_file="tmp_release.md"
@@ -24,4 +27,4 @@ git cliff --tag "$new_tag" --output RELEASES.md
 prettier -w RELEASES.md
 
 # Add them all to git
-git add $assets_releases $app_build_gradle RELEASES.md
+git add $assets_releases $app_build_gradle $wearos_build_gradle RELEASES.md
