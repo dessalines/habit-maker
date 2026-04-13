@@ -93,6 +93,9 @@ dependencies {
     // To use Kotlin annotation processing tool
     implementation("androidx.room:room-runtime:2.8.4")
 
+    // Wearable
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
@@ -145,7 +148,7 @@ dependencies {
 
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+
 
     // App compat
     implementation("androidx.appcompat:appcompat:1.7.1")

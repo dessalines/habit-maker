@@ -208,6 +208,21 @@ data class SettingsUpdateWearable(
         defaultValue = "0",
     )
     val hideArchived: Int,
+    @ColumnInfo(
+        name = "hide_points_on_home",
+        defaultValue = "0",
+    )
+    val hidePointsOnHome: Int,
+    @ColumnInfo(
+        name = "hide_score_on_home",
+        defaultValue = "0",
+    )
+    val hideScoreOnHome: Int,
+    @ColumnInfo(
+        name = "hide_streak_on_home",
+        defaultValue = "0",
+    )
+    val hideStreakOnHome: Int,
 )
 
 @Dao

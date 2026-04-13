@@ -33,6 +33,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
     var sortOrderState = HabitSortOrder.entries[settings?.sortOrder ?: 0]
     var hideCompletedState = (settings?.hideCompleted ?: 0).toBool()
     var hideArchivedState = (settings?.hideArchived ?: 0).toBool()
+    var hidePointsOnHomeState = (settings?.hidePointsOnHome ?: 0).toBool()
+    var hideScoreOnHomeState = (settings?.hideScoreOnHome ?: 0).toBool()
+    var hideStreakOnHomeState = (settings?.hideStreakOnHome ?: 0).toBool()
 
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
@@ -45,6 +48,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 sortOrder = sortOrderState.ordinal,
                 hideCompleted = hideCompletedState.toInt(),
                 hideArchived = hideArchivedState.toInt(),
+                hidePointsOnHome = hidePointsOnHomeState.toInt(),
+                hideScoreOnHome = hideScoreOnHomeState.toInt(),
+                hideStreakOnHome = hideStreakOnHomeState.toInt(),
             ),
         )
 
@@ -91,6 +97,63 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     toggleControl = { Switch(checked = hideArchivedState, enabled = true) },
                     onCheckedChange = {
                         hideArchivedState = it
+                        updateSettings()
+                    },
+                    enabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            item {
+                ToggleChip(
+                    label = {
+                        Text(
+                            stringResource(R.string.hide_points),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    checked = hidePointsOnHomeState,
+                    toggleControl = { Switch(checked = hidePointsOnHomeState, enabled = true) },
+                    onCheckedChange = {
+                        hidePointsOnHomeState = it
+                        updateSettings()
+                    },
+                    enabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            item {
+                ToggleChip(
+                    label = {
+                        Text(
+                            stringResource(R.string.hide_score),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    checked = hideScoreOnHomeState,
+                    toggleControl = { Switch(checked = hideScoreOnHomeState, enabled = true) },
+                    onCheckedChange = {
+                        hideScoreOnHomeState = it
+                        updateSettings()
+                    },
+                    enabled = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            item {
+                ToggleChip(
+                    label = {
+                        Text(
+                            stringResource(R.string.hide_streak),
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    checked = hideStreakOnHomeState,
+                    toggleControl = { Switch(checked = hideStreakOnHomeState, enabled = true) },
+                    onCheckedChange = {
+                        hideStreakOnHomeState = it
                         updateSettings()
                     },
                     enabled = true,

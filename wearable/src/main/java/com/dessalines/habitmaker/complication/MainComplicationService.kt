@@ -42,14 +42,16 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
         }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        // Filter the habits by today
-        val habits = habitRepository.getAllSync.filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily }
+        val habits = habitRepository.getAllSync
+            // Filter the habits by today
+            .filter { HabitFrequency.entries[it.frequency] == HabitFrequency.Daily }
+            // Don't count archived in the total for progress
+            .filter { !it.archived.toBool() }
 
         // Check the completed count
         val completed = habits.count { isCompletedToday(it.lastCompletedTime) }
 
-        // Don't count archived in the total for progress
-        val total = habits.filter { !it.archived.toBool() }.size
+        val total = habits.size
 
         val remainingHabits = total - completed
 

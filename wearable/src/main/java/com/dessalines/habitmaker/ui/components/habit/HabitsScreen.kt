@@ -44,11 +44,13 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
 import com.dessalines.habitmaker.R
+import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.utils.HabitGroupData
 import com.dessalines.habitmaker.db.utils.buildHabitsByFrequency
 import com.dessalines.habitmaker.db.utils.isCompletedToday
+import com.dessalines.habitmaker.db.utils.toBool
 import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.db.viewmodels.AppSettingsViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
@@ -59,6 +61,7 @@ import com.dessalines.habitmaker.ui.components.common.ListHeaderHabits
 import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.ui.theme.EXTRA_SMALL_PADDING
 import com.dessalines.habitmaker.ui.theme.LARGE_PADDING
+import com.dessalines.habitmaker.ui.theme.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.theme.SMALL_PADDING
 import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
@@ -126,6 +129,7 @@ fun HabitsScreen(
             habitsByFrequency.forEach {
                 habitFrequencySection(
                     data = it,
+                    settings = settings,
                     transformationSpec = transformationSpec,
                     onCheck = { habit ->
                         val checkTime = LocalDate.now().toEpochMillis()
@@ -164,6 +168,7 @@ fun HabitsScreen(
 
 fun TransformingLazyColumnScope.habitFrequencySection(
     data: HabitGroupData,
+    settings: AppSettings?,
     transformationSpec: TransformationSpec,
     onCheck: (Habit) -> Unit,
 ) {
@@ -180,6 +185,7 @@ fun TransformingLazyColumnScope.habitFrequencySection(
                 Column(Modifier.animateItem()) {
                     HabitRow(
                         habit = habit,
+                        settings = settings,
                         onCheck = {
                             onCheck(habit)
                         },
@@ -193,6 +199,7 @@ fun TransformingLazyColumnScope.habitFrequencySection(
 @Composable
 fun HabitRow(
     habit: Habit,
+    settings: AppSettings?,
     onCheck: () -> Unit,
 ) {
     val checked = isCompletedToday(habit.lastCompletedTime)
@@ -209,65 +216,62 @@ fun HabitRow(
         },
         secondaryLabel = {
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+                horizontalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
             ) {
                 val style = MaterialTheme.typography.labelMedium
                 val tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
 
                 // Streak
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
-                    verticalAlignment = Alignment.CenterVertically,
-                )
-                {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Default.ShowChart,
-                        contentDescription = null,
-                        modifier = Modifier.size(style.fontSize.value.dp),
-                        tint = tint,
+                if (!(settings?.hideStreakOnHome ?: 0).toBool()) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
+                        verticalAlignment = Alignment.CenterVertically,
                     )
-                    Text(
-                        prettyFormat(habit.streak),
-                        style = style,
-                        color = tint,
-                    )
+                    {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ShowChart,
+                            contentDescription = null,
+                            modifier = Modifier.size(style.fontSize.value.dp),
+                            tint = tint,
+                        )
+                        Text(
+                            prettyFormat(habit.streak),
+                            style = style,
+                            color = tint,
+                        )
+                    }
                 }
-                Text(
-                    "•",
-                    style = style,
-                    color = tint,
-                )
 
                 // Points
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
-                    verticalAlignment = Alignment.CenterVertically,
-                )
-                {
-                    Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
-                        contentDescription = null,
-                        modifier = Modifier.size(style.fontSize.value.dp),
-                        tint = tint,
+                if (!(settings?.hidePointsOnHome ?: 0).toBool()) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(EXTRA_SMALL_PADDING),
+                        verticalAlignment = Alignment.CenterVertically,
                     )
+                    {
+                        Icon(
+                            imageVector = Icons.Outlined.FavoriteBorder,
+                            contentDescription = null,
+                            modifier = Modifier.size(style.fontSize.value.dp),
+                            tint = tint,
+                        )
+                        Text(
+                            prettyFormat(habit.points),
+                            style = style,
+                            color = tint,
+                        )
+                    }
+                }
+
+
+                // Score
+                if (!(settings?.hideScoreOnHome ?: 0).toBool()) {
                     Text(
-                        prettyFormat(habit.points),
+                        "${habit.score}%",
                         style = style,
                         color = tint,
                     )
                 }
-                Text(
-                    "•",
-                    style = style,
-                    color = tint,
-                )
-
-                // Score
-                Text(
-                    "${habit.score}%",
-                    style = style,
-                    color = tint,
-                )
             }
         },
         checked = checked,

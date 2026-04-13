@@ -22,4 +22,7 @@
     <string name="name">Name</string>
     <string name="remaining_habits">Remaining habits</string>
     <string name="hide_archived">Hide archived</string>
+    <string name="hide_points">Hide points</string>
+    <string name="hide_score">Hide score</string>
+    <string name="hide_streak">Hide streak</string>
 </resources>
