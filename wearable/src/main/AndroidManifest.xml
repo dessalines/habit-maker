@@ -28,7 +28,7 @@
                 android:value="SHORT_TEXT" />
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
-                android:value="3600" />
+                android:value="900" />
         </service>
         <meta-data
             android:name="com.google.android.gms.version"
