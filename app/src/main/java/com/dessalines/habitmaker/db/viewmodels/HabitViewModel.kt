@@ -1,19 +1,16 @@
 package com.dessalines.habitmaker.db.viewmodels
 
-import androidx.compose.runtime.currentRecomposeScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
-import com.dessalines.habitmaker.utils.sendDataToOtherDevices
 import com.google.android.gms.wearable.DataClient
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import kotlinx.serialization.json.Json
 import kotlin.jvm.java
 

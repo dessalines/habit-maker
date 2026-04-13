@@ -11,16 +11,22 @@ import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
+import com.dessalines.habitmaker.db.utils.BulkInsert
 import com.dessalines.habitmaker.utils.TAG
+import com.dessalines.habitmaker.utils.isAvailable
+import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.WearableListenerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.json.Json
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.getValue
 
 /**
@@ -47,7 +53,7 @@ class DataLayerListenerService : WearableListenerService() {
             when (uri.path) {
                 MESSAGE_PATH -> {
                     val dataMapItem = DataMapItem.fromDataItem(dataEvent.dataItem)
-                    val data = dataMapItem.dataMap.getString(MESSAGE_KEY)
+                    val data = dataMapItem.dataMap.getString(DATA_KEY)
                     val className = dataMapItem.dataMap.getString(CLASS_KEY)
 
                     val event =
@@ -96,6 +102,18 @@ class DataLayerListenerService : WearableListenerService() {
                     val habitCheck = Json.decodeFromString<HabitCheckDelete>(event.data)
                     habitCheckRepository.deleteForDay(habitCheck)
                 }
+
+                "BulkInsert" -> {
+                    val bulkInsert = Json.decodeFromString<BulkInsert>(event.data)
+
+                    bulkInsert.habitInserts.forEach { (habitInsert, statsUpdate) ->
+                        habitRepository.insert(habitInsert)
+                        habitRepository.updateStats(statsUpdate)
+                    }
+                    bulkInsert.checkInserts.forEach { habitCheck ->
+                        habitCheckRepository.insert(habitCheck)
+                    }
+                }
             }
         }
     }
@@ -108,9 +126,35 @@ class DataLayerListenerService : WearableListenerService() {
     companion object {
         const val MESSAGE_PATH = "/message"
 
-        // TODO change to data
-        const val MESSAGE_KEY = "message"
-        const val TIME_KEY = "time"
+        const val DATA_KEY = "data"
         const val CLASS_KEY = "class"
+    }
+}
+
+suspend fun DataClient.sendDataToOtherDevices(
+    data: String,
+    className: String,
+) {
+    if (isAvailable(this)) {
+        try {
+            val request =
+                PutDataMapRequest
+                    .create(DataLayerListenerService.MESSAGE_PATH)
+                    .apply {
+                        dataMap.putString(DataLayerListenerService.CLASS_KEY, className)
+                        dataMap.putString(DataLayerListenerService.DATA_KEY, data)
+                    }.asPutDataRequest()
+//                    .setUrgent()
+            val result =
+                this
+                    .putDataItem(request)
+                    .await()
+
+            Log.d(TAG, "DataItem saved: $result")
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException
+        } catch (exception: Exception) {
+            Log.d(TAG, "Saving DataItem failed: $exception")
+        }
     }
 }

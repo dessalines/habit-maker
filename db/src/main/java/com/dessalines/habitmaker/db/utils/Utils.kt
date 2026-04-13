@@ -1,8 +1,9 @@
 package com.dessalines.habitmaker.db.utils
 
-import androidx.annotation.StringRes
-import java.time.LocalDate
-import java.time.ZoneId
+import com.dessalines.habitmaker.db.HabitCheckInsert
+import com.dessalines.habitmaker.db.HabitInsert
+import com.dessalines.habitmaker.db.HabitUpdateStats
+import kotlinx.serialization.Serializable
 
 const val TAG = "com.habitmaker.db"
 
@@ -20,3 +21,9 @@ fun HabitFrequency.toDays() =
         HabitFrequency.Monthly -> 28
         HabitFrequency.Yearly -> 365
     }
+
+@Serializable
+data class BulkInsert(
+    val habitInserts: List<Pair<HabitInsert, HabitUpdateStats>>,
+    val checkInserts: List<HabitCheckInsert>,
+)

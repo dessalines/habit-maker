@@ -3,6 +3,7 @@ package com.dessalines.habitmaker.db.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
 import com.dessalines.habitmaker.db.HabitInsert
@@ -16,7 +17,6 @@ import com.dessalines.habitmaker.db.utils.calculateStreaks
 import com.dessalines.habitmaker.db.utils.epochMillisToLocalDate
 import com.dessalines.habitmaker.db.utils.toEpochMillis
 import com.dessalines.habitmaker.db.utils.todayStreak
-import com.dessalines.habitmaker.utils.sendDataToOtherDevices
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json

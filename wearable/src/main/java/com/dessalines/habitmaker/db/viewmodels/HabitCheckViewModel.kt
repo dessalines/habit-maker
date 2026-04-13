@@ -3,10 +3,10 @@ package com.dessalines.habitmaker.db.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
-import com.dessalines.habitmaker.utils.sendDataToOtherDevices
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json

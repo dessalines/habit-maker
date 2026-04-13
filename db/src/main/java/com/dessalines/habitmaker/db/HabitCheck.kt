@@ -71,6 +71,9 @@ private const val BY_HABIT_ID_QUERY = "SELECT * FROM HabitCheck where habit_id =
 
 @Dao
 interface HabitCheckDao {
+    @Query("SELECT * FROM HabitCheck")
+    fun getAllSync(): List<HabitCheck>
+
     @Query(BY_HABIT_ID_QUERY)
     fun listForHabit(habitId: Int): Flow<List<HabitCheck>>
 
@@ -91,6 +94,8 @@ interface HabitCheckDao {
 class HabitCheckRepository(
     private val habitCheckDao: HabitCheckDao,
 ) {
+    val getAllSync = habitCheckDao.getAllSync()
+
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
     fun listForHabit(habitId: Int) = habitCheckDao.listForHabit(habitId)

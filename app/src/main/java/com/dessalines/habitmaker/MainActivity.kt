@@ -25,12 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.dessalines.habitmaker.datalayer.syncDBtoOtherDevices
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.AppSettingsRepository
@@ -144,6 +146,7 @@ class MainActivity : AppCompatActivity() {
                 updateHabitStatsOnStartup(ctx)
                 apiAvailable = isAvailable(capabilityClient)
                 Log.d(TAG, "Api available: $apiAvailable")
+                syncDBtoOtherDevices(habitViewModel, habitCheckViewModel, dataClient, lifecycleScope)
             }
 
             HabitMakerTheme(

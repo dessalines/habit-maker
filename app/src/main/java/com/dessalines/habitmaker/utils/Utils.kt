@@ -7,9 +7,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.net.toUri
+import com.dessalines.habitmaker.datalayer.DataLayerListenerService
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.AvailabilityException
 import com.google.android.gms.common.api.GoogleApi
+import com.google.android.gms.wearable.DataApi
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.PutDataMapRequest
 import kotlinx.coroutines.tasks.await
@@ -78,32 +80,3 @@ suspend fun isAvailable(api: GoogleApi<*>): Boolean =
         )
         false
     }
-
-suspend fun DataClient.sendDataToOtherDevices(
-    data: String,
-    className: String,
-) {
-    if (isAvailable(this)) {
-        try {
-            val request =
-                PutDataMapRequest
-                    .create("/message")
-                    .apply {
-                        dataMap.putLong("time", Instant.now().epochSecond)
-                        dataMap.putString("class", className)
-                        dataMap.putString("message", data)
-                    }.asPutDataRequest()
-                    .setUrgent()
-            val result =
-                this
-                    .putDataItem(request)
-                    .await()
-
-            Log.d(TAG, "DataItem saved: class: $className, $data")
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException
-        } catch (exception: Exception) {
-            Log.d(TAG, "Saving DataItem failed: $exception")
-        }
-    }
-}
