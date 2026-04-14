@@ -104,11 +104,9 @@ dependencies {
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.core:core-splashscreen:1.2.0")
-    implementation("androidx.wear.tiles:tiles:1.6.0")
     implementation("androidx.wear.protolayout:protolayout:1.4.0")
     implementation("androidx.wear.protolayout:protolayout-material3:1.4.0")
     implementation("com.google.guava:guava:33.5.0-jre")
-    implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.0")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
@@ -116,6 +114,4 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    debugImplementation("androidx.wear.tiles:tiles-renderer:1.6.0")
-    debugImplementation("androidx.wear.tiles:tiles-tooling:1.6.0")
 }
