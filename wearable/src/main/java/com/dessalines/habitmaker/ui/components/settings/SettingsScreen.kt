@@ -13,6 +13,7 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material.SelectableChip
 import androidx.wear.compose.material.Switch
 import androidx.wear.compose.material.ToggleChip
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
@@ -81,7 +82,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         updateSettings()
                     },
                     enabled = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -100,7 +104,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         updateSettings()
                     },
                     enabled = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -119,7 +126,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         updateSettings()
                     },
                     enabled = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -138,7 +148,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         updateSettings()
                     },
                     enabled = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -157,7 +170,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         updateSettings()
                     },
                     enabled = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -168,7 +184,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.Streak,
                     onClick = {
                         sortState = HabitSort.Streak
@@ -178,11 +193,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.streak), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.Points,
                     onClick = {
                         sortState = HabitSort.Points
@@ -192,11 +210,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.points), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.Score,
                     onClick = {
                         sortState = HabitSort.Score
@@ -206,11 +227,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.score), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.Status,
                     onClick = {
                         sortState = HabitSort.Status
@@ -220,11 +244,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.status), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.DateCreated,
                     onClick = {
                         sortState = HabitSort.DateCreated
@@ -234,11 +261,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.date_created), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortState == HabitSort.Name,
                     onClick = {
                         sortState = HabitSort.Name
@@ -248,6 +278,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.name), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
@@ -258,7 +292,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortOrderState == HabitSortOrder.Ascending,
                     onClick = {
                         sortOrderState = HabitSortOrder.Ascending
@@ -272,11 +305,14 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
             item {
                 SelectableChip(
-                    modifier = Modifier.fillMaxWidth(),
                     selected = sortOrderState == HabitSortOrder.Descending,
                     onClick = {
                         sortOrderState = HabitSortOrder.Descending
@@ -286,6 +322,10 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         Text(stringResource(R.string.descending), maxLines = 3, overflow = TextOverflow.Ellipsis)
                     },
                     enabled = true,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                 )
             }
         }
