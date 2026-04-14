@@ -107,7 +107,7 @@ dependencies {
     implementation("androidx.wear.tiles:tiles:1.6.0")
     implementation("androidx.wear.protolayout:protolayout:1.4.0")
     implementation("androidx.wear.protolayout:protolayout-material3:1.4.0")
-    implementation("com.google.guava:guava:33.5.0-android")
+    implementation("com.google.guava:guava:33.5.0-jre")
     implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.0")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
