@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -40,7 +41,8 @@ fun TransformingLazyColumnItemScope.ListHeaderHabits(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .transformedHeight(this, transformationSpec),
+                .transformedHeight(this, transformationSpec)
+                .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
         transformation = SurfaceTransformation(transformationSpec),
     ) {
         Text(title)

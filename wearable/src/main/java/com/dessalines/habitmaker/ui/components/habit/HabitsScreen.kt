@@ -7,7 +7,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,12 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material.Checkbox
 import androidx.wear.compose.material.OutlinedButton
-import androidx.wear.compose.material.OutlinedChip
 import androidx.wear.compose.material.ToggleChip
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.Icon
@@ -113,14 +113,9 @@ fun HabitsScreen(
             habits?.let { habits ->
                 if (habits.isEmpty()) {
                     item {
-                        OutlinedChip(
-                            label = {
-                                Text(
-                                    stringResource(R.string.no_habits),
-                                )
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = {},
+                        ListHeaderHabits(
+                            stringResource(R.string.no_habits),
+                            transformationSpec,
                         )
                     }
                 }
@@ -182,22 +177,20 @@ fun TransformingLazyColumnScope.habitFrequencySection(
 
         data.filteredList.forEach { habit ->
             item(key = habit.id) {
-                Column(Modifier.animateItem()) {
-                    HabitRow(
-                        habit = habit,
-                        settings = settings,
-                        onCheck = {
-                            onCheck(habit)
-                        },
-                    )
-                }
+                HabitRow(
+                    habit = habit,
+                    settings = settings,
+                    onCheck = {
+                        onCheck(habit)
+                    },
+                )
             }
         }
     }
 }
 
 @Composable
-fun HabitRow(
+fun TransformingLazyColumnItemScope.HabitRow(
     habit: Habit,
     settings: AppSettings?,
     onCheck: () -> Unit,
@@ -277,7 +270,10 @@ fun HabitRow(
         toggleControl = { Checkbox(checked = checked, enabled = true) },
         onCheckedChange = { onCheck() },
         enabled = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
     )
 }
 
