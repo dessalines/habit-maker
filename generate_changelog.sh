@@ -3,14 +3,17 @@ set -e
 
 # Creating the new tag and version code
 new_tag="$1"
-new_version_code="$2"
+
+# The version codes need to be different for each form factor
+new_version_code_app="${2}01"
+new_version_code_wearos="${2}02"
 
 # Replacing the versions in the app/build.gradle.kts
 app_build_gradle="app/build.gradle.kts"
 wearos_build_gradle="wearable/build.gradle.kts"
-sed -i "s/versionCode = .*/versionCode = $new_version_code/" $app_build_gradle
+sed -i "s/versionCode = .*/versionCode = $new_version_code_app/" $app_build_gradle
 sed -i "s/versionName = .*/versionName = \"$new_tag\"/" $app_build_gradle
-sed -i "s/versionCode = .*/versionCode = $new_version_code/" $wearos_build_gradle
+sed -i "s/versionCode = .*/versionCode = $new_version_code_wearos/" $wearos_build_gradle
 sed -i "s/versionName = .*/versionName = \"$new_tag\"/" $wearos_build_gradle
 
 # Writing to the Releases.md asset that's loaded inside the app
