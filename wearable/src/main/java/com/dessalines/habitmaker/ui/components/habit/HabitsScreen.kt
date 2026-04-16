@@ -176,16 +176,16 @@ fun TransformingLazyColumnScope.habitFrequencySection(
         }
     }
 
-        data.filteredList.forEach { habit ->
-            item(key = habit.id) {
-                HabitRow(
-                    habit = habit,
-                    settings = settings,
-                    onCheck = {
-                        onCheck(habit)
-                    },
-                )
-            }
+    data.filteredList.forEach { habit ->
+        item(key = habit.id) {
+            HabitRow(
+                habit = habit,
+                settings = settings,
+                onCheck = {
+                    onCheck(habit)
+                },
+            )
+        }
     }
 }
 
@@ -274,7 +274,7 @@ fun TransformingLazyColumnItemScope.HabitRow(
             Modifier
                 .fillMaxWidth()
                 .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
-                .animateItem()
+                .animateItem(),
     )
 }
 
