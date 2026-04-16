@@ -273,7 +273,8 @@ fun TransformingLazyColumnItemScope.HabitRow(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
+                .animateItem()
     )
 }
 
