@@ -21,10 +21,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.CheckBox
 import androidx.compose.material.icons.outlined.CheckBoxOutlineBlank
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -215,7 +213,7 @@ fun LazyListScope.habitFrequencySection(
     onHabitClick: (Int) -> Unit,
     onHabitCheck: (Int) -> Unit,
 ) {
-    if (data.total > 0) {
+    if (data.filteredList.isNotEmpty()) {
         item {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

@@ -167,24 +167,24 @@ fun TransformingLazyColumnScope.habitFrequencySection(
     transformationSpec: TransformationSpec,
     onCheck: (Habit) -> Unit,
 ) {
-    if (data.total > 0) {
+    if (data.filteredList.isNotEmpty()) {
         item {
             ListHeaderHabits(
                 stringResource(data.frequency.toResId()),
                 transformationSpec,
             )
         }
+    }
 
-        data.filteredList.forEach { habit ->
-            item(key = habit.id) {
-                HabitRow(
-                    habit = habit,
-                    settings = settings,
-                    onCheck = {
-                        onCheck(habit)
-                    },
-                )
-            }
+    data.filteredList.forEach { habit ->
+        item(key = habit.id) {
+            HabitRow(
+                habit = habit,
+                settings = settings,
+                onCheck = {
+                    onCheck(habit)
+                },
+            )
         }
     }
 }
@@ -274,7 +274,7 @@ fun TransformingLazyColumnItemScope.HabitRow(
             Modifier
                 .fillMaxWidth()
                 .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
-                .animateItem()
+                .animateItem(),
     )
 }
 
