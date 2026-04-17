@@ -1,6 +1,7 @@
 package com.dessalines.habitmaker.ui.components.habit
 
 import android.app.RemoteInput
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -43,7 +45,9 @@ import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
+import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.dessalines.habitmaker.R
+import com.dessalines.habitmaker.complication.MainComplicationService
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsertWearable
@@ -67,7 +71,6 @@ import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
 import java.time.LocalDate
-import kotlin.collections.orEmpty
 
 @Composable
 fun HabitsScreen(
@@ -88,6 +91,8 @@ fun HabitsScreen(
 
     val listState = rememberTransformingLazyColumnState()
     val transformationSpec = rememberTransformationSpec()
+
+    val ctx = LocalContext.current
 
     ScreenScaffold(
         scrollState = listState,
@@ -143,6 +148,20 @@ fun HabitsScreen(
                             completedCount,
                             firstDayOfWeek,
                         )
+
+                        // Update the complication data
+                        val component =
+                            ComponentName(
+                                ctx,
+                                MainComplicationService::class.java,
+                            )
+
+                        val request =
+                            ComplicationDataSourceUpdateRequester.create(
+                                ctx,
+                                component,
+                            )
+                        request.requestUpdateAll()
                     },
                 )
             }
