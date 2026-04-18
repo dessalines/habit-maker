@@ -8,11 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,17 +16,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.dessalines.habitmaker.datalayer.syncDBtoOtherDevices
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
@@ -61,27 +49,17 @@ import com.dessalines.habitmaker.notifications.SystemBroadcastReceiver
 import com.dessalines.habitmaker.notifications.cancelReminders
 import com.dessalines.habitmaker.notifications.createNotificationChannel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
-import com.dessalines.habitmaker.ui.components.about.AboutScreen
-import com.dessalines.habitmaker.ui.components.common.ShowChangelog
-import com.dessalines.habitmaker.ui.components.habit.CreateHabitScreen
-import com.dessalines.habitmaker.ui.components.habit.EditHabitScreen
-import com.dessalines.habitmaker.ui.components.habit.habitanddetails.HabitsAndDetailScreen
+import com.dessalines.habitmaker.ui.components.Main
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.checkHabitForDay
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.updateStatsForHabit
-import com.dessalines.habitmaker.ui.components.settings.BackupAndRestoreScreen
-import com.dessalines.habitmaker.ui.components.settings.BehaviorScreen
-import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
-import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
-import com.dessalines.habitmaker.utils.isAvailable
-import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.Wearable
+import com.dessalines.habitmaker.flavorutils.isAvailable
 import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
 import java.time.LocalDate
-import kotlin.getValue
 
 class HabitMakerApplication : Application() {
     private val database by lazy { AppDB.getDatabase(this) }
@@ -98,8 +76,9 @@ class MainActivity : AppCompatActivity() {
         AppSettingsViewModelFactory((application as HabitMakerApplication).appSettingsRepository)
     }
 
+    private val dataClient by lazy { Wearable.getDataClient(this) }
     private val habitViewModel: HabitViewModel by viewModels {
-        HabitViewModelFactory((application as HabitMakerApplication).habitRepository)
+        HabitViewModelFactory((application as HabitMakerApplication).habitRepository, dataClient)
     }
 
     private val encouragementViewModel: EncouragementViewModel by viewModels {
@@ -107,13 +86,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val habitCheckViewModel: HabitCheckViewModel by viewModels {
-        HabitCheckViewModelFactory((application as HabitMakerApplication).habitCheckRepository)
+        HabitCheckViewModelFactory((application as HabitMakerApplication).habitCheckRepository, dataClient)
     }
 
     private val reminderViewModel: HabitReminderViewModel by viewModels {
         HabitReminderViewModelFactory((application as HabitMakerApplication).habitReminderRepository)
     }
-    private val dataClient by lazy { Wearable.getDataClient(this) }
 
     private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
 
@@ -128,8 +106,6 @@ class MainActivity : AppCompatActivity() {
                 .asLiveData()
                 .observeAsState()
 
-            val startDestination = "habits"
-
             val ctx = LocalContext.current
             createNotificationChannel(ctx)
 
@@ -138,7 +114,6 @@ class MainActivity : AppCompatActivity() {
                 habitViewModel,
                 habitCheckViewModel,
                 reminderViewModel,
-                dataClient,
             )
 
             var apiAvailable by remember { mutableStateOf(false) }
@@ -146,136 +121,24 @@ class MainActivity : AppCompatActivity() {
                 updateHabitStatsOnStartup(ctx)
                 apiAvailable = isAvailable(capabilityClient)
                 Log.d(TAG, "Api available: $apiAvailable")
-                syncDBtoOtherDevices(habitViewModel, habitCheckViewModel, dataClient, lifecycleScope)
+                    syncDBtoOtherDevices(
+                        habitViewModel,
+                        habitCheckViewModel,
+                        dataClient,
+                        lifecycleScope
+                    )
             }
 
             HabitMakerTheme(
                 settings = settings,
             ) {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    val navController = rememberNavController()
-
-                    ShowChangelog(appSettingsViewModel = appSettingsViewModel)
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = startDestination,
-                    ) {
-                        composable(
-                            route = "habits?id={id}",
-                            arguments =
-                                listOf(
-                                    navArgument("id") {
-                                        type = NavType.StringType
-                                        nullable = true
-                                        defaultValue = null
-                                    },
-                                ),
-                        ) {
-                            val id = it.arguments?.getString("id")?.toInt()
-
-                            HabitsAndDetailScreen(
-                                navController = navController,
-                                appSettingsViewModel = appSettingsViewModel,
-                                habitViewModel = habitViewModel,
-                                encouragementViewModel = encouragementViewModel,
-                                habitCheckViewModel = habitCheckViewModel,
-                                reminderViewModel = reminderViewModel,
-                                dataClient = dataClient,
-                                id = id,
-                            )
-                        }
-                        composable(
-                            route = "createHabit",
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            CreateHabitScreen(
-                                navController = navController,
-                                appSettingsViewModel = appSettingsViewModel,
-                                habitViewModel = habitViewModel,
-                                encouragementViewModel = encouragementViewModel,
-                                reminderViewModel = reminderViewModel,
-                                dataClient = dataClient,
-                            )
-                        }
-                        composable(
-                            route = "editHabit/{id}",
-                            arguments = listOf(navArgument("id") { type = NavType.IntType }),
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            val id = it.arguments?.getInt("id") ?: 0
-                            EditHabitScreen(
-                                navController = navController,
-                                appSettingsViewModel = appSettingsViewModel,
-                                habitViewModel = habitViewModel,
-                                encouragementViewModel = encouragementViewModel,
-                                reminderViewModel = reminderViewModel,
-                                dataClient = dataClient,
-                                id = id,
-                            )
-                        }
-
-                        composable(
-                            route = "settings",
-                        ) {
-                            SettingsScreen(
-                                navController = navController,
-                            )
-                        }
-                        composable(
-                            route = "about",
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            AboutScreen(
-                                navController = navController,
-                            )
-                        }
-                        composable(
-                            route = "lookAndFeel",
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            LookAndFeelScreen(
-                                navController = navController,
-                                appSettingsViewModel = appSettingsViewModel,
-                            )
-                        }
-                        composable(
-                            route = "behavior",
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            BehaviorScreen(
-                                navController = navController,
-                                appSettingsViewModel = appSettingsViewModel,
-                            )
-                        }
-                        composable(
-                            route = "backupAndRestore",
-                            enterTransition = enterAnimation(),
-                            exitTransition = exitAnimation(),
-                            popEnterTransition = enterAnimation(),
-                            popExitTransition = exitAnimation(),
-                        ) {
-                            BackupAndRestoreScreen(
-                                navController = navController,
-                            )
-                        }
-                    }
-                }
+                Main(
+                    appSettingsViewModel = appSettingsViewModel,
+                    habitViewModel = habitViewModel,
+                    habitCheckViewModel = habitCheckViewModel,
+                    encouragementViewModel = encouragementViewModel,
+                    reminderViewModel = reminderViewModel,
+                )
             }
         }
     }
@@ -298,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             if (!isCompletedLastCycle) {
                 val checks = habitCheckViewModel.listForHabitSync(habit.id)
                 val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel, null, checks, completedCount, firstDayOfWeek)
+                updateStatsForHabit(habit, habitViewModel, updateDataClient = false, checks, completedCount, firstDayOfWeek)
             }
             // Reschedule the reminders, to skip today, or if its already virtual completed
             val reminders = reminderViewModel.listForHabitSync(habit.id)
@@ -314,20 +177,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private fun enterAnimation(): AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition? =
-    {
-        slideIntoContainer(
-            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-        )
-    }
-
-private fun exitAnimation(): AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition? =
-    {
-        slideOutOfContainer(
-            towards = AnimatedContentTransitionScope.SlideDirection.Left,
-        )
-    }
-
 /**
  * This receives the check yes and check no actions from the notifications.
  */
@@ -337,7 +186,6 @@ fun BroadcastReceivers(
     habitViewModel: HabitViewModel,
     habitCheckViewModel: HabitCheckViewModel,
     reminderViewModel: HabitReminderViewModel,
-    dataClient: DataClient,
 ) {
     val ctx = LocalContext.current
 
@@ -354,9 +202,16 @@ fun BroadcastReceivers(
                 val isCompleted = isCompletedToday(habit.lastCompletedTime)
                 // Only check the habit if it hasn't been checked
                 if (!isCompleted) {
-                    checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
+                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                    updateStatsForHabit(habit, habitViewModel, dataClient, checks, completedCount, firstDayOfWeek)
+                    updateStatsForHabit(
+                        habit = habit,
+                        habitViewModel = habitViewModel,
+                        updateDataClient = true,
+                        checks = checks,
+                        completedCount = completedCount,
+                        firstDayOfWeek = firstDayOfWeek
+                    )
                 }
 
                 // Reschedule the reminders, to skip today

@@ -43,7 +43,6 @@ import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.ui.components.common.BackButton
 import com.dessalines.habitmaker.ui.components.common.ToolTip
-import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -54,7 +53,6 @@ fun CreateHabitScreen(
     habitViewModel: HabitViewModel,
     encouragementViewModel: EncouragementViewModel,
     reminderViewModel: HabitReminderViewModel,
-    dataClient: DataClient,
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
     val firstDayOfWeek = settings?.firstDayOfWeek ?: DayOfWeek.SUNDAY
@@ -123,7 +121,7 @@ fun CreateHabitScreen(
                                         context = habit.context,
                                         archived = habit.archived,
                                     )
-                                val insertedHabitId = habitViewModel.insert(insert, dataClient)
+                                val insertedHabitId = habitViewModel.insert(insert)
 
                                 // The id is -1 if its a failed insert
                                 if (insertedHabitId != -1L) {

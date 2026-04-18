@@ -71,6 +71,20 @@ android {
         }
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("fdroid") {
+            dimension = "version"
+            applicationIdSuffix = ".fdroid"
+            versionNameSuffix = "-fdroid"
+        }
+        create("full") {
+            dimension = "version"
+            applicationIdSuffix = ".full"
+            versionNameSuffix = "-full"
+        }
+    }
+
     lint {
         disable += "MissingTranslation"
         disable += "KtxExtensionAvailable"
@@ -82,6 +96,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -94,7 +109,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
 
     // Wearable
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    "fullImplementation" ("com.google.android.gms:play-services-wearable:19.0.0")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")

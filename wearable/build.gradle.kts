@@ -14,6 +14,10 @@ android {
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
+        // Add full to match the full version of the app
+        applicationIdSuffix = ".full"
+        versionNameSuffix = "-full"
+
         minSdk = 30
         targetSdk = 36
         versionCode = 1
