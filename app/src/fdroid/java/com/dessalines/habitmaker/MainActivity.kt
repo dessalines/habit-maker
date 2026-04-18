@@ -196,7 +196,7 @@ fun BroadcastReceivers(
                         updateDataClient = true,
                         checks = checks,
                         completedCount = completedCount,
-                        firstDayOfWeek = firstDayOfWeek
+                        firstDayOfWeek = firstDayOfWeek,
                     )
                 }
 

@@ -41,6 +41,7 @@ import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModelFactory
+import com.dessalines.habitmaker.flavorutils.isAvailable
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_ACTION
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_ACTION
@@ -56,7 +57,6 @@ import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
 import com.google.android.gms.wearable.Wearable
-import com.dessalines.habitmaker.flavorutils.isAvailable
 import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -121,12 +121,12 @@ class MainActivity : AppCompatActivity() {
                 updateHabitStatsOnStartup(ctx)
                 apiAvailable = isAvailable(capabilityClient)
                 Log.d(TAG, "Api available: $apiAvailable")
-                    syncDBtoOtherDevices(
-                        habitViewModel,
-                        habitCheckViewModel,
-                        dataClient,
-                        lifecycleScope
-                    )
+                syncDBtoOtherDevices(
+                    habitViewModel,
+                    habitCheckViewModel,
+                    dataClient,
+                    lifecycleScope,
+                )
             }
 
             HabitMakerTheme(
@@ -210,7 +210,7 @@ fun BroadcastReceivers(
                         updateDataClient = true,
                         checks = checks,
                         completedCount = completedCount,
-                        firstDayOfWeek = firstDayOfWeek
+                        firstDayOfWeek = firstDayOfWeek,
                     )
                 }
 

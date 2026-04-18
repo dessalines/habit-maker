@@ -15,17 +15,13 @@ class HabitCheckViewModel(
 
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
-    fun insert(
-        habitCheck: HabitCheckInsert,
-    ): Long {
+    fun insert(habitCheck: HabitCheckInsert): Long {
         val insertedId = repository.insert(habitCheck)
         val inserted = habitCheck.copy(id = insertedId.toInt())
         return insertedId
     }
 
-    fun deleteForDay(
-        habitCheck: HabitCheckDelete,
-    ) {
+    fun deleteForDay(habitCheck: HabitCheckDelete) {
         repository.deleteForDay(habitCheck)
     }
 }

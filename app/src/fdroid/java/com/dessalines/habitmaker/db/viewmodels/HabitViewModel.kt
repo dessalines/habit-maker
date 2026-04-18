@@ -22,19 +22,16 @@ class HabitViewModel(
 
     fun getByIdSync(id: Int) = repository.getByIdSync(id)
 
-    fun insert(
-        habit: HabitInsert,
-    ): Long {
+    fun insert(habit: HabitInsert): Long {
         val insertedId = repository.insert(habit)
         val inserted = habit.copy(id = insertedId.toInt())
         return insertedId
     }
 
-    fun update(
-        habit: HabitUpdate,
-    ) = viewModelScope.launch {
-        repository.update(habit)
-    }
+    fun update(habit: HabitUpdate) =
+        viewModelScope.launch {
+            repository.update(habit)
+        }
 
     fun updateStats(
         habit: HabitUpdateStats,
@@ -43,11 +40,10 @@ class HabitViewModel(
         repository.updateStats(habit)
     }
 
-    fun delete(
-        habit: Habit,
-    ) = viewModelScope.launch {
-        repository.delete(habit)
-    }
+    fun delete(habit: Habit) =
+        viewModelScope.launch {
+            repository.delete(habit)
+        }
 }
 
 class HabitViewModelFactory(

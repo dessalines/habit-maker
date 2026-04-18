@@ -1,9 +1,9 @@
 package com.dessalines.habitmaker.ui.components
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,11 +29,12 @@ import com.dessalines.habitmaker.ui.components.settings.LookAndFeelScreen
 import com.dessalines.habitmaker.ui.components.settings.SettingsScreen
 
 @Composable
-fun Main(appSettingsViewModel: AppSettingsViewModel,
-         habitViewModel: HabitViewModel,
-         habitCheckViewModel: HabitCheckViewModel,
-         encouragementViewModel: EncouragementViewModel,
-         reminderViewModel: HabitReminderViewModel,
+fun Main(
+    appSettingsViewModel: AppSettingsViewModel,
+    habitViewModel: HabitViewModel,
+    habitCheckViewModel: HabitCheckViewModel,
+    encouragementViewModel: EncouragementViewModel,
+    reminderViewModel: HabitReminderViewModel,
 ) {
     val startDestination = "habits"
 
@@ -173,4 +174,3 @@ private fun exitAnimation(): AnimatedContentTransitionScope<NavBackStackEntry>.(
             towards = AnimatedContentTransitionScope.SlideDirection.Left,
         )
     }
-

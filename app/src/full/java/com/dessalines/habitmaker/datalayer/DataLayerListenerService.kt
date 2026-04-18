@@ -15,13 +15,13 @@ import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
+import com.dessalines.habitmaker.flavorutils.isAvailable
 import com.dessalines.habitmaker.utils.TAG
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.WearableListenerService
-import com.dessalines.habitmaker.flavorutils.isAvailable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

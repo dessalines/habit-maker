@@ -49,4 +49,3 @@ sealed interface SelectionVisibilityState<out Item> {
         val selectedItem: Item,
     ) : SelectionVisibilityState<Item>
 }
-
