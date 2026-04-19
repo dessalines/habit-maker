@@ -3,7 +3,6 @@ package com.dessalines.habitmaker
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -13,13 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.AppSettingsRepository
@@ -52,7 +47,6 @@ import com.dessalines.habitmaker.ui.components.Main
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.checkHabitForDay
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.updateStatsForHabit
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
-import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
 import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
@@ -110,7 +104,6 @@ class MainActivity : AppCompatActivity() {
                 reminderViewModel,
             )
 
-            var apiAvailable by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 updateHabitStatsOnStartup(ctx)
             }
@@ -133,32 +126,39 @@ class MainActivity : AppCompatActivity() {
      * Check habit streaks on startup.
      */
     fun updateHabitStatsOnStartup(ctx: Context) {
-        val settings = appSettingsViewModel.appSettingsSync
-        val firstDayOfWeek = settings.firstDayOfWeek
-
         cancelReminders(ctx)
 
-        // Unfortunately this requires looping over every habit.
-        habitViewModel.getAllSync.forEach { habit ->
-            // Use virtual completed to check streaks, otherwise all streaks today will appear broken
-            val isCompletedLastCycle = isCompletedLastCycle(habit)
-            val isCompleted = isCompletedToday(habit.lastCompletedTime)
+        appSettingsViewModel.appSettingsSync?.let { settings ->
 
-            if (!isCompletedLastCycle) {
-                val checks = habitCheckViewModel.listForHabitSync(habit.id)
-                val completedCount = settings.completedCount
-                updateStatsForHabit(habit, habitViewModel, updateDataClient = false, checks, completedCount, firstDayOfWeek)
+            // Unfortunately this requires looping over every habit.
+            habitViewModel.getAllSync.forEach { habit ->
+                // Use virtual completed to check streaks, otherwise all streaks today will appear broken
+                val isCompletedLastCycle = isCompletedLastCycle(habit)
+                val isCompleted = isCompletedToday(habit.lastCompletedTime)
+
+                if (!isCompletedLastCycle) {
+                    val checks = habitCheckViewModel.listForHabitSync(habit.id)
+                    val completedCount = settings.completedCount
+                    updateStatsForHabit(
+                        habit = habit,
+                        habitViewModel = habitViewModel,
+                        updateDataClient = false,
+                        checks = checks,
+                        completedCount = completedCount,
+                        firstDayOfWeek = settings.firstDayOfWeek,
+                    )
+                }
+                // Reschedule the reminders, to skip today, or if its already virtual completed
+                val reminders = reminderViewModel.listForHabitSync(habit.id)
+
+                scheduleRemindersForHabit(
+                    ctx,
+                    reminders,
+                    habit.name,
+                    habit.id,
+                    isCompleted || isCompletedLastCycle,
+                )
             }
-            // Reschedule the reminders, to skip today, or if its already virtual completed
-            val reminders = reminderViewModel.listForHabitSync(habit.id)
-
-            scheduleRemindersForHabit(
-                ctx,
-                reminders,
-                habit.name,
-                habit.id,
-                isCompleted || isCompletedLastCycle,
-            )
         }
     }
 }
