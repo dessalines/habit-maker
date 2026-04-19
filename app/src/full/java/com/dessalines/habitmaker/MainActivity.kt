@@ -147,40 +147,39 @@ class MainActivity : AppCompatActivity() {
      * Check habit streaks on startup.
      */
     fun updateHabitStatsOnStartup(ctx: Context) {
-
         cancelReminders(ctx)
 
-        appSettingsViewModel.appSettingsSync?.let {settings ->
+        appSettingsViewModel.appSettingsSync?.let { settings ->
 
-        // Unfortunately this requires looping over every habit.
-        habitViewModel.getAllSync.forEach { habit ->
-            // Use virtual completed to check streaks, otherwise all streaks today will appear broken
-            val isCompletedLastCycle = isCompletedLastCycle(habit)
-            val isCompleted = isCompletedToday(habit.lastCompletedTime)
+            // Unfortunately this requires looping over every habit.
+            habitViewModel.getAllSync.forEach { habit ->
+                // Use virtual completed to check streaks, otherwise all streaks today will appear broken
+                val isCompletedLastCycle = isCompletedLastCycle(habit)
+                val isCompleted = isCompletedToday(habit.lastCompletedTime)
 
-            if (!isCompletedLastCycle) {
-                val checks = habitCheckViewModel.listForHabitSync(habit.id)
-                val completedCount = settings.completedCount
-                updateStatsForHabit(
-                    habit = habit,
-                    habitViewModel = habitViewModel,
-                    updateDataClient = false,
-                    checks = checks,
-                    completedCount = completedCount,
-                    firstDayOfWeek = settings.firstDayOfWeek,
+                if (!isCompletedLastCycle) {
+                    val checks = habitCheckViewModel.listForHabitSync(habit.id)
+                    val completedCount = settings.completedCount
+                    updateStatsForHabit(
+                        habit = habit,
+                        habitViewModel = habitViewModel,
+                        updateDataClient = false,
+                        checks = checks,
+                        completedCount = completedCount,
+                        firstDayOfWeek = settings.firstDayOfWeek,
+                    )
+                }
+                // Reschedule the reminders, to skip today, or if its already virtual completed
+                val reminders = reminderViewModel.listForHabitSync(habit.id)
+
+                scheduleRemindersForHabit(
+                    ctx,
+                    reminders,
+                    habit.name,
+                    habit.id,
+                    isCompleted || isCompletedLastCycle,
                 )
             }
-            // Reschedule the reminders, to skip today, or if its already virtual completed
-            val reminders = reminderViewModel.listForHabitSync(habit.id)
-
-            scheduleRemindersForHabit(
-                ctx,
-                reminders,
-                habit.name,
-                habit.id,
-                isCompleted || isCompletedLastCycle,
-            )
-        }
         }
     }
 }
