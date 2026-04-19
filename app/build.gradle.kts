@@ -80,8 +80,6 @@ android {
         }
         create("full") {
             dimension = "version"
-            applicationIdSuffix = ".full"
-            versionNameSuffix = "-full"
         }
     }
 
