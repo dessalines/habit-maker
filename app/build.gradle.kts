@@ -8,12 +8,12 @@ plugins {
 android {
     namespace = "com.dessalines.habitmaker"
     buildToolsVersion = "36.0.0"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
         minSdk = 26
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 5001
         versionName = "0.0.50"
 
