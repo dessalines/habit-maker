@@ -1,3 +1,22 @@
+## What's Changed in 0.0.50
+
+- Adding fdroid and full product flavors. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
+- Updating complications manually when checked. by @dessalines in [#445](https://github.com/dessalines/habit-maker/pull/445)
+- Hide the header of grouped habits if there are no results. by @dessalines in [#444](https://github.com/dessalines/habit-maker/pull/444)
+- Adding animateItem for wearable habit rows by @dessalines
+- Fixing version codes for different form factors by @dessalines
+- Revert "Upping wear os version" by @dessalines
+- Upping wear os version by @dessalines
+- Remove tile deps by @dessalines in [#443](https://github.com/dessalines/habit-maker/pull/443)
+- Adding content padding by @dessalines in [#442](https://github.com/dessalines/habit-maker/pull/442)
+- Merge remote-tracking branch 'refs/remotes/origin/main' by @dessalines
+- Shrink wearos build. by @dessalines in [#439](https://github.com/dessalines/habit-maker/pull/439)
+- Fixing generate changelog by @dessalines
+- Use empty checkbox and checked box instead of X and Check by @dessalines in [#436](https://github.com/dessalines/habit-maker/pull/436)
+- Wear OS app by @dessalines in [#435](https://github.com/dessalines/habit-maker/pull/435)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.47...0.0.50
+
 ## What's Changed in 0.0.47
 
 - Adding freedroidwarn by @dessalines in [#429](https://github.com/dessalines/habit-maker/pull/429)
