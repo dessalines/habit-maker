@@ -14,8 +14,6 @@ import kotlinx.serialization.json.Json
 class HabitCheckViewModel(
     private val repository: HabitCheckRepository,
 ) : ViewModel() {
-    fun listForHabit(habitId: Int) = repository.listForHabit(habitId)
-
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
     fun insert(

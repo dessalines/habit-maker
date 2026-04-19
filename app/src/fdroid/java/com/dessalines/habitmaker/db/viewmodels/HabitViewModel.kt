@@ -24,7 +24,6 @@ class HabitViewModel(
 
     fun insert(habit: HabitInsert): Long {
         val insertedId = repository.insert(habit)
-        val inserted = habit.copy(id = insertedId.toInt())
         return insertedId
     }
 

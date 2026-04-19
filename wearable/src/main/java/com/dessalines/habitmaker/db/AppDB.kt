@@ -28,11 +28,7 @@ abstract class AppDB : RoomDatabase() {
 
     abstract fun habitDao(): HabitDao
 
-    abstract fun encouragementDao(): EncouragementDao
-
     abstract fun habitCheckDao(): HabitCheckDao
-
-    abstract fun habitReminderDao(): HabitReminderDao
 
     companion object {
         @Volatile

@@ -9,15 +9,12 @@ import com.dessalines.habitmaker.db.HabitCheckRepository
 class HabitCheckViewModel(
     private val repository: HabitCheckRepository,
 ) : ViewModel() {
-    val getAllSync = repository.getAllSync
-
     fun listForHabit(habitId: Int) = repository.listForHabit(habitId)
 
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
     fun insert(habitCheck: HabitCheckInsert): Long {
         val insertedId = repository.insert(habitCheck)
-        val inserted = habitCheck.copy(id = insertedId.toInt())
         return insertedId
     }
 
