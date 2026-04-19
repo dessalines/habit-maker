@@ -109,12 +109,13 @@ dependencies {
     // Wearable
     "fullImplementation" ("com.google.android.gms:play-services-wearable:19.0.0")
 
+    // Coroutines
+    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     // Freedroidwarn
     implementation("com.github.woheller69:FreeDroidWarn:V1.11")
