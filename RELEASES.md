@@ -1,3 +1,10 @@
+## What's Changed in 0.0.51
+
+- Downgrading compileSdk by @dessalines in [#450](https://github.com/dessalines/habit-maker/pull/450)
+- Adding wearos screenshot and description by @dessalines in [#449](https://github.com/dessalines/habit-maker/pull/449)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.50...0.0.51
+
 ## What's Changed in 0.0.50
 
 - Adding fdroid and full product flavors. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
