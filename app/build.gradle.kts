@@ -8,12 +8,12 @@ plugins {
 android {
     namespace = "com.dessalines.habitmaker"
     buildToolsVersion = "36.0.0"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 47
         versionName = "0.0.47"
 
@@ -71,6 +71,18 @@ android {
         }
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("fdroid") {
+            dimension = "version"
+            applicationIdSuffix = ".fdroid"
+            versionNameSuffix = "-fdroid"
+        }
+        create("full") {
+            dimension = "version"
+        }
+    }
+
     lint {
         disable += "MissingTranslation"
         disable += "KtxExtensionAvailable"
@@ -82,6 +94,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -94,7 +107,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
 
     // Wearable
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    "fullImplementation" ("com.google.android.gms:play-services-wearable:19.0.0")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")

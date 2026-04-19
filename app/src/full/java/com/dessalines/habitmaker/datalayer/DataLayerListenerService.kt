@@ -15,8 +15,8 @@ import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
+import com.dessalines.habitmaker.flavorutils.isAvailable
 import com.dessalines.habitmaker.utils.TAG
-import com.dessalines.habitmaker.utils.isAvailable
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -42,7 +42,25 @@ import kotlin.text.Charsets.UTF_8
 data class Event(
     val className: String,
     val data: ByteArray,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Event
+
+        if (className != other.className) return false
+        if (!data.contentEquals(other.data)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = className.hashCode()
+        result = 31 * result + data.contentHashCode()
+        return result
+    }
+}
 
 class DataLayerListenerService : WearableListenerService() {
     private val database by lazy { AppDB.getDatabase(this) }

@@ -13,13 +13,15 @@ import kotlinx.serialization.json.Json
 
 class HabitCheckViewModel(
     private val repository: HabitCheckRepository,
+    private val dataClient: DataClient,
 ) : ViewModel() {
+    val getAllSync = repository.getAllSync
+
+    fun listForHabit(habitId: Int) = repository.listForHabit(habitId)
+
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
-    fun insert(
-        habitCheck: HabitCheckInsert,
-        dataClient: DataClient,
-    ): Long {
+    fun insert(habitCheck: HabitCheckInsert): Long {
         val insertedId = repository.insert(habitCheck)
         val inserted = habitCheck.copy(id = insertedId.toInt())
         viewModelScope.launch {
@@ -28,10 +30,7 @@ class HabitCheckViewModel(
         return insertedId
     }
 
-    fun deleteForDay(
-        habitCheck: HabitCheckDelete,
-        dataClient: DataClient,
-    ) {
+    fun deleteForDay(habitCheck: HabitCheckDelete) {
         repository.deleteForDay(habitCheck)
         viewModelScope.launch {
             dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete")
@@ -41,39 +40,13 @@ class HabitCheckViewModel(
 
 class HabitCheckViewModelFactory(
     private val repository: HabitCheckRepository,
+    private val dataClient: DataClient,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HabitCheckViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return HabitCheckViewModel(repository) as T
+            return HabitCheckViewModel(repository, dataClient) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-/**
- * Checks / toggles a habit for a given check time.
- *
- * If it already exists, it deletes the row in order to toggle it.
- *
- * returns true if successful / check, false for deleted check.
- */
-fun checkHabitForDay(
-    habitId: Int,
-    checkTime: Long,
-    habitCheckViewModel: HabitCheckViewModel,
-    dataClient: DataClient,
-) {
-    val data =
-        HabitCheckInsert(
-            habitId = habitId,
-            checkTime = checkTime,
-        )
-    val success = habitCheckViewModel.insert(data, dataClient)
-
-    // If its -1, that means that its already been checked for today,
-    // and you actually need to delete it to toggle
-    if (success == -1L) {
-        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId, checkTime), dataClient)
     }
 }

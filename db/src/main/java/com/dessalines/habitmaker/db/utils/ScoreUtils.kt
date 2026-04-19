@@ -1,6 +1,5 @@
 package com.dessalines.habitmaker.db.utils
 
-import androidx.annotation.StringRes
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import java.time.DayOfWeek

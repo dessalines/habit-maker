@@ -6,10 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitCheck
-import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.HabitRepository
-import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.HabitFrequency
 import com.dessalines.habitmaker.db.utils.calculatePoints
@@ -29,24 +27,6 @@ class HabitViewModel(
 ) : ViewModel() {
     val getAll = repository.getAll
 
-    val getAllSync = repository.getAllSync
-
-    fun getById(id: Int) = repository.getById(id)
-
-    fun getByIdSync(id: Int) = repository.getByIdSync(id)
-
-    fun insert(
-        habit: HabitInsert,
-        dataClient: DataClient,
-    ): Long {
-        val insertedId = repository.insert(habit)
-        val inserted = habit.copy(id = insertedId.toInt())
-        viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitInsert")
-        }
-        return insertedId
-    }
-
     fun insertWearable(
         habit: HabitInsertWearable,
         dataClient: DataClient,
@@ -59,28 +39,12 @@ class HabitViewModel(
         return insertedId
     }
 
-    fun update(
-        habit: HabitUpdate,
-        dataClient: DataClient,
-    ) = viewModelScope.launch {
-        repository.update(habit)
-        dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate")
-    }
-
     fun updateStats(
         habit: HabitUpdateStats,
         dataClient: DataClient,
     ) = viewModelScope.launch {
         repository.updateStats(habit)
         dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats")
-    }
-
-    fun delete(
-        habit: Habit,
-        dataClient: DataClient,
-    ) = viewModelScope.launch {
-        repository.delete(habit)
-        dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitDelete")
     }
 }
 

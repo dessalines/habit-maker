@@ -60,7 +60,6 @@ import com.dessalines.habitmaker.notifications.scheduleRemindersForHabit
 import com.dessalines.habitmaker.utils.SUCCESS_EMOJIS
 import com.dessalines.habitmaker.utils.SelectionVisibilityState
 import com.dessalines.prettyFormat
-import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -81,7 +80,6 @@ fun HabitsAndDetailScreen(
     encouragementViewModel: EncouragementViewModel,
     habitCheckViewModel: HabitCheckViewModel,
     reminderViewModel: HabitReminderViewModel,
-    dataClient: DataClient,
     id: Int?,
 ) {
     val ctx = LocalContext.current
@@ -147,16 +145,16 @@ fun HabitsAndDetailScreen(
                                 val habit = habits?.find { it.id == habitId }
                                 habit?.let { habit ->
                                     val checkTime = LocalDate.now().toEpochMillis()
-                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel, dataClient)
+                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
                                     val stats =
                                         updateStatsForHabit(
-                                            habit,
-                                            habitViewModel,
-                                            dataClient,
-                                            checks,
-                                            completedCount,
-                                            firstDayOfWeek,
+                                            habit = habit,
+                                            habitViewModel = habitViewModel,
+                                            updateDataClient = true,
+                                            checks = checks,
+                                            completedCount = completedCount,
+                                            firstDayOfWeek = firstDayOfWeek,
                                         )
 
                                     // If successful, show a random encouragement
@@ -239,7 +237,7 @@ fun HabitsAndDetailScreen(
                                     onDelete = {
                                         scope.launch {
                                             deleteRemindersForHabit(ctx, habitId)
-                                            habitViewModel.delete(habit, dataClient)
+                                            habitViewModel.delete(habit)
                                             navigator.navigateBack()
                                         }
                                     },
@@ -255,18 +253,17 @@ fun HabitsAndDetailScreen(
                                                 habit.id,
                                                 checkTime,
                                                 habitCheckViewModel,
-                                                dataClient,
                                             )
                                             val checks =
                                                 habitCheckViewModel.listForHabitSync(habitId)
                                             val stats =
                                                 updateStatsForHabit(
-                                                    habit,
-                                                    habitViewModel,
-                                                    dataClient,
-                                                    checks,
-                                                    completedCount,
-                                                    firstDayOfWeek,
+                                                    habit = habit,
+                                                    habitViewModel = habitViewModel,
+                                                    updateDataClient = true,
+                                                    checks = checks,
+                                                    completedCount = completedCount,
+                                                    firstDayOfWeek = firstDayOfWeek,
                                                 )
                                             // Reschedule the reminders, to skip completed today
                                             val isCompleted = isCompletedToday(stats.lastCompletedTime)
@@ -301,26 +298,25 @@ fun checkHabitForDay(
     habitId: Int,
     checkTime: Long,
     habitCheckViewModel: HabitCheckViewModel,
-    dataClient: DataClient,
 ) {
     val data =
         HabitCheckInsert(
             habitId = habitId,
             checkTime = checkTime,
         )
-    val success = habitCheckViewModel.insert(data, dataClient)
+    val success = habitCheckViewModel.insert(data)
 
     // If its -1, that means that its already been checked for today,
     // and you actually need to delete it to toggle
     if (success == -1L) {
-        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId = habitId, checkTime = checkTime), dataClient)
+        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId = habitId, checkTime = checkTime))
     }
 }
 
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
-    dataClient: DataClient?,
+    updateDataClient: Boolean,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,
@@ -352,7 +348,7 @@ fun updateStatsForHabit(
             lastCompletedTime = lastCompletedTime,
             completed = checks.size,
         )
-    habitViewModel.updateStats(statsUpdate, dataClient)
+    habitViewModel.updateStats(statsUpdate, updateDataClient)
 
     return statsUpdate
 }

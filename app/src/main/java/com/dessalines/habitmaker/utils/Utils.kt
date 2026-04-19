@@ -5,12 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.core.net.toUri
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.api.AvailabilityException
-import com.google.android.gms.common.api.GoogleApi
-import kotlinx.coroutines.tasks.await
 
 const val TAG = "com.habitmaker"
 
@@ -54,19 +49,3 @@ sealed interface SelectionVisibilityState<out Item> {
         val selectedItem: Item,
     ) : SelectionVisibilityState<Item>
 }
-
-suspend fun isAvailable(api: GoogleApi<*>): Boolean =
-    try {
-        GoogleApiAvailability
-            .getInstance()
-            .checkApiAvailability(api)
-            .await()
-
-        true
-    } catch (_: AvailabilityException) {
-        Log.d(
-            TAG,
-            "${api.javaClass.simpleName} API is not available in this device.",
-        )
-        false
-    }

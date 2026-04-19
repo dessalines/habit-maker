@@ -231,7 +231,7 @@ interface AppSettingsDao {
     fun getSettings(): Flow<AppSettings>
 
     @Query("SELECT * FROM AppSettings limit 1")
-    fun getSettingsSync(): AppSettings
+    fun getSettingsSync(): AppSettings?
 
     @Update(entity = AppSettings::class)
     suspend fun updateHideCompleted(settings: SettingsUpdateHideCompleted)
