@@ -16,7 +16,7 @@
 
  <h3 align="center"><a href="https://github.com/dessalines/habit-maker">Habit-Maker</a></h3>
   <p align="center">
-    A reward-based habit tracker for android.
+    A reward-based habit tracker for Android and WearOS.
     <br />
     <br />
     <a href="https://github.com/dessalines/habit-maker/issues">Report Bug</a>
@@ -39,6 +39,7 @@
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="250" alt="mobile_screen_1">
 &nbsp; &nbsp; &nbsp; &nbsp;
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="250" alt="mobile_screen_2">
+  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="250" alt="wearos_screen_1">
 </p>
 
 Have you found it difficult to build new habits? Habit-Maker uses rewards and encouragements to help get over initial willpower required to form new habits.
@@ -87,6 +88,10 @@ Some examples of good encouragements:
 ### Completing a habit
 
 Once a habit has been formed, its relatively easy to continue doing it, almost as if it were on auto-pilot. Research shows that ~40% of our daily activities are habits that don't require much (if any) willpower once they've been formed.
+
+### WearOS
+
+Habit-maker also has a WearOS app that syncs with your android device. It can create tasks, and check them off.
 
 ## Built With
 
