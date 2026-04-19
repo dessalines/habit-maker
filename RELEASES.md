@@ -1,3 +1,9 @@
+## What's Changed in 0.0.52
+
+- Use kotlin gplay coroutines in full only. by @dessalines in [#452](https://github.com/dessalines/habit-maker/pull/452)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.51...0.0.52
+
 ## What's Changed in 0.0.51
 
 - Downgrading compileSdk by @dessalines in [#450](https://github.com/dessalines/habit-maker/pull/450)
