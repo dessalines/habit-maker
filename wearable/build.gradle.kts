@@ -9,14 +9,14 @@ android {
     namespace = "com.dessalines.habitmaker"
 
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
 
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "0.0.1"
 
