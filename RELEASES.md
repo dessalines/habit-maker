@@ -1,3 +1,12 @@
+## What's Changed in 0.0.53
+
+- Remove the applicationIdSuffix from fdroid version by @dessalines in [#455](https://github.com/dessalines/habit-maker/pull/455)
+- Updating 0.0.50 release notes. by @dessalines
+- Wearos material 3 2 by @dessalines in [#454](https://github.com/dessalines/habit-maker/pull/454)
+- Material v3 upgrade for WearOS by @dessalines in [#453](https://github.com/dessalines/habit-maker/pull/453)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.52...0.0.53
+
 ## What's Changed in 0.0.52
 
 - Use kotlin gplay coroutines in full only. by @dessalines in [#452](https://github.com/dessalines/habit-maker/pull/452)
@@ -13,7 +22,7 @@
 
 ## What's Changed in 0.0.50
 
-- Adding fdroid and full product flavors. F-droid users will have to export and import their database in the settings, since f-droid has its own package name. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
+- Adding fdroid and full product flavors. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
 - Updating complications manually when checked. by @dessalines in [#445](https://github.com/dessalines/habit-maker/pull/445)
 - Hide the header of grouped habits if there are no results. by @dessalines in [#444](https://github.com/dessalines/habit-maker/pull/444)
 - Adding animateItem for wearable habit rows by @dessalines
