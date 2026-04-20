@@ -154,7 +154,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
@@ -175,7 +177,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
