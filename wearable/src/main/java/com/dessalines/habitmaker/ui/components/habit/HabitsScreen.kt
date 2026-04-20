@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -308,7 +309,12 @@ fun TransformingLazyColumnItemScope.CreateHabitButton(
             }
         }
     Button(
-        content = { Text(placeholder) },
+        content = {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = placeholder,
+            )
+        },
         onClick = {
             val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
             val remoteInputs: List<RemoteInput> =
@@ -328,7 +334,6 @@ fun TransformingLazyColumnItemScope.CreateHabitButton(
         },
         modifier =
             Modifier
-                .fillMaxWidth()
                 .transformedHeight(this, transformationSpec)
                 .padding(top = MEDIUM_PADDING)
                 .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
