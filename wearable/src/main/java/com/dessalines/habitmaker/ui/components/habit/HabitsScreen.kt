@@ -31,18 +31,19 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnScope
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material.Checkbox
-import androidx.wear.compose.material.OutlinedButton
-import androidx.wear.compose.material.ToggleChip
+import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.CheckboxButton
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
@@ -64,7 +65,6 @@ import com.dessalines.habitmaker.db.viewmodels.updateStatsForHabit
 import com.dessalines.habitmaker.ui.components.common.ListHeaderHabits
 import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.ui.theme.EXTRA_SMALL_PADDING
-import com.dessalines.habitmaker.ui.theme.LARGE_PADDING
 import com.dessalines.habitmaker.ui.theme.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.theme.SMALL_PADDING
 import com.dessalines.prettyFormat
@@ -107,7 +107,10 @@ fun HabitsScreen(
         },
     ) { contentPadding ->
         // ScreenScaffold provides default padding; adjust as needed
-        TransformingLazyColumn(contentPadding = contentPadding, state = listState) {
+        TransformingLazyColumn(
+            contentPadding = contentPadding,
+            state = listState,
+        ) {
             // If it's loading, show a progress indicator
             if (habits == null) {
                 item {
@@ -167,6 +170,7 @@ fun HabitsScreen(
             }
             item {
                 CreateHabitButton(
+                    transformationSpec = transformationSpec,
                     onCreate = { name ->
                         val insert =
                             HabitInsertWearable(
@@ -200,6 +204,7 @@ fun TransformingLazyColumnScope.habitFrequencySection(
             HabitRow(
                 habit = habit,
                 settings = settings,
+                transformationSpec = transformationSpec,
                 onCheck = {
                     onCheck(habit)
                 },
@@ -212,11 +217,12 @@ fun TransformingLazyColumnScope.habitFrequencySection(
 fun TransformingLazyColumnItemScope.HabitRow(
     habit: Habit,
     settings: AppSettings?,
+    transformationSpec: TransformationSpec,
     onCheck: () -> Unit,
 ) {
     val checked = isCompletedToday(habit.lastCompletedTime)
 
-    ToggleChip(
+    CheckboxButton(
         label = {
             Text(
                 text = habit.name,
@@ -286,19 +292,23 @@ fun TransformingLazyColumnItemScope.HabitRow(
             }
         },
         checked = checked,
-        toggleControl = { Checkbox(checked = checked, enabled = true) },
         onCheckedChange = { onCheck() },
         enabled = true,
         modifier =
             Modifier
                 .fillMaxWidth()
+                .transformedHeight(this, transformationSpec)
                 .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding)
                 .animateItem(),
+        transformation = SurfaceTransformation(transformationSpec),
     )
 }
 
 @Composable
-fun CreateHabitButton(onCreate: (value: String) -> Unit) {
+fun TransformingLazyColumnItemScope.CreateHabitButton(
+    onCreate: (value: String) -> Unit,
+    transformationSpec: TransformationSpec,
+) {
     val placeholder = stringResource(R.string.create_habit)
 
     val launcher =
@@ -309,7 +319,7 @@ fun CreateHabitButton(onCreate: (value: String) -> Unit) {
                 onCreate(newValue as String)
             }
         }
-    OutlinedButton(
+    Button(
         content = { Text(placeholder) },
         onClick = {
             val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()
@@ -331,6 +341,9 @@ fun CreateHabitButton(onCreate: (value: String) -> Unit) {
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = LARGE_PADDING),
+                .transformedHeight(this, transformationSpec)
+                .padding(top = MEDIUM_PADDING)
+                .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+        transformation = SurfaceTransformation(transformationSpec),
     )
 }

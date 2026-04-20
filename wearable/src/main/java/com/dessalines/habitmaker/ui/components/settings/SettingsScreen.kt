@@ -10,13 +10,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.asLiveData
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material.SelectableChip
-import androidx.wear.compose.material.Switch
-import androidx.wear.compose.material.ToggleChip
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.RadioButton
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.SettingsUpdateWearable
 import com.dessalines.habitmaker.db.utils.HabitSort
@@ -67,7 +68,7 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 )
             }
             item {
-                ToggleChip(
+                SwitchButton(
                     label = {
                         Text(
                             stringResource(R.string.hide_completed),
@@ -76,7 +77,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     checked = hideCompletedState,
-                    toggleControl = { Switch(checked = hideCompletedState, enabled = true) },
                     onCheckedChange = {
                         hideCompletedState = it
                         updateSettings()
@@ -85,11 +85,13 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                ToggleChip(
+                SwitchButton(
                     label = {
                         Text(
                             stringResource(R.string.hide_archived),
@@ -98,7 +100,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     checked = hideArchivedState,
-                    toggleControl = { Switch(checked = hideArchivedState, enabled = true) },
                     onCheckedChange = {
                         hideArchivedState = it
                         updateSettings()
@@ -107,11 +108,13 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                ToggleChip(
+                SwitchButton(
                     label = {
                         Text(
                             stringResource(R.string.hide_points),
@@ -120,7 +123,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     checked = hidePointsOnHomeState,
-                    toggleControl = { Switch(checked = hidePointsOnHomeState, enabled = true) },
                     onCheckedChange = {
                         hidePointsOnHomeState = it
                         updateSettings()
@@ -129,11 +131,13 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                ToggleChip(
+                SwitchButton(
                     label = {
                         Text(
                             stringResource(R.string.hide_score),
@@ -142,7 +146,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     checked = hideScoreOnHomeState,
-                    toggleControl = { Switch(checked = hideScoreOnHomeState, enabled = true) },
                     onCheckedChange = {
                         hideScoreOnHomeState = it
                         updateSettings()
@@ -155,7 +158,7 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 )
             }
             item {
-                ToggleChip(
+                SwitchButton(
                     label = {
                         Text(
                             stringResource(R.string.hide_streak),
@@ -164,7 +167,6 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                         )
                     },
                     checked = hideStreakOnHomeState,
-                    toggleControl = { Switch(checked = hideStreakOnHomeState, enabled = true) },
                     onCheckedChange = {
                         hideStreakOnHomeState = it
                         updateSettings()
@@ -183,9 +185,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.Streak,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.Streak
                         updateSettings()
                     },
@@ -196,13 +198,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.Points,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.Points
                         updateSettings()
                     },
@@ -213,13 +217,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.Score,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.Score
                         updateSettings()
                     },
@@ -230,13 +236,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.Status,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.Status
                         updateSettings()
                     },
@@ -247,13 +255,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.DateCreated,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.DateCreated
                         updateSettings()
                     },
@@ -264,13 +274,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortState == HabitSort.Name,
-                    onClick = {
+                    onSelect = {
                         sortState = HabitSort.Name
                         updateSettings()
                     },
@@ -281,7 +293,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
@@ -291,9 +305,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortOrderState == HabitSortOrder.Ascending,
-                    onClick = {
+                    onSelect = {
                         sortOrderState = HabitSortOrder.Ascending
                         updateSettings()
                     },
@@ -308,13 +322,15 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
             item {
-                SelectableChip(
+                RadioButton(
                     selected = sortOrderState == HabitSortOrder.Descending,
-                    onClick = {
+                    onSelect = {
                         sortOrderState = HabitSortOrder.Descending
                         updateSettings()
                     },
@@ -325,7 +341,9 @@ fun SettingsScreen(appSettingsViewModel: AppSettingsViewModel) {
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
                             .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec),
                 )
             }
         }
