@@ -13,7 +13,9 @@ import com.dessalines.habitmaker.db.HabitUpdate
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
 import com.dessalines.habitmaker.utils.TAG
-import com.dessalines.habitmaker.utils.isAvailable
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -180,6 +182,22 @@ suspend fun DataClient.sendDataToOtherDevices(
         }
     }
 }
+
+suspend fun isAvailable(api: GoogleApi<*>): Boolean =
+    try {
+        GoogleApiAvailability
+            .getInstance()
+            .checkApiAvailability(api)
+            .await()
+
+        true
+    } catch (_: AvailabilityException) {
+        Log.d(
+            TAG,
+            "${api.javaClass.simpleName} API is not available in this device.",
+        )
+        false
+    }
 
 fun gzip(content: String): ByteArray {
     val bos = ByteArrayOutputStream()

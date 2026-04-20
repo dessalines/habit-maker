@@ -1,7 +1,6 @@
 package com.dessalines.habitmaker.ui.components.habit
 
 import android.app.RemoteInput
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -46,9 +45,7 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.input.RemoteInputIntentHelper
 import androidx.wear.input.wearableExtender
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.dessalines.habitmaker.R
-import com.dessalines.habitmaker.complication.MainComplicationService
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
 import com.dessalines.habitmaker.db.HabitInsertWearable
@@ -67,6 +64,7 @@ import com.dessalines.habitmaker.ui.components.common.toResId
 import com.dessalines.habitmaker.ui.theme.EXTRA_SMALL_PADDING
 import com.dessalines.habitmaker.ui.theme.MEDIUM_PADDING
 import com.dessalines.habitmaker.ui.theme.SMALL_PADDING
+import com.dessalines.habitmaker.utils.updateComplication
 import com.dessalines.prettyFormat
 import com.google.android.gms.wearable.DataClient
 import java.time.DayOfWeek
@@ -152,19 +150,7 @@ fun HabitsScreen(
                             firstDayOfWeek,
                         )
 
-                        // Update the complication data
-                        val component =
-                            ComponentName(
-                                ctx,
-                                MainComplicationService::class.java,
-                            )
-
-                        val request =
-                            ComplicationDataSourceUpdateRequester.create(
-                                ctx,
-                                component,
-                            )
-                        request.requestUpdateAll()
+                        updateComplication(ctx)
                     },
                 )
             }
@@ -177,6 +163,8 @@ fun HabitsScreen(
                                 name = name,
                             )
                         habitViewModel.insertWearable(insert, dataClient)
+
+                        updateComplication(ctx)
                     },
                 )
             }
