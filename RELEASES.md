@@ -13,7 +13,7 @@
 
 ## What's Changed in 0.0.50
 
-- Adding fdroid and full product flavors. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
+- Adding fdroid and full product flavors. F-droid users will have to export and import their database in the settings, since f-droid has its own package name. by @dessalines in [#448](https://github.com/dessalines/habit-maker/pull/448)
 - Updating complications manually when checked. by @dessalines in [#445](https://github.com/dessalines/habit-maker/pull/445)
 - Hide the header of grouped habits if there are no results. by @dessalines in [#444](https://github.com/dessalines/habit-maker/pull/444)
 - Adding animateItem for wearable habit rows by @dessalines
