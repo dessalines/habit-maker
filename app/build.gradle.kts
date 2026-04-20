@@ -79,6 +79,7 @@ android {
         }
         create("full") {
             dimension = "version"
+            versionNameSuffix = "-full"
         }
     }
 
