@@ -93,7 +93,7 @@ dependencies {
 
     implementation("androidx.wear.compose:compose-navigation:1.6.1")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    implementation("androidx.compose.runtime:runtime-livedata:1.10.6")
+    implementation("androidx.compose.runtime:runtime-livedata:1.11.0")
     implementation("com.google.android.gms:play-services-wearable:19.0.0")
     implementation(platform("androidx.compose:compose-bom:2026.03.01"))
     implementation("androidx.compose.ui:ui")
