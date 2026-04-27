@@ -118,4 +118,5 @@
     <string name="x_tasks_completed">%1$s görev tamamlandı</string>
     <string name="totals">Toplam</string>
     <string name="hide_totals">Toplamı gizle</string>
+    <string name="x_completed_today">%1$s bugün tamamlandı</string>
 </resources>
