@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -48,7 +49,6 @@ import me.zhanghai.compose.preference.ProvidePreferenceTheme
 import me.zhanghai.compose.preference.SliderPreference
 import me.zhanghai.compose.preference.SwitchPreference
 import java.time.DayOfWeek
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +58,7 @@ fun BehaviorScreen(
 ) {
     val settings by appSettingsViewModel.appSettings.asLiveData().observeAsState()
     val resources = LocalResources.current
-    val locale = Locale.getDefault()
+    val locale = LocalLocale.current.platformLocale
 
     var sortState = HabitSort.entries[settings?.sort ?: 0]
     var sortOrderState = HabitSortOrder.entries[settings?.sortOrder ?: 0]
