@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +37,6 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
-import java.util.Locale
 
 @Composable
 fun HabitCalendar(
@@ -90,7 +90,7 @@ fun MonthHeader(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
     ) {
-        val locale = Locale.getDefault()
+        val locale = LocalLocale.current.platformLocale
         Text(
             text = calendarMonth.yearMonth.month.getDisplayName(TextStyle.SHORT, locale),
             textAlign = TextAlign.Center,

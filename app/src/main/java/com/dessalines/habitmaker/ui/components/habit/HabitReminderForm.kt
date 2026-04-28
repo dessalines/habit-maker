@@ -26,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -76,7 +77,7 @@ fun HabitRemindersForm(
             hasNotificationPermission = result
         }
 
-    val locale = Locale.getDefault()
+    val locale = LocalLocale.current.platformLocale
     val habitId = initialReminders.firstOrNull()?.habitId ?: 0
 
     var reminders by rememberSaveable {
