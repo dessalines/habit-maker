@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                     updateStatsForHabit(
                         habit = habit,
                         habitViewModel = habitViewModel,
-                        updateDataClient = false,
                         checks = checks,
                         completedCount = completedCount,
                         firstDayOfWeek = settings.firstDayOfWeek,
@@ -193,7 +192,6 @@ fun BroadcastReceivers(
                     updateStatsForHabit(
                         habit = habit,
                         habitViewModel = habitViewModel,
-                        updateDataClient = true,
                         checks = checks,
                         completedCount = completedCount,
                         firstDayOfWeek = firstDayOfWeek,

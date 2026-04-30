@@ -41,15 +41,10 @@ class HabitViewModel(
             dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdate")
         }
 
-    fun updateStats(
-        habit: HabitUpdateStats,
-        updateDataClient: Boolean,
-    ) = viewModelScope.launch {
-        repository.updateStats(habit)
-        if (updateDataClient) {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats")
+    fun updateStats(habit: HabitUpdateStats) =
+        viewModelScope.launch {
+            repository.updateStats(habit)
         }
-    }
 
     fun delete(habit: Habit) =
         viewModelScope.launch {

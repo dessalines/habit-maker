@@ -49,6 +49,8 @@ import androidx.wear.input.wearableExtender
 import com.dessalines.habitmaker.R
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.Habit
+import com.dessalines.habitmaker.db.HabitCheckDelete
+import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.utils.HabitGroupData
 import com.dessalines.habitmaker.db.utils.buildHabitsByFrequency
@@ -135,21 +137,44 @@ fun HabitsScreen(
                     transformationSpec = transformationSpec,
                     onCheck = { habit ->
                         val checkTime = LocalDate.now().toEpochMillis()
-                        checkHabitForDay(
-                            habit.id,
-                            checkTime,
-                            habitCheckViewModel,
-                            dataClient,
-                        )
+                        val insertedId =
+                            checkHabitForDay(
+                                habitId = habit.id,
+                                checkTime = checkTime,
+                                habitCheckViewModel = habitCheckViewModel,
+                            )
                         val checks = habitCheckViewModel.listForHabitSync(habit.id)
-                        updateStatsForHabit(
-                            habit,
-                            habitViewModel,
-                            dataClient,
-                            checks,
-                            completedCount,
-                            firstDayOfWeek,
-                        )
+                        val stats =
+                            updateStatsForHabit(
+                                habit,
+                                habitViewModel,
+                                checks,
+                                completedCount,
+                                firstDayOfWeek,
+                            )
+
+                        if (insertedId == -1L) {
+                            habitCheckViewModel.sendHabitCheckDeleteAndStatsUpdate(
+                                dataClient = dataClient,
+                                habitCheckDelete =
+                                    HabitCheckDelete(
+                                        habitId = habit.id,
+                                        checkTime = checkTime,
+                                    ),
+                                stats = stats,
+                            )
+                        } else {
+                            habitCheckViewModel.sendHabitCheckInsertAndStatsUpdate(
+                                dataClient = dataClient,
+                                insertedId = insertedId,
+                                habitCheck =
+                                    HabitCheckInsert(
+                                        habitId = habit.id,
+                                        checkTime = checkTime,
+                                    ),
+                                stats = stats,
+                            )
+                        }
 
                         updateComplication(ctx)
                     },

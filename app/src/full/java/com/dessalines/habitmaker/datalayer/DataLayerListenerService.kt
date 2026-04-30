@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.Habit
-import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitInsert
@@ -13,10 +12,14 @@ import com.dessalines.habitmaker.db.HabitInsertWearable
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
+import com.dessalines.habitmaker.db.utils.HabitCheckDeleteAndStatsUpdate
+import com.dessalines.habitmaker.db.utils.HabitCheckInsertAndStatsUpdate
 import com.dessalines.habitmaker.db.viewmodels.HabitCheckViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
-import com.dessalines.habitmaker.flavorutils.isAvailable
 import com.dessalines.habitmaker.utils.TAG
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -103,24 +106,21 @@ class DataLayerListenerService : WearableListenerService() {
                     habitRepository.insertWearable(habit)
                 }
 
-                "HabitUpdateStats" -> {
-                    val habit = Json.decodeFromString<HabitUpdateStats>(ungzip(event.data))
-                    habitRepository.updateStats(habit)
-                }
-
                 "HabitDelete" -> {
                     val habit = Json.decodeFromString<Habit>(ungzip(event.data))
                     habitRepository.delete(habit)
                 }
 
                 "HabitCheckInsert" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckInsert>(ungzip(event.data))
-                    habitCheckRepository.insert(habitCheck)
+                    val data = Json.decodeFromString<HabitCheckInsertAndStatsUpdate>(ungzip(event.data))
+                    habitCheckRepository.insert(data.check)
+                    habitRepository.updateStats(data.stats)
                 }
 
                 "HabitCheckDelete" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckDelete>(ungzip(event.data))
-                    habitCheckRepository.deleteForDay(habitCheck)
+                    val data = Json.decodeFromString<HabitCheckDeleteAndStatsUpdate>(ungzip(event.data))
+                    habitCheckRepository.deleteForDay(data.check)
+                    habitRepository.updateStats(data.stats)
                 }
             }
         }
@@ -218,3 +218,19 @@ fun gzip(content: String): ByteArray {
 }
 
 fun ungzip(content: ByteArray): String = GZIPInputStream(content.inputStream()).bufferedReader(UTF_8).use { it.readText() }
+
+private suspend fun isAvailable(api: GoogleApi<*>): Boolean =
+    try {
+        GoogleApiAvailability
+            .getInstance()
+            .checkApiAvailability(api)
+            .await()
+
+        true
+    } catch (_: AvailabilityException) {
+        Log.d(
+            TAG,
+            "${api.javaClass.simpleName} API is not available in this device.",
+        )
+        false
+    }

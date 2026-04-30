@@ -7,6 +7,9 @@ import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
+import com.dessalines.habitmaker.db.HabitUpdateStats
+import com.dessalines.habitmaker.db.utils.HabitCheckDeleteAndStatsUpdate
+import com.dessalines.habitmaker.db.utils.HabitCheckInsertAndStatsUpdate
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -16,25 +19,46 @@ class HabitCheckViewModel(
 ) : ViewModel() {
     fun listForHabitSync(habitId: Int) = repository.listForHabitSync(habitId)
 
-    fun insert(
-        habitCheck: HabitCheckInsert,
-        dataClient: DataClient,
-    ): Long {
+    fun insert(habitCheck: HabitCheckInsert): Long {
         val insertedId = repository.insert(habitCheck)
-        val inserted = habitCheck.copy(id = insertedId.toInt())
-        viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert")
-        }
         return insertedId
     }
 
-    fun deleteForDay(
-        habitCheck: HabitCheckDelete,
+    fun sendHabitCheckInsertAndStatsUpdate(
         dataClient: DataClient,
+        insertedId: Long,
+        habitCheck: HabitCheckInsert,
+        stats: HabitUpdateStats,
     ) {
-        repository.deleteForDay(habitCheck)
+        val inserted = habitCheck.copy(id = insertedId.toInt())
+        val data =
+            HabitCheckInsertAndStatsUpdate(
+                check = inserted,
+                stats = stats,
+            )
+
         viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete")
+            dataClient.sendDataToOtherDevices(Json.encodeToString(data), "HabitCheckInsert")
+        }
+    }
+
+    fun deleteForDay(habitCheck: HabitCheckDelete) {
+        repository.deleteForDay(habitCheck)
+    }
+
+    fun sendHabitCheckDeleteAndStatsUpdate(
+        dataClient: DataClient,
+        habitCheckDelete: HabitCheckDelete,
+        stats: HabitUpdateStats,
+    ) {
+        val data =
+            HabitCheckDeleteAndStatsUpdate(
+                check = habitCheckDelete,
+                stats = stats,
+            )
+
+        viewModelScope.launch {
+            dataClient.sendDataToOtherDevices(Json.encodeToString(data), "HabitCheckDelete")
         }
     }
 }
@@ -62,18 +86,18 @@ fun checkHabitForDay(
     habitId: Int,
     checkTime: Long,
     habitCheckViewModel: HabitCheckViewModel,
-    dataClient: DataClient,
-) {
+): Long {
     val data =
         HabitCheckInsert(
             habitId = habitId,
             checkTime = checkTime,
         )
-    val success = habitCheckViewModel.insert(data, dataClient)
+    val success = habitCheckViewModel.insert(data)
 
     // If its -1, that means that its already been checked for today,
     // and you actually need to delete it to toggle
     if (success == -1L) {
-        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId, checkTime), dataClient)
+        habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId, checkTime))
     }
+    return success
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
+import com.dessalines.habitmaker.db.HabitUpdateStats
 
 class HabitCheckViewModel(
     private val repository: HabitCheckRepository,
@@ -18,8 +19,27 @@ class HabitCheckViewModel(
         return insertedId
     }
 
+    /**
+     * Stub: this does nothing
+     */
+    fun sendHabitCheckInsertAndStatsUpdate(
+        insertedId: Long,
+        habitCheck: HabitCheckInsert,
+        stats: HabitUpdateStats,
+    ) {
+    }
+
     fun deleteForDay(habitCheck: HabitCheckDelete) {
         repository.deleteForDay(habitCheck)
+    }
+
+    /**
+     * Stub: this does nothing
+     */
+    fun sendHabitCheckDeleteAndStatsUpdate(
+        habitCheckDelete: HabitCheckDelete,
+        stats: HabitUpdateStats,
+    ) {
     }
 }
 

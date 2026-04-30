@@ -3,7 +3,6 @@ package com.dessalines.habitmaker
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -13,9 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.asLiveData
@@ -25,6 +21,8 @@ import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.AppSettings
 import com.dessalines.habitmaker.db.AppSettingsRepository
 import com.dessalines.habitmaker.db.EncouragementRepository
+import com.dessalines.habitmaker.db.HabitCheckDelete
+import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitReminderRepository
 import com.dessalines.habitmaker.db.HabitRepository
@@ -41,7 +39,6 @@ import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitReminderViewModelFactory
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModel
 import com.dessalines.habitmaker.db.viewmodels.HabitViewModelFactory
-import com.dessalines.habitmaker.flavorutils.isAvailable
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_ACTION
 import com.dessalines.habitmaker.notifications.CANCEL_HABIT_INTENT_HABIT_ID
 import com.dessalines.habitmaker.notifications.CHECK_HABIT_INTENT_ACTION
@@ -54,7 +51,6 @@ import com.dessalines.habitmaker.ui.components.Main
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.checkHabitForDay
 import com.dessalines.habitmaker.ui.components.habit.habitanddetails.updateStatsForHabit
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
-import com.dessalines.habitmaker.utils.TAG
 import com.dessalines.habitmaker.utils.getVersionCode
 import com.google.android.gms.wearable.Wearable
 import org.woheller69.freeDroidWarn.FreeDroidWarn
@@ -93,8 +89,6 @@ class MainActivity : AppCompatActivity() {
         HabitReminderViewModelFactory((application as HabitMakerApplication).habitReminderRepository)
     }
 
-    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         FreeDroidWarn.showWarningOnUpgrade(this, getVersionCode())
 
@@ -116,11 +110,8 @@ class MainActivity : AppCompatActivity() {
                 reminderViewModel,
             )
 
-            var apiAvailable by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 updateHabitStatsOnStartup(ctx)
-                apiAvailable = isAvailable(capabilityClient)
-                Log.d(TAG, "Api available: $apiAvailable")
                 syncDBtoOtherDevices(
                     habitViewModel,
                     habitCheckViewModel,
@@ -163,7 +154,6 @@ class MainActivity : AppCompatActivity() {
                     updateStatsForHabit(
                         habit = habit,
                         habitViewModel = habitViewModel,
-                        updateDataClient = false,
                         checks = checks,
                         completedCount = completedCount,
                         firstDayOfWeek = settings.firstDayOfWeek,
@@ -209,16 +199,36 @@ fun BroadcastReceivers(
                 val isCompleted = isCompletedToday(habit.lastCompletedTime)
                 // Only check the habit if it hasn't been checked
                 if (!isCompleted) {
-                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                    val insertedId = checkHabitForDay(habitId, checkTime, habitCheckViewModel)
                     val checks = habitCheckViewModel.listForHabitSync(habitId)
-                    updateStatsForHabit(
-                        habit = habit,
-                        habitViewModel = habitViewModel,
-                        updateDataClient = true,
-                        checks = checks,
-                        completedCount = completedCount,
-                        firstDayOfWeek = firstDayOfWeek,
-                    )
+                    val stats =
+                        updateStatsForHabit(
+                            habit = habit,
+                            habitViewModel = habitViewModel,
+                            checks = checks,
+                            completedCount = completedCount,
+                            firstDayOfWeek = firstDayOfWeek,
+                        )
+                    if (insertedId == -1L) {
+                        habitCheckViewModel.sendHabitCheckDeleteAndStatsUpdate(
+                            habitCheckDelete =
+                                HabitCheckDelete(
+                                    habitId = habitId,
+                                    checkTime = checkTime,
+                                ),
+                            stats = stats,
+                        )
+                    } else {
+                        habitCheckViewModel.sendHabitCheckInsertAndStatsUpdate(
+                            insertedId = insertedId,
+                            habitCheck =
+                                HabitCheckInsert(
+                                    habitId = habitId,
+                                    checkTime = checkTime,
+                                ),
+                            stats = stats,
+                        )
+                    }
                 }
 
                 // Reschedule the reminders, to skip today

@@ -32,12 +32,10 @@ class HabitViewModel(
             repository.update(habit)
         }
 
-    fun updateStats(
-        habit: HabitUpdateStats,
-        updateDataClient: Boolean,
-    ) = viewModelScope.launch {
-        repository.updateStats(habit)
-    }
+    fun updateStats(habit: HabitUpdateStats) =
+        viewModelScope.launch {
+            repository.updateStats(habit)
+        }
 
     fun delete(habit: Habit) =
         viewModelScope.launch {
