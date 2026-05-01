@@ -1,3 +1,9 @@
+## What's Changed in 0.0.54
+
+- Fixing wearOS update syncing by combining. by @dessalines in [#468](https://github.com/dessalines/habit-maker/pull/468)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.53...0.0.54
+
 ## What's Changed in 0.0.53
 
 - Remove the applicationIdSuffix from fdroid version by @dessalines in [#455](https://github.com/dessalines/habit-maker/pull/455)
