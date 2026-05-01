@@ -7,6 +7,9 @@ import com.dessalines.habitmaker.datalayer.sendDataToOtherDevices
 import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
+import com.dessalines.habitmaker.db.HabitUpdateStats
+import com.dessalines.habitmaker.db.utils.HabitCheckDeleteAndStatsUpdate
+import com.dessalines.habitmaker.db.utils.HabitCheckInsertAndStatsUpdate
 import com.google.android.gms.wearable.DataClient
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -23,17 +26,43 @@ class HabitCheckViewModel(
 
     fun insert(habitCheck: HabitCheckInsert): Long {
         val insertedId = repository.insert(habitCheck)
-        val inserted = habitCheck.copy(id = insertedId.toInt())
-        viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(inserted), "HabitCheckInsert")
-        }
+
         return insertedId
+    }
+
+    fun sendHabitCheckInsertAndStatsUpdate(
+        insertedId: Long,
+        habitCheck: HabitCheckInsert,
+        stats: HabitUpdateStats,
+    ) {
+        val inserted = habitCheck.copy(id = insertedId.toInt())
+        val data =
+            HabitCheckInsertAndStatsUpdate(
+                check = inserted,
+                stats = stats,
+            )
+
+        viewModelScope.launch {
+            dataClient.sendDataToOtherDevices(Json.encodeToString(data), "HabitCheckInsert")
+        }
     }
 
     fun deleteForDay(habitCheck: HabitCheckDelete) {
         repository.deleteForDay(habitCheck)
+    }
+
+    fun sendHabitCheckDeleteAndStatsUpdate(
+        habitCheckDelete: HabitCheckDelete,
+        stats: HabitUpdateStats,
+    ) {
+        val data =
+            HabitCheckDeleteAndStatsUpdate(
+                check = habitCheckDelete,
+                stats = stats,
+            )
+
         viewModelScope.launch {
-            dataClient.sendDataToOtherDevices(Json.encodeToString(habitCheck), "HabitCheckDelete")
+            dataClient.sendDataToOtherDevices(Json.encodeToString(data), "HabitCheckDelete")
         }
     }
 }

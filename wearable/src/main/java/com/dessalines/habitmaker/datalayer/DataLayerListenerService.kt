@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.dessalines.habitmaker.db.AppDB
 import com.dessalines.habitmaker.db.Habit
-import com.dessalines.habitmaker.db.HabitCheckDelete
-import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitCheckRepository
 import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitRepository
 import com.dessalines.habitmaker.db.HabitUpdate
-import com.dessalines.habitmaker.db.HabitUpdateStats
 import com.dessalines.habitmaker.db.utils.BulkInsert
+import com.dessalines.habitmaker.db.utils.HabitCheckDeleteAndStatsUpdate
+import com.dessalines.habitmaker.db.utils.HabitCheckInsertAndStatsUpdate
 import com.dessalines.habitmaker.utils.TAG
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.AvailabilityException
@@ -107,24 +106,21 @@ class DataLayerListenerService : WearableListenerService() {
                     habitRepository.update(habit)
                 }
 
-                "HabitUpdateStats" -> {
-                    val habit = Json.decodeFromString<HabitUpdateStats>(ungzip(event.data))
-                    habitRepository.updateStats(habit)
-                }
-
                 "HabitDelete" -> {
                     val habit = Json.decodeFromString<Habit>(ungzip(event.data))
                     habitRepository.delete(habit)
                 }
 
                 "HabitCheckInsert" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckInsert>(ungzip(event.data))
-                    habitCheckRepository.insert(habitCheck)
+                    val data = Json.decodeFromString<HabitCheckInsertAndStatsUpdate>(ungzip(event.data))
+                    habitCheckRepository.insert(data.check)
+                    habitRepository.updateStats(data.stats)
                 }
 
                 "HabitCheckDelete" -> {
-                    val habitCheck = Json.decodeFromString<HabitCheckDelete>(ungzip(event.data))
-                    habitCheckRepository.deleteForDay(habitCheck)
+                    val data = Json.decodeFromString<HabitCheckDeleteAndStatsUpdate>(ungzip(event.data))
+                    habitCheckRepository.deleteForDay(data.check)
+                    habitRepository.updateStats(data.stats)
                 }
 
                 "BulkInsert" -> {

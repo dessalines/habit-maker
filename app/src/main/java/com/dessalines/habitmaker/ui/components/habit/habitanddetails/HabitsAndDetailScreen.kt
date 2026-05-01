@@ -145,17 +145,42 @@ fun HabitsAndDetailScreen(
                                 val habit = habits?.find { it.id == habitId }
                                 habit?.let { habit ->
                                     val checkTime = LocalDate.now().toEpochMillis()
-                                    checkHabitForDay(habitId, checkTime, habitCheckViewModel)
+                                    val insertedId =
+                                        checkHabitForDay(
+                                            habitId = habitId,
+                                            checkTime = checkTime,
+                                            habitCheckViewModel = habitCheckViewModel,
+                                        )
                                     val checks = habitCheckViewModel.listForHabitSync(habitId)
                                     val stats =
                                         updateStatsForHabit(
                                             habit = habit,
                                             habitViewModel = habitViewModel,
-                                            updateDataClient = true,
                                             checks = checks,
                                             completedCount = completedCount,
                                             firstDayOfWeek = firstDayOfWeek,
                                         )
+
+                                    if (insertedId == -1L) {
+                                        habitCheckViewModel.sendHabitCheckDeleteAndStatsUpdate(
+                                            habitCheckDelete =
+                                                HabitCheckDelete(
+                                                    habitId = habitId,
+                                                    checkTime = checkTime,
+                                                ),
+                                            stats = stats,
+                                        )
+                                    } else {
+                                        habitCheckViewModel.sendHabitCheckInsertAndStatsUpdate(
+                                            insertedId = insertedId,
+                                            habitCheck =
+                                                HabitCheckInsert(
+                                                    habitId = habitId,
+                                                    checkTime = checkTime,
+                                                ),
+                                            stats = stats,
+                                        )
+                                    }
 
                                     // If successful, show a random encouragement
                                     val isCompleted = isCompletedToday(stats.lastCompletedTime)
@@ -249,22 +274,44 @@ fun HabitsAndDetailScreen(
                                                     .atStartOfDay(ZoneId.systemDefault())
                                                     .toInstant()
                                                     .toEpochMilli()
-                                            checkHabitForDay(
-                                                habit.id,
-                                                checkTime,
-                                                habitCheckViewModel,
-                                            )
+                                            val insertedId =
+                                                checkHabitForDay(
+                                                    habitId = habit.id,
+                                                    checkTime = checkTime,
+                                                    habitCheckViewModel = habitCheckViewModel,
+                                                )
                                             val checks =
                                                 habitCheckViewModel.listForHabitSync(habitId)
                                             val stats =
                                                 updateStatsForHabit(
                                                     habit = habit,
                                                     habitViewModel = habitViewModel,
-                                                    updateDataClient = true,
                                                     checks = checks,
                                                     completedCount = completedCount,
                                                     firstDayOfWeek = firstDayOfWeek,
                                                 )
+
+                                            if (insertedId == -1L) {
+                                                habitCheckViewModel.sendHabitCheckDeleteAndStatsUpdate(
+                                                    habitCheckDelete =
+                                                        HabitCheckDelete(
+                                                            habitId = habitId,
+                                                            checkTime = checkTime,
+                                                        ),
+                                                    stats = stats,
+                                                )
+                                            } else {
+                                                habitCheckViewModel.sendHabitCheckInsertAndStatsUpdate(
+                                                    insertedId = insertedId,
+                                                    habitCheck =
+                                                        HabitCheckInsert(
+                                                            habitId = habitId,
+                                                            checkTime = checkTime,
+                                                        ),
+                                                    stats = stats,
+                                                )
+                                            }
+
                                             // Reschedule the reminders, to skip completed today
                                             val isCompleted = isCompletedToday(stats.lastCompletedTime)
                                             val reminders = reminderViewModel.listForHabitSync(habit.id)
@@ -298,7 +345,7 @@ fun checkHabitForDay(
     habitId: Int,
     checkTime: Long,
     habitCheckViewModel: HabitCheckViewModel,
-) {
+): Long {
     val data =
         HabitCheckInsert(
             habitId = habitId,
@@ -311,12 +358,12 @@ fun checkHabitForDay(
     if (success == -1L) {
         habitCheckViewModel.deleteForDay(HabitCheckDelete(habitId = habitId, checkTime = checkTime))
     }
+    return success
 }
 
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
-    updateDataClient: Boolean,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,
@@ -348,7 +395,7 @@ fun updateStatsForHabit(
             lastCompletedTime = lastCompletedTime,
             completed = checks.size,
         )
-    habitViewModel.updateStats(statsUpdate, updateDataClient)
+    habitViewModel.updateStats(statsUpdate)
 
     return statsUpdate
 }

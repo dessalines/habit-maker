@@ -1,5 +1,6 @@
 package com.dessalines.habitmaker.db.utils
 
+import com.dessalines.habitmaker.db.HabitCheckDelete
 import com.dessalines.habitmaker.db.HabitCheckInsert
 import com.dessalines.habitmaker.db.HabitInsert
 import com.dessalines.habitmaker.db.HabitUpdateStats
@@ -48,4 +49,16 @@ fun HabitFrequency.toDays() =
 data class BulkInsert(
     val habitInserts: List<Pair<HabitInsert, HabitUpdateStats>>,
     val checkInserts: List<HabitCheckInsert>,
+)
+
+@Serializable
+data class HabitCheckInsertAndStatsUpdate(
+    val check: HabitCheckInsert,
+    val stats: HabitUpdateStats,
+)
+
+@Serializable
+data class HabitCheckDeleteAndStatsUpdate(
+    val check: HabitCheckDelete,
+    val stats: HabitUpdateStats,
 )

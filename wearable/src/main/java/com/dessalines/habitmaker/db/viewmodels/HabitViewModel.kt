@@ -39,13 +39,10 @@ class HabitViewModel(
         return insertedId
     }
 
-    fun updateStats(
-        habit: HabitUpdateStats,
-        dataClient: DataClient,
-    ) = viewModelScope.launch {
-        repository.updateStats(habit)
-        dataClient.sendDataToOtherDevices(Json.encodeToString(habit), "HabitUpdateStats")
-    }
+    fun updateStats(habit: HabitUpdateStats) =
+        viewModelScope.launch {
+            repository.updateStats(habit)
+        }
 }
 
 class HabitViewModelFactory(
@@ -63,7 +60,6 @@ class HabitViewModelFactory(
 fun updateStatsForHabit(
     habit: Habit,
     habitViewModel: HabitViewModel,
-    dataClient: DataClient,
     checks: List<HabitCheck>,
     completedCount: Int,
     firstDayOfWeek: DayOfWeek,
@@ -95,7 +91,7 @@ fun updateStatsForHabit(
             lastCompletedTime = lastCompletedTime,
             completed = checks.size,
         )
-    habitViewModel.updateStats(statsUpdate, dataClient)
+    habitViewModel.updateStats(statsUpdate)
 
     return statsUpdate
 }
