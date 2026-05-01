@@ -107,7 +107,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
 
     // Wearable
-    "fullImplementation" ("com.google.android.gms:play-services-wearable:19.0.0")
+    "fullImplementation" ("com.google.android.gms:play-services-wearable:20.0.1")
 
     // Coroutines
     "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
