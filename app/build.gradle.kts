@@ -118,7 +118,7 @@ dependencies {
 
 
     // Freedroidwarn
-    implementation("com.github.woheller69:FreeDroidWarn:V1.12")
+    implementation("com.github.woheller69:FreeDroidWarn:V1.13")
 
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
