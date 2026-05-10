@@ -110,8 +110,8 @@ dependencies {
     "fullImplementation" ("com.google.android.gms:play-services-wearable:20.0.1")
 
     // Coroutines
-    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
