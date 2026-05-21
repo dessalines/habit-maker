@@ -101,7 +101,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.wear.compose:compose-material3:1.6.1")
     implementation("androidx.wear.compose:compose-foundation:1.6.1")
-    implementation("androidx.wear.compose:compose-ui-tooling:1.6.1")
+    implementation("androidx.wear.compose:compose-ui-tooling:1.6.2")
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.core:core-splashscreen:1.2.0")
