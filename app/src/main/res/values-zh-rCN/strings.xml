@@ -115,4 +115,8 @@
     <string name="hide_chip_descriptions">隐藏标签描述</string>
     <string name="hide_chip_descriptions_summary">仅显示信息标签的图标和数字</string>
     <string name="first_day_of_week">一周开始日</string>
+    <string name="x_tasks_completed">%1$s 个任务已完成</string>
+    <string name="x_completed_today">今日已完成 %1$s 个</string>
+    <string name="totals">总计</string>
+    <string name="hide_totals">隐藏总计</string>
 </resources>
