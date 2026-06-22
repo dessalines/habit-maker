@@ -7,13 +7,13 @@ plugins {
 
 android {
     namespace = "com.dessalines.habitmaker"
-    buildToolsVersion = "36.0.0"
-    compileSdk = 36
+    buildToolsVersion = "37.0.0"
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 5601
         versionName = "0.0.56"
 
@@ -60,9 +60,8 @@ android {
                 // the Android Gradle plugin. To learn more, go to the section about
                 // R8 configuration files.
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-
                 // Includes a local, custom Proguard rules file
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         debug {
@@ -116,7 +115,6 @@ dependencies {
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
-
     // Freedroidwarn
     implementation("com.github.woheller69:FreeDroidWarn:V1.13")
 
@@ -162,7 +160,6 @@ dependencies {
 
     // Preferences
     implementation("me.zhanghai.compose.preference:library:1.1.1")
-
 
     // App compat
     implementation("androidx.appcompat:appcompat:1.7.1")

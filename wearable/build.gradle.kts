@@ -9,14 +9,14 @@ android {
     namespace = "com.dessalines.habitmaker"
 
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.dessalines.habitmaker"
 
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 5602
         versionName = "0.0.56"
 
@@ -46,7 +46,6 @@ android {
         }
     }
 
-
     buildTypes {
         release {
             if (project.hasProperty("RELEASE_STORE_FILE")) {
@@ -57,7 +56,7 @@ android {
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         debug {
