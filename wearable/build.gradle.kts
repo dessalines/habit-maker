@@ -104,7 +104,7 @@ dependencies {
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.core:core-splashscreen:1.2.0")
-    implementation("androidx.wear.protolayout:protolayout:1.4.1")
+    implementation("androidx.wear.protolayout:protolayout:1.4.2")
     implementation("androidx.wear.protolayout:protolayout-material3:1.4.1")
     implementation("com.google.guava:guava:33.6.0-jre")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0")
