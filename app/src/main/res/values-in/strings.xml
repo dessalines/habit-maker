@@ -1,3 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="settings">Pengaturan</string>
+    <string name="system">Sistem</string>
+    <string name="light">Terang</string>
+    <string name="dark">Gelap</string>
+    <string name="about">Tentang</string>
+    <string name="social">Sosial</string>
+    <string name="done">Selesai</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="save">Simpan</string>
+    <string name="title">Judul</string>
+    <string name="notes_optional">Catatan (opsional)</string>
+    <string name="delete">Hapus</string>
+    <string name="notes">Catatan</string>
+    <string name="history">Riwayat</string>
 </resources>
