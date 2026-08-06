@@ -115,4 +115,8 @@
     <string name="hide_chip_descriptions">مخفی کردن توضیحات نشان‌ها</string>
     <string name="hide_chip_descriptions_summary">فقط آیکون و شماره نشان‌ها را نمایش می‌دهد.</string>
     <string name="first_day_of_week">روز اول هفته</string>
+    <string name="x_completed_today"></string>
+    <string name="x_tasks_completed"></string>
+    <string name="totals"></string>
+    <string name="hide_totals"></string>
 </resources>
