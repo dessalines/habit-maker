@@ -114,4 +114,9 @@
     <string name="descending">Descendiente</string>
     <string name="time">Hora</string>
     <string name="settings">Ajustes</string>
+    <string name="first_day_of_week"></string>
+    <string name="x_completed_today"></string>
+    <string name="x_tasks_completed"></string>
+    <string name="totals"></string>
+    <string name="hide_totals"></string>
 </resources>
