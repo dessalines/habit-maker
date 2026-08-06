@@ -118,4 +118,5 @@
     <string name="hide_totals">Ocultar totais</string>
     <string name="sort">Ordenar por</string>
     <string name="sort_order">Ordem</string>
+    <string name="x_completed_today"></string>
 </resources>
