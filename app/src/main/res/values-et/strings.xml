@@ -115,8 +115,4 @@
     <string name="hide_chip_descriptions_summary">Näitab harjumuste all ainult ikoone ja numbreid.</string>
     <string name="first_day_of_week">Nädala esimine päev</string>
     <string name="out_of_range">Mittesobiv väärtus</string>
-    <string name="x_completed_today"></string>
-    <string name="x_tasks_completed"></string>
-    <string name="totals"></string>
-    <string name="hide_totals"></string>
 </resources>
