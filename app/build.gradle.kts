@@ -140,7 +140,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.11.4")
 
     // Adaptive layouts
-    implementation("androidx.compose.material3.adaptive:adaptive:1.2.0")
+    implementation("androidx.compose.material3.adaptive:adaptive:1.3.0")
     implementation("androidx.compose.material3.adaptive:adaptive-layout:1.2.0")
     implementation("androidx.compose.material3.adaptive:adaptive-navigation:1.2.0")
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
