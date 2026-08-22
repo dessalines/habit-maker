@@ -106,7 +106,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.2.0")
     implementation("androidx.wear.protolayout:protolayout:1.4.2")
     implementation("androidx.wear.protolayout:protolayout-material3:1.4.2")
-    implementation("com.google.guava:guava:33.6.0-jre")
+    implementation("com.google.guava:guava:33.7.1-jre")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
