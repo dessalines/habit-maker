@@ -116,7 +116,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     // Freedroidwarn
-    implementation("com.github.woheller69:FreeDroidWarn:V1.13")
+    implementation("com.github.woheller69:FreeDroidWarn:V1.14")
 
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
