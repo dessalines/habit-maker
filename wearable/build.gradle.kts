@@ -80,7 +80,7 @@ dependencies {
     implementation("androidx.wear:wear-input:1.2.0")
 
     // Room
-    ksp("androidx.room:room-compiler:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.5")
     // To use Kotlin annotation processing tool
     implementation("androidx.room:room-runtime:2.8.4")
 
