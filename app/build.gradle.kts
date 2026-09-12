@@ -103,7 +103,7 @@ dependencies {
     // Room
     ksp("androidx.room:room-compiler:2.8.4")
     // To use Kotlin annotation processing tool
-    implementation("androidx.room:room-runtime:2.8.4")
+    implementation("androidx.room:room-runtime:2.8.5")
 
     // Wearable
     "fullImplementation" ("com.google.android.gms:play-services-wearable:20.0.1")
