@@ -122,7 +122,7 @@ dependencies {
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
 
     // Workmanager
-    implementation("androidx.work:work-runtime-ktx:2.11.2")
+    implementation("androidx.work:work-runtime-ktx:2.12.0")
 
     // Compose-Calendar
     implementation("com.kizitonwose.calendar:compose:2.10.1")
