@@ -28,7 +28,6 @@
   <p align="center">
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80"></a>
     <a href="https://f-droid.org/packages/com.dessalines.habitmaker"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a>
-    <a href="https://play.google.com/store/apps/details?id=com.dessalines.habitmaker"><img src="https://cdn.rawgit.com/steverichey/google-play-badge-svg/master/img/en_get.svg" height="80"></a>
     <a href="https://github.com/dessalines/habit-maker/releases/latest"><img src="https://raw.githubusercontent.com/andOTP/andOTP/master/assets/badges/get-it-on-github.png" height="80"></a>
   </p>
 </p>
@@ -89,10 +88,6 @@ Some examples of good encouragements:
 
 Once a habit has been formed, its relatively easy to continue doing it, almost as if it were on auto-pilot. Research shows that ~40% of our daily activities are habits that don't require much (if any) willpower once they've been formed.
 
-### WearOS
-
-Habit-maker also has a WearOS app that syncs with your android device. It can create tasks, and check them off.
-
 ## Built With
 
 - [Android Jetpack Compose](https://developer.android.com/jetpack/compose)
@@ -104,7 +99,6 @@ Habit-maker also has a WearOS app that syncs with your android device. It can cr
 - [Releases](https://github.com/dessalines/habit-maker/releases)
 - [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.dessalines.habitmaker)
 - [F-Droid](https://f-droid.org/en/packages/com.dessalines.habitmaker/)
-- [Google Play](https://play.google.com/store/apps/details?id=com.dessalines.habitmaker)
 
 ## Contributing
 
