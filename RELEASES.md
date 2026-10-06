@@ -1,3 +1,9 @@
+## What's Changed in 0.0.57
+
+- Removing gplay links. by @dessalines
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.56...0.0.57
+
 ## What's Changed in 0.0.54
 
 - Fixing wearOS update syncing by combining. by @dessalines in [#468](https://github.com/dessalines/habit-maker/pull/468)
