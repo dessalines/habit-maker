@@ -231,10 +231,12 @@ fun isCompletedLastCycle(habit: Habit): Boolean {
             HabitFrequency.Monthly -> now.minusMonths(1)
             HabitFrequency.Yearly -> now.minusYears(1)
         }
+            // Subtract an additional day due to some date checking weirdness
+            .minusDays(1)
 
     // Use the last virtual completed time
-    val lastDate = habit.lastCompletedTime.epochMillisToLocalDate()
-    return lastDate >= lastCycleCheck
+    val lastCompleted = habit.lastCompletedTime.epochMillisToLocalDate()
+    return lastCompleted >= lastCycleCheck
 }
 
 fun isCompletedCurrentCycle(
