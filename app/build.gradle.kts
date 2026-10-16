@@ -14,8 +14,8 @@ android {
         applicationId = "com.dessalines.habitmaker"
         minSdk = 26
         targetSdk = 37
-        versionCode = 5701
-        versionName = "0.0.57"
+        versionCode = 5801
+        versionName = "0.0.58"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

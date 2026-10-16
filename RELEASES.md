@@ -1,3 +1,10 @@
+## What's Changed in 0.0.58
+
+- Fixing daily streaks breaking. by @dessalines in [#576](https://github.com/dessalines/habit-maker/pull/576)
+- Remove gradle-daemon-jvm.properties by @dessalines in [#565](https://github.com/dessalines/habit-maker/pull/565)
+
+**Full Changelog**: https://github.com/dessalines/habit-maker/compare/0.0.57...0.0.58
+
 ## What's Changed in 0.0.57
 
 - Removing gplay links. by @dessalines
