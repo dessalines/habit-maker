@@ -19,6 +19,6 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.5")
 
     // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
 
 }

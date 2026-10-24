@@ -113,7 +113,7 @@ dependencies {
     "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
     // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
 
     // Freedroidwarn
     implementation("com.github.woheller69:FreeDroidWarn:V1.14")
