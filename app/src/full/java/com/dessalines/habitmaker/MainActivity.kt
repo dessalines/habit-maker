@@ -53,7 +53,6 @@ import com.dessalines.habitmaker.ui.components.habit.habitanddetails.updateStats
 import com.dessalines.habitmaker.ui.theme.HabitMakerTheme
 import com.dessalines.habitmaker.utils.getVersionCode
 import com.google.android.gms.wearable.Wearable
-import org.woheller69.freeDroidWarn.FreeDroidWarn
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -90,8 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        FreeDroidWarn.showWarningOnUpgrade(this, getVersionCode())
-
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
