@@ -116,4 +116,7 @@
     <string name="hide_days_completed_on_home">Kuzhat an devezhioù graet war an degemer</string>
     <string name="first_day_of_week">Deiz kentañ ar sizhun</string>
     <string name="x_completed_today">%1$s graet hiziv</string>
+    <string name="totals">Holladoù</string>
+    <string name="hide_totals">Kuzhat an holladoù</string>
+    <string name="x_tasks_completed">%1$s trevell klokaet</string>
 </resources>
