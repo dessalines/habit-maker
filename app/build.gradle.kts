@@ -113,7 +113,7 @@ dependencies {
     "fullImplementation" ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
     // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.13.0")
 
     // PrettyNum
     implementation("com.github.dessalines:pretty-num-kotlin:0.0.2")
